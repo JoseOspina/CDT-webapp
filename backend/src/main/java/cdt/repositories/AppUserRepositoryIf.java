@@ -17,5 +17,5 @@ public interface AppUserRepositoryIf extends CrudRepository<AppUser, UUID> {
 	
 	AppUser findByEmail(String email);	
 	
-	List<AppUser> findTop10ByProfile_NicknameLikeIgnoreCase(String q);
+	List<AppUser> findTop10ByNicknameLikeIgnoreCase(String q);
 }
