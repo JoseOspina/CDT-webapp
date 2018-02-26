@@ -1,10 +1,12 @@
-package cdt;
+package cdt.repositories;
 
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
+import cdt.entities.AppUser;
 
 public interface AppUserRepositoryIf extends CrudRepository<AppUser, UUID> {
 	

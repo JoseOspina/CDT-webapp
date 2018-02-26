@@ -1,4 +1,4 @@
-package cdt;
+package cdt.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,12 @@ import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.exception.APIException;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.mgmt.users.User;
+
+import cdt.dto.AppUserDto;
+import cdt.dto.GetResult;
+import cdt.dto.PostResult;
+import cdt.entities.AppUser;
+import cdt.repositories.AppUserRepositoryIf;
 
 @Service
 public class AppUserService {

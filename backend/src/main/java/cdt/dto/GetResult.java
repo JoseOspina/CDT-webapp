@@ -1,39 +1,32 @@
-package cdt;
+package cdt.dto;
 
-public class PostResult {
+public class GetResult<T> {
 	String result;
 	String message;
-	String elementId;
+	T data;
 	
-	public PostResult(String _result, String _message, String _elementId) {
+	public GetResult(String _result, String _message, T _data) {
 		result = _result;
 		message = _message;
-		elementId = _elementId;
+		data = _data;
 	}
-
+	
 	public String getResult() {
 		return result;
 	}
-
 	public void setResult(String result) {
 		this.result = result;
 	}
-
 	public String getMessage() {
 		return message;
 	}
-
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
-	public String getElementId() {
-		return elementId;
+	public T getData() {
+		return data;
 	}
-
-	public void setElementId(String elementId) {
-		this.elementId = elementId;
+	public void setData(T data) {
+		this.data = data;
 	}
-	
-	
 }

@@ -5,7 +5,22 @@ import App from './App'
 import router from './router'
 import { store } from './store/store'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 Vue.config.productionTip = false
+
+Vue.use(VueAxios, axios)
+
+axios.interceptors.request.use(
+  function (config) {
+    config.headers.common.Authorization = 'Bearer ' + localStorage.getItem('id_token')
+    return config
+  },
+  function (error) {
+    return Promise.reject(error)
+  }
+)
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,4 +1,4 @@
-package cdt;
+package cdt.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import cdt.dto.AppUserDto;
 
 @Entity
 @Table( name = "app_users" )

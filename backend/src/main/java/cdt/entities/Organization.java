@@ -1,4 +1,4 @@
-package cdt;
+package cdt.entities;
 
 import java.util.UUID;
 
