@@ -1,8 +1,21 @@
 <template lang="html">
   <div class="">
-    <h1>Dashboard</h1>
-    <button v-if="!isAuthenticated" @click="login()" class="w3-button w3-blue w3-round-large">login</button>
-    <button v-else @click="logout()" class="w3-button w3-blue w3-round-large">logout</button>
+    <div class="w3-row header-container w3-padding">
+      <select class="" name="">
+        <option value="id1">My Organization</option>
+        <option value="id1">My other Organization</option>
+      </select>
+      <button type="button" name="button">+</button>
+      Contribution Design Toolkit
+    </div>
+    <div class="w3-cell-row middle-container">
+      <div class="w3-cell nav-container">
+        NAV PANE
+      </div>
+      <div class="w3-cell content-container">
+        CONTENT
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,5 +27,19 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.header-container {
+  background-color: rgb(125, 100, 164);
+}
+
+.nav-container {
+  background-color: red;
+  width: 400px;
+}
+
+.content-container {
+  background-color: cyan;
+}
+
 </style>
