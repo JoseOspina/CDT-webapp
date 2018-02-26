@@ -1,13 +1,22 @@
 <template>
-  <div class="hello">
-    <button v-if="!isAuthenticated" @click="login()" class="w3-button w3-blue w3-round-large">login</button>
-    <button v-else @click="logout()" class="w3-button w3-blue w3-round-large">logout</button>
+  <div>
+    <app-landing-page v-if="!isAuthenticated"></app-landing-page>
+    <app-view v-else></app-view>
   </div>
 </template>
 
 <script>
+import LandingPage from '@/components/LandingPage.vue'
+import AppView from '@/components/AppView.vue'
+
 export default {
   name: 'RootView',
+
+  components: {
+    'app-landing-page': LandingPage,
+    'app-view': AppView
+  },
+
   data () {
     return {
     }
@@ -18,16 +27,9 @@ export default {
     }
   },
   methods: {
-    login () {
-      this.$store.dispatch('login')
-    },
-    logout () {
-      this.$store.dispatch('logout')
-    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
