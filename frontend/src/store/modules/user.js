@@ -13,7 +13,11 @@ const getters = {
 }
 
 const mutations = {
+  updateAuthenticated: (state) => {
+    state.authenticated = auth.authenticated
+  },
   setAuthenticated: (state, payload) => {
+    console.log('commiting ' + payload)
     state.authenticated = payload
   }
 }

@@ -1,32 +1,24 @@
 <template>
   <div>
-    <app-landing-page v-if="!isAuthenticated"></app-landing-page>
-    <app-view v-else></app-view>
   </div>
 </template>
 
 <script>
-import LandingPage from '@/components/LandingPage.vue'
-import AppView from '@/components/AppView.vue'
+import loggedUser from '@/mixins/loggedUser'
 
 export default {
   name: 'RootView',
 
-  components: {
-    'app-landing-page': LandingPage,
-    'app-view': AppView
-  },
+  mixins: [loggedUser],
 
-  data () {
-    return {
+  created () {
+    if (this.isAuthenticated) {
+      console.log('redirecting to app view')
+      this.$router.replace({ name: 'AppView' })
+    } else {
+      console.log('redirecting to landing page')
+      this.$router.replace({ name: 'LandingPage' })
     }
-  },
-  computed: {
-    isAuthenticated () {
-      return this.$store.getters.isAuthenticated
-    }
-  },
-  methods: {
   }
 }
 </script>

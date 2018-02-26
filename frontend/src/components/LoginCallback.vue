@@ -7,13 +7,9 @@
 <script>
 export default {
   computed: {
-    isAuthenticated () {
-      return this.$store.getters.isAuthenticated
-    }
   },
   created () {
     this.$store.dispatch('handleAuthentication')
-    this.$router.push({name: 'RootView'})
   }
 }
 </script>

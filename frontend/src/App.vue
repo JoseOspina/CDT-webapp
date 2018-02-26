@@ -12,9 +12,14 @@ export default {
   },
 
   created () {
+    console.log('app loaded')
+    this.$store.commit('updateAuthenticated')
+
     this.$store.state.user.auth.authNotifier.on('authChange',
       (authState) => {
-        this.$store.commit('setAuthenticated', authState)
+        console.log('auth changed')
+        this.$store.commit('setAuthenticated', authState.authenticated)
+        this.$router.push({name: 'RootView'})
       })
   }
 }

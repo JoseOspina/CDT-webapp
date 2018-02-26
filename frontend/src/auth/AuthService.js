@@ -45,6 +45,7 @@ export default class AuthService {
     localStorage.setItem('id_token', authResult.idToken)
     localStorage.setItem('expires_at', expiresAt)
     this.authNotifier.emit('authChange', { authenticated: true })
+    console.log('session set')
   }
 
   logout () {
@@ -55,6 +56,7 @@ export default class AuthService {
     this.userProfile = null
     this.authNotifier.emit('authChange', false)
     // navigate to the home route
+    console.log('logged out')
   }
 
   isAuthenticated () {
