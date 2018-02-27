@@ -18,13 +18,9 @@ import cdt.dto.AppUserDto;
 import cdt.dto.GetResult;
 import cdt.dto.PostResult;
 import cdt.entities.AppUser;
-import cdt.repositories.AppUserRepositoryIf;
 
 @Service
-public class AppUserService {
-	
-	@Autowired
-	private AppUserRepositoryIf appUserRepository;
+public class AppUserService extends BaseService {
 	
 	@Autowired
 	private ManagementAPI mgmt;

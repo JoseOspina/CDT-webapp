@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { i18n } from '@/main.js'
+
 export default {
   name: 'App',
 
@@ -22,6 +24,9 @@ export default {
         this.$store.commit('setAuthenticated', authState.authenticated)
         this.$router.push({name: 'RootView'})
       })
+
+    /* set locale */
+    i18n.locale = 'de'
   }
 }
 </script>

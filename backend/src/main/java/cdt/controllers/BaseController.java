@@ -8,11 +8,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import cdt.entities.AppUser;
 import cdt.services.AppUserService;
+import cdt.services.OrganizationService;
 
 public class BaseController {
 	
 	@Autowired
-	private AppUserService appUserService;
+	protected AppUserService appUserService;
+	
+	@Autowired
+	protected OrganizationService organizationService;
+	
 	
 	protected UUID getLoggedUserId() {
 		AppUser loggedUser = getLoggedUser();

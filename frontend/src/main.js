@@ -8,6 +8,12 @@ import { store } from './store/store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+import VueI18n from 'vue-i18n'
+
+import ErrorPanel from '@/components/global/ErrorPanel.vue'
+
+import { translations } from '@/lang'
+
 Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
@@ -22,11 +28,21 @@ axios.interceptors.request.use(
   }
 )
 
+Vue.use(VueI18n)
+export const i18n = new VueI18n({
+  locale: 'en', // set locale
+  fallbackLocale: 'en',
+  messages: translations
+})
+
+Vue.component('app-error-panel', ErrorPanel)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   components: { App },
   template: '<App/>'
 })
