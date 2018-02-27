@@ -8,6 +8,7 @@ public class AppUserDto {
 	private List<String> auth0Ids = new ArrayList<String>();
 	private String email;
 	private String nickname;
+	private List<OrganizationDto> organizations = new ArrayList<OrganizationDto>();
 	
 	public String getId() {
 		return id;
@@ -32,6 +33,12 @@ public class AppUserDto {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public List<OrganizationDto> getOrganizations() {
+		return organizations;
+	}
+	public void setOrganizations(List<OrganizationDto> organizations) {
+		this.organizations = organizations;
 	}
 	
 }

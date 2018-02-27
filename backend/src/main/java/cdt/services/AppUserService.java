@@ -18,6 +18,7 @@ import cdt.dto.AppUserDto;
 import cdt.dto.GetResult;
 import cdt.dto.PostResult;
 import cdt.entities.AppUser;
+import cdt.entities.Organization;
 
 @Service
 public class AppUserService extends BaseService {
@@ -51,7 +52,15 @@ public class AppUserService extends BaseService {
 	
 	@Transactional
 	public GetResult<AppUserDto> getUser(UUID id) {
-		return new GetResult<AppUserDto>("success", "user profile retrieved", getFromId(id).toDto());
+		AppUserDto userDto = getFromId(id).toDto();
+		
+		List<Organization> orgs = organizationRepository.findByAdmins_Id(id);
+		
+		for (Organization org : orgs) {
+			userDto.getOrganizations().add(org.toDto());
+		}
+		
+		return new GetResult<AppUserDto>("success", "user profile retrieved", userDto);
 	}
 	
 	@Transactional
@@ -89,7 +98,7 @@ public class AppUserService extends BaseService {
 					/* create a new user if not */
 					appUser = new AppUser();
 					
-					appUser.getAuth0Ids().add((auth0User.getId()));
+					appUser.getAuth0Ids().add(auth0User.getId());
 					appUser.setEmail(auth0User.getEmail());
 					appUser.setNickname(auth0User.getNickname());
 					appUser.setEmailNotificationsEnabled(true);

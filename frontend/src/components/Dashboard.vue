@@ -1,11 +1,14 @@
 <template lang="html">
   <div class="">
+    <app-new-org-modal
+      v-if="newOrgModal"
+      @close="newOrgModal = false">
+    </app-new-org-modal>
     <div class="w3-row header-container w3-padding">
-      <select class="" name="">
-        <option value="id1">My Organization</option>
-        <option value="id1">My Other Organization</option>
+      <select v-model="orgIdSelected" class="" name="">
+        <option v-for="org in orgs" :key="org.id" :value="org.id">{{ org.name }}</option>
       </select>
-      <button type="button" name="button">+</button>
+      <button @click="newOrgModal = true" type="button" name="button">+</button>
       <span class="">
         {{ userNickname }}
       </span>
@@ -18,31 +21,39 @@
       </app-error-panel>
     </div>
     <div class="w3-row middle-container">
-      CONTENT
+      <app-organization-content :id="orgIdSelected"></app-organization-content>
     </div>
   </div>
 </template>
 
 <script>
 import loggedUser from '@/mixins/loggedUser'
+import NewOrgModal from '@/components/NewOrgModal'
+import OrganizationContent from '@/components/OrganizationContent'
 
 export default {
   mixins: [ loggedUser ],
 
+  components: {
+    'app-new-org-modal': NewOrgModal,
+    'app-organization-content': OrganizationContent
+  },
+
   data () {
     return {
-      organizationCreationError: false
+      organizationCreationError: false,
+      newOrgModal: false,
+      orgIdSelected: ''
+    }
+  },
+
+  computed: {
+    orgs () {
+      return this.$store.getters.organizations
     }
   },
 
   methods: {
-    createOrganization () {
-      this.axios.post('/1/organization/create').then((response) => {
-        if (response.data.reuslt !== 'success') {
-          this.organizationCreationError = true
-        }
-      })
-    }
   }
 }
 </script>

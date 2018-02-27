@@ -33,4 +33,5 @@ export default {
 
 <style>
 @import 'css/w3.css';
+@import 'css/modals.css';
 </style>

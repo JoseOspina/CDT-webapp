@@ -11,6 +11,13 @@ const state = {
 const getters = {
   isAuthenticated: (state) => {
     return state.authenticated
+  },
+  organizations: (state) => {
+    if (state.profile !== null) {
+      return state.profile.organizations
+    } else {
+      return []
+    }
   }
 }
 

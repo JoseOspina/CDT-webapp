@@ -1,17 +1,24 @@
 package cdt.entities;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+
+import cdt.dto.OrganizationDto;
 
 @Entity
 @Table(name="organizations")
@@ -26,13 +33,30 @@ public class Organization {
 	
 	private String name;
 	
+	@Lob
+	@Type(type = "org.hibernate.type.TextType")
+	private String description;
+	
 	@ManyToOne
 	private AppUser creator;
+	
+	@ManyToMany
+	private List<AppUser> admins = new ArrayList<AppUser>();
 	
 	@Column(name = "creation_date")
 	private Timestamp creationDate;
 	
 
+	public OrganizationDto toDto() {
+		OrganizationDto dto = new OrganizationDto();
+		
+		dto.setId(id.toString());
+		dto.setName(name);
+		dto.setDescription(description);
+		
+		return dto;
+	}
+	
 	public UUID getId() {
 		return id;
 	}
@@ -48,6 +72,14 @@ public class Organization {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public AppUser getCreator() {
 		return creator;
@@ -55,6 +87,14 @@ public class Organization {
 
 	public void setCreator(AppUser creator) {
 		this.creator = creator;
+	}
+	
+	public List<AppUser> getAdmins() {
+		return admins;
+	}
+
+	public void setAdmins(List<AppUser> admins) {
+		this.admins = admins;
 	}
 
 	public Timestamp getCreationDate() {
