@@ -14,6 +14,7 @@ export default {
   created () {
     console.log('app loaded')
     this.$store.commit('updateAuthenticated')
+    this.$store.dispatch('updateProfile')
 
     this.$store.state.user.auth.authNotifier.on('authChange',
       (authState) => {

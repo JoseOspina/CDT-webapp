@@ -26,17 +26,17 @@ export default class AuthService {
     this.auth0.authorize()
   }
 
-  handleAuthentication () {
+  handleAuthentication (context) {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult)
+        this.setSession(authResult, context)
       } else if (err) {
         console.log(err)
       }
     })
   }
 
-  setSession (authResult) {
+  setSession (authResult, context) {
     // Set the time that the access token will expire at
     let expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
@@ -45,6 +45,8 @@ export default class AuthService {
     localStorage.setItem('id_token', authResult.idToken)
     localStorage.setItem('expires_at', expiresAt)
     this.authNotifier.emit('authChange', { authenticated: true })
+    context.commit('setAuthenticated', true)
+    context.dispatch('updateProfile')
     console.log('session set')
   }
 

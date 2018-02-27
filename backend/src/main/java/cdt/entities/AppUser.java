@@ -50,6 +50,7 @@ public class AppUser {
 		
 		dto.setId(id.toString());
 		dto.setEmail(email);
+		dto.setNickname(nickname);
 		
 		return dto;
 	}

@@ -7,6 +7,10 @@
       </select>
       <button type="button" name="button">+</button>
       Contribution Design Toolkit
+      <span class="">
+        {{ userNickname }}
+      </span>
+      <button @click="logout()" type="button" name="button">logout</button>
     </div>
     <div class="w3-cell-row middle-container">
       <div class="w3-cell nav-container">

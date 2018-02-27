@@ -7,6 +7,7 @@ public class AppUserDto {
 	private String id;
 	private List<String> auth0Ids = new ArrayList<String>();
 	private String email;
+	private String nickname;
 	
 	public String getId() {
 		return id;
@@ -25,6 +26,12 @@ public class AppUserDto {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	
 }

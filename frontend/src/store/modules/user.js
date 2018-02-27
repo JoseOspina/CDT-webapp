@@ -1,9 +1,11 @@
+import Vue from 'vue'
 import AuthService from '@/auth/AuthService.js'
 const auth = new AuthService()
 
 const state = {
   auth: auth,
-  authenticated: false
+  authenticated: false,
+  profile: null
 }
 
 const getters = {
@@ -17,8 +19,10 @@ const mutations = {
     state.authenticated = auth.authenticated
   },
   setAuthenticated: (state, payload) => {
-    console.log('commiting ' + payload)
     state.authenticated = payload
+  },
+  setProfile: (state, payload) => {
+    state.profile = payload
   }
 }
 
@@ -30,7 +34,25 @@ const actions = {
     context.state.auth.logout()
   },
   handleAuthentication: (context) => {
-    context.state.auth.handleAuthentication()
+    context.state.auth.handleAuthentication(context)
+  },
+  updateProfile: (context) => {
+    console.log('updating profile')
+    /* user profile */
+    if (context.state.authenticated) {
+      Vue.axios.get('/1/user/myProfile').then((response) => {
+        if (response.data.result === 'success') {
+          context.commit('setProfile', response.data.data)
+        } else {
+          if (response.data.message === 'anonymous user') {
+            context.commit('setAuthenticated', false)
+          }
+        }
+      }).catch((error) => {
+        console.log(error)
+        context.dispatch('logout')
+      })
+    }
   }
 }
 
