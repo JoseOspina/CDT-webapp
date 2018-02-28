@@ -50,4 +50,9 @@ public class OrganizationService extends BaseService {
 		return new GetResult<OrganizationDto>("success", "organization retrieved", orgDto);
 	}
 	
+	@Transactional
+	public Boolean hasTemplates(UUID orgId) {
+		return pollRepository.hasTemplates(orgId);
+	}
+	
 }

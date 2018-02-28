@@ -41,5 +41,17 @@ public class OrganizationsController extends BaseController {
 		
 		return organizationService.get(orgId);
 	}
+	
+	@RequestMapping(path = "/organization/{organizationId}/hasTemplates",  method = RequestMethod.GET)
+    public GetResult<Boolean> hasTemplates(@PathVariable(name="organizationId") String orgIdStr) {
+		
+		if (getLoggedUser() == null) {
+			return new GetResult<Boolean>("error", "endpoint enabled for users only", null);
+		}
+		
+		UUID orgId = UUID.fromString(orgIdStr);
+		
+		return new GetResult<Boolean>("success", "", organizationService.hasTemplates(orgId));
+	}
 
 }

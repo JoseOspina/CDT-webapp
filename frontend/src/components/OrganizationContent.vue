@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="">
-    <h1>Organization content</h1>
+    <h1>{{ organizationName }}</h1>
+    <router-link :to="{ name: 'OrganizationPolls', params: {} }">polls</router-link>
+    <router-view :orgId="id"></router-view>
   </div>
 </template>
 
@@ -18,7 +20,14 @@ export default {
 
   data () {
     return {
-      organization: null
+      errorFlag: false,
+      errorMsg: ''
+    }
+  },
+
+  computed: {
+    organizationName () {
+      return this.$store.getters.organizationName
     }
   },
 
@@ -31,11 +40,7 @@ export default {
   methods: {
     update () {
       if (this.id !== '') {
-        this.axios.get('/1/organization/' + this.id).then((response) => {
-          if (response.data.result === 'success') {
-            this.organization = response.data.data
-          }
-        })
+        this.$store.dispatch('updateOrganization', this.id)
       }
     }
   },

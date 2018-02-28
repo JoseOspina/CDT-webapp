@@ -9,6 +9,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 import VueI18n from 'vue-i18n'
+import Datepicker from 'vuejs-datepicker'
 
 import ErrorPanel from '@/components/global/ErrorPanel.vue'
 
@@ -36,6 +37,7 @@ export const i18n = new VueI18n({
 })
 
 Vue.component('app-error-panel', ErrorPanel)
+Vue.component('datepicker', Datepicker)
 
 /* eslint-disable no-new */
 new Vue({
