@@ -3,14 +3,14 @@ package cdt.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PollDto {
+public class AxisDto {
 	
 	String id;
 	String title;
 	String description;
-	List<AxisDto> axes = new ArrayList<AxisDto>();
-	PollConfigDto config;
-	
+	List<QuestionDto> questions = new ArrayList<QuestionDto>();
+	Boolean custom;
+
 	public String getTitle() {
 		return title;
 	}
@@ -29,17 +29,17 @@ public class PollDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public List<AxisDto> getAxes() {
-		return axes;
+	public List<QuestionDto> getQuestions() {
+		return questions;
 	}
-	public void setAxes(List<AxisDto> axes) {
-		this.axes = axes;
+	public void setQuestions(List<QuestionDto> questions) {
+		this.questions = questions;
 	}
-	public PollConfigDto getConfig() {
-		return config;
+	public Boolean getCustom() {
+		return custom;
 	}
-	public void setConfig(PollConfigDto config) {
-		this.config = config;
+	public void setCustom(Boolean custom) {
+		this.custom = custom;
 	}
 	
 }

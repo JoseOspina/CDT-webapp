@@ -1,5 +1,6 @@
 const state = {
-  poll: null
+  poll: null,
+  editing: false
 }
 
 const getters = {
@@ -8,6 +9,9 @@ const getters = {
 const mutations = {
   setNewPoll: (state, payload) => {
     state.poll = payload
+  },
+  setEditingNewPoll: (state, payload) => {
+    state.editing = payload
   }
 }
 

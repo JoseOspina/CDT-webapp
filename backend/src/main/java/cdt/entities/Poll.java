@@ -1,6 +1,7 @@
 package cdt.entities;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,13 +10,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+
+import cdt.dto.PollDto;
 
 @Entity
 @Table(name="polls")
@@ -43,13 +48,36 @@ public class Poll {
 	@Column(name = "creation_date")
 	private Timestamp creationDate;
 	
-	@OneToMany
-	private List<Axis> axis;
+	@ManyToMany
+	@OrderColumn(name = "axes_order")
+	private List<Axis> axes = new ArrayList<Axis>();
 	
-	private Boolean isTemplate;
+	private Boolean isTemplate;	
 	
-	private Boolean isPublic;
-
+	@OneToOne(mappedBy = "poll")
+	private PollConfig config;
+	
+	
+	public PollDto toDtoLight() {
+		PollDto dto = new PollDto();
+		
+		dto.setId(id.toString());
+		dto.setTitle(title);
+		dto.setDescription(description);
+		
+		return dto;
+	}
+	
+	public PollDto toDto() {
+		PollDto dto = toDtoLight();
+		
+		for (Axis axis : axes) {
+			dto.getAxes().add(axis.toDto());
+		}
+		
+		return dto;
+	}
+	
 	public UUID getId() {
 		return id;
 	}
@@ -98,12 +126,12 @@ public class Poll {
 		this.creationDate = creationDate;
 	}
 
-	public List<Axis> getAxis() {
-		return axis;
+	public List<Axis> getAxes() {
+		return axes;
 	}
 
-	public void setAxis(List<Axis> axis) {
-		this.axis = axis;
+	public void setAxes(List<Axis> axis) {
+		this.axes = axis;
 	}
 
 	public Boolean getIsTemplate() {
@@ -114,12 +142,13 @@ public class Poll {
 		this.isTemplate = isTemplate;
 	}
 
-	public Boolean getIsPublic() {
-		return isPublic;
+	public PollConfig getConfig() {
+		return config;
 	}
 
-	public void setIsPublic(Boolean isPublic) {
-		this.isPublic = isPublic;
+	public void setConfig(PollConfig config) {
+		this.config = config;
 	}
 	
+		
 }

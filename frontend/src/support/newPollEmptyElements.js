@@ -1,7 +1,8 @@
 const getEmptyQuestion = function () {
   return {
     id: Date.now().toString(),
-    text: ''
+    text: '',
+    custom: true
   }
 }
 
@@ -10,7 +11,8 @@ const getEmptyAxis = function () {
     id: Date.now().toString(),
     title: '',
     description: '',
-    questions: [ getEmptyQuestion() ]
+    questions: [ getEmptyQuestion() ],
+    custom: true
   }
 }
 
@@ -19,7 +21,10 @@ const getEmptyPoll = function () {
     id: Date.now().toString(),
     title: '',
     description: '',
-    axes: [ getEmptyAxis() ]
+    axes: [ getEmptyAxis() ],
+    config: {
+      audience: 'ANYONE_WITH_LINK'
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 <template lang="html">
-  <router-view></router-view>
+  <router-view :orgId="orgId"></router-view>
 </template>
 
 <script>
@@ -20,7 +20,9 @@ export default {
           this.$router.push({name: 'NewPollTemplate'})
         } else {
           console.log('templates not available')
-          this.$store.commit('setNewPoll', getEmptyPoll())
+          if (!this.$store.state.newpoll.editing) {
+            this.$store.commit('setNewPoll', getEmptyPoll())
+          }
           this.$router.push({name: 'NewPollQuestions'})
         }
       } else {

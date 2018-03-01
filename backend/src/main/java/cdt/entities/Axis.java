@@ -1,5 +1,6 @@
 package cdt.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,13 +9,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+
+import cdt.dto.AxisDto;
 
 @Entity
 @Table(name="axes")
@@ -36,9 +40,24 @@ public class Axis {
 	@Type(type = "org.hibernate.type.TextType")
 	private String description;
 	
-	@OneToMany
-	private List<Question> questions;
+	@ManyToMany
+	@OrderColumn(name = "questions_order")
+	private List<Question> questions = new ArrayList<Question>();
 
+	
+	public AxisDto toDto() {
+		AxisDto dto = new AxisDto();
+		
+		dto.setId(id.toString());
+		dto.setTitle(title);
+		dto.setDescription(description);
+		for (Question question : questions) {
+			dto.getQuestions().add(question.toDto());
+		}
+		
+		return dto;
+	}
+	
 	public UUID getId() {
 		return id;
 	}

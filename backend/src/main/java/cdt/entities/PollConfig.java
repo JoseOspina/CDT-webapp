@@ -4,22 +4,20 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
-
-import cdt.dto.QuestionDto;
 
 @Entity
-@Table(name="questions")
-public class Question {
-
+@Table(name="polls_config")
+public class PollConfig {
+	
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator",
@@ -27,23 +25,12 @@ public class Question {
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
 	
-	@ManyToOne
-	private Axis axis;
+	@OneToOne
+	private Poll poll;
 	
-	@Lob
-	@Type(type = "org.hibernate.type.TextType")
-	private String text;
+	@Enumerated(EnumType.STRING)
+	private PollAudience audience;
 	
-	
-	public QuestionDto toDto() {
-		QuestionDto dto = new QuestionDto();
-		
-		dto.setId(id.toString());
-		dto.setText(text);
-		
-		return dto;
-	}
-
 	public UUID getId() {
 		return id;
 	}
@@ -52,20 +39,20 @@ public class Question {
 		this.id = id;
 	}
 
-	public Axis getAxis() {
-		return axis;
+	public Poll getPoll() {
+		return poll;
 	}
 
-	public void setAxis(Axis axis) {
-		this.axis = axis;
+	public void setPoll(Poll poll) {
+		this.poll = poll;
 	}
 
-	public String getText() {
-		return text;
+	public PollAudience getAudience() {
+		return audience;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setAudience(PollAudience audience) {
+		this.audience = audience;
 	}
-
+	
 }

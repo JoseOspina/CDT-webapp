@@ -3,8 +3,11 @@ package cdt.services;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cdt.repositories.AppUserRepositoryIf;
+import cdt.repositories.AxisRepositoryIf;
 import cdt.repositories.OrganizationRepositoryIf;
+import cdt.repositories.PollConfigRepositoryIf;
 import cdt.repositories.PollRepositoryIf;
+import cdt.repositories.QuestionRepositoryIf;
 
 public class BaseService {
 	
@@ -16,5 +19,14 @@ public class BaseService {
 	
 	@Autowired
 	protected PollRepositoryIf pollRepository;
+	
+	@Autowired
+	protected PollConfigRepositoryIf pollConfigRepository;
+	
+	@Autowired
+	protected AxisRepositoryIf axisRepository;
+	
+	@Autowired
+	protected QuestionRepositoryIf questionRepository;
 
 }

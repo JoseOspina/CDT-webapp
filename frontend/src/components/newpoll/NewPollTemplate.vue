@@ -5,6 +5,11 @@
 
 <script>
 export default {
+  props: {
+    orgId: {
+      type: String
+    }
+  },
 
   created: {
 

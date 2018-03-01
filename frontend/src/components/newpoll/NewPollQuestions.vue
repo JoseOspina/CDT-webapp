@@ -40,6 +40,12 @@ import { getEmptyQuestion, getEmptyAxis } from '@/support/newPollEmptyElements'
 import { getElIx } from '@/support/general'
 
 export default {
+  props: {
+    orgId: {
+      type: String
+    }
+  },
+
   data () {
     return {
       poll: null,
@@ -97,6 +103,8 @@ export default {
 
       if (ok) {
         this.$store.commit('setNewPoll', this.poll)
+        this.$store.commit('setEditingNewPoll', true)
+
         this.$router.push({name: 'NewPollConfiguration'})
       } else {
         this.showErrors = true
