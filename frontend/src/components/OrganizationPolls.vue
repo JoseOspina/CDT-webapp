@@ -31,6 +31,12 @@ export default {
     }
   },
 
+  watch: {
+    '$route' () {
+      this.update()
+    }
+  },
+
   methods: {
     update () {
       this.axios.get('/1/organization/' + this.orgId + '/polls').then((response) => {
