@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="">
+  <div class="w3-row">
     <app-new-org-modal
       v-if="newOrgModal"
       @close="newOrgModal = false">
@@ -20,23 +20,18 @@
         :message="$t('organizationCreationErrorMessage')">
       </app-error-panel>
     </div>
-    <div class="w3-row middle-container">
-      <app-organization-content :id="orgIdSelected"></app-organization-content>
-    </div>
   </div>
 </template>
 
 <script>
 import loggedUser from '@/mixins/loggedUser'
 import NewOrgModal from '@/components/NewOrgModal'
-import OrganizationContent from '@/components/OrganizationContent'
 
 export default {
   mixins: [ loggedUser ],
 
   components: {
-    'app-new-org-modal': NewOrgModal,
-    'app-organization-content': OrganizationContent
+    'app-new-org-modal': NewOrgModal
   },
 
   data () {
@@ -53,19 +48,21 @@ export default {
     }
   },
 
-  methods: {
+  watch: {
+    orgIdSelected () {
+      this.$router.push({name: 'OrganizationContent', params: {orgId: this.orgIdSelected}})
+    }
+  },
+
+  created () {
+    if (this.$route.params) {
+      if (this.$route.params.orgId !== '') {
+        this.orgIdSelected = this.$route.params.orgId
+      }
+    }
   }
 }
 </script>
 
-<style scoped>
-
-.header-container {
-  background-color: rgb(125, 100, 164);
-}
-
-.middle-container {
-  background-color: cyan;
-}
-
+<style lang="css">
 </style>

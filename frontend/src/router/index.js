@@ -7,8 +7,11 @@ import LoginCallback from '@/components/LoginCallback'
 import LandingPage from '@/components/LandingPage'
 import AppView from '@/components/AppView'
 
-import Dashboard from '@/components/Dashboard'
+import Organizations from '@/components/Organizations'
+import OrganizationContent from '@/components/OrganizationContent'
 import OrganizationPolls from '@/components/OrganizationPolls'
+import OrganizationPoll from '@/components/OrganizationPoll'
+
 import NewPoll from '@/components/newpoll/NewPoll'
 import NewPollTemplate from '@/components/newpoll/NewPollTemplate'
 import NewPollQuestions from '@/components/newpoll/NewPollQuestions'
@@ -43,22 +46,30 @@ export default new Router({
         {
           path: '/',
           name: 'AppView',
-          redirect: 'dashboard'
+          redirect: 'org'
         },
         {
-          path: 'dashboard',
-          name: 'Dashboard',
-          component: Dashboard,
+          path: 'org',
+          name: 'Organizations',
+          component: Organizations,
           children: [
-            { path: 'polls', name: 'OrganizationPolls', component: OrganizationPolls },
             {
-              path: 'newpoll',
-              name: 'NewPoll',
-              component: NewPoll,
+              path: ':orgId',
+              component: OrganizationContent,
               children: [
-                { path: 'template', name: 'NewPollTemplate', component: NewPollTemplate },
-                { path: 'questions', name: 'NewPollQuestions', component: NewPollQuestions },
-                { path: 'config', name: 'NewPollConfiguration', component: NewPollConfiguration }
+                { path: '/', name: 'OrganizationContent', redirect: 'polls' },
+                { path: 'polls', name: 'OrganizationPolls', component: OrganizationPolls },
+                { path: 'poll/:pollId', name: 'OrganizationPoll', component: OrganizationPoll },
+                {
+                  path: 'newpoll',
+                  name: 'NewPoll',
+                  component: NewPoll,
+                  children: [
+                    { path: 'template', name: 'NewPollTemplate', component: NewPollTemplate },
+                    { path: 'questions', name: 'NewPollQuestions', component: NewPollQuestions },
+                    { path: 'config', name: 'NewPollConfiguration', component: NewPollConfiguration }
+                  ]
+                }
               ]
             }
           ]

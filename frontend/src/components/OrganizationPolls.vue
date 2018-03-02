@@ -18,16 +18,16 @@ export default {
     'app-poll-card': PollCard
   },
 
-  props: {
-    orgId: {
-      type: String
-    }
-  },
-
   data () {
     return {
       polls: [],
       errorGettingPolls: false
+    }
+  },
+
+  computed: {
+    orgId () {
+      return this.$route.params.orgId
     }
   },
 
