@@ -1,10 +1,10 @@
 const getAnswerIx = function (questionId, answers) {
   for (var ix in answers) {
-    if (answer.questionId === questionId) {
+    if (answers[ix].questionId === questionId) {
       return ix
     }
-    return -1
   }
+  return -1
 }
 
 const state = {
@@ -17,7 +17,7 @@ const getters = {
 const mutations = {
   addAnswer: (state, answer) => {
     var ix = getAnswerIx(answer.questionId, state.answers)
-    if (ix == -1) {
+    if (ix === -1) {
       state.answers.push(answer)
     } else {
       state.answers[ix] = answer

@@ -11,7 +11,7 @@ export default {
   components: {
     'app-answer-poll': Poll
   },
-  
+
   data () {
     return {
       poll: null

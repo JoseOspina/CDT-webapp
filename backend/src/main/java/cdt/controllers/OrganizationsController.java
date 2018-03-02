@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import cdt.dto.AnswerDto;
 import cdt.dto.GetResult;
 import cdt.dto.OrganizationDto;
 import cdt.dto.PollDto;
 import cdt.dto.PostResult;
+import cdt.entities.PollAudience;
 
 @RestController
 @RequestMapping("/1")
@@ -93,6 +95,20 @@ public class OrganizationsController extends BaseController {
 		
 		UUID pollId = UUID.fromString(pollIdStr);
 		return organizationService.getPoll(pollId);
+	}
+	
+	@RequestMapping(path = "/poll/{pollId}/answer",  method = RequestMethod.POST)
+	public GetResult<PollDto> getPoll(
+    		@PathVariable(name="pollId") String pollIdStr, 
+    		@RequestBody List<AnswerDto> answersDto) {
+		
+		UUID pollId = UUID.fromString(pollIdStr);
+		
+		if (organizationService.getPollAudience(pollId) == PollAudience.ANYONE_WITH_LINK) {
+			
+		}
+		
+		return organizationService.answerPoll(pollId);
 	}
 
 

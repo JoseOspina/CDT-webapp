@@ -1,12 +1,14 @@
 <template lang="html">
   <div class="">
     <div class="w3-row">
-      {{ axis.title }}
+      <h3>{{ axis.title }}</h3>
     </div>
     <div class="w3-row">
-      {{ axis.description }}
+      <p>{{ axis.description }}</p>
     </div>
-    <app-answer-question v-for="question in axis.questions" :key="question.id" :question="question" class="w3-row">
+    <app-answer-question
+      v-for="question in axis.questions" :key="question.id"
+      :question="question" class="w3-row question-container">
     </app-answer-question>
   </div>
 </template>
@@ -27,5 +29,10 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.question-container {
+  margin-bottom: 20px;
+}
+
 </style>

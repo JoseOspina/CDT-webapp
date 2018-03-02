@@ -125,9 +125,11 @@ public class OrganizationService extends BaseService {
 	@Transactional
 	public GetResult<PollDto> getPoll(UUID pollId) {
 		Poll poll = pollRepository.findById(pollId);
-		
 		return new GetResult<PollDto>("success", "organization retrieved", poll.toDto());
 	}
 	
-	
+	@Transactional
+	public PollAudience getPollAudience(UUID pollId) {
+		return pollRepository.findById(pollId).getConfig().getAudience();
+	}
 }
