@@ -13,7 +13,7 @@ public interface PollRepositoryIf extends CrudRepository<Poll, UUID> {
 	
 	public Poll findById(UUID id);
 	
-	@Query("SELECT COUNT(po) FROM Poll po WHERE po.isTemplate = TRUE OR po.organization.id = ?1")
+	@Query("SELECT COUNT(po) FROM Poll po WHERE po.isTemplate = TRUE AND po.organization.id = ?1")
 	public Integer countNTemplatesInternal(UUID orgId);
 	
 	public List<Poll> findByOrganization_Id(UUID orgId);
@@ -22,5 +22,8 @@ public interface PollRepositoryIf extends CrudRepository<Poll, UUID> {
 		Integer res = countNTemplatesInternal(orgId);
 		return res == null ? false : res.intValue() > 0;
 	}
+	
+	@Query("SELECT org.id FROM Poll po JOIN po.organization org WHERE po.id = ?1")
+	public UUID getOrganizationIdFromPollId(UUID pollId);
 	
 }

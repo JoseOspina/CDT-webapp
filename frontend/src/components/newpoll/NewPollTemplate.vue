@@ -5,9 +5,9 @@
 
 <script>
 export default {
-  props: {
-    orgId: {
-      type: String
+  computed: {
+    orgId () {
+      return this.$route.params.orgId
     }
   },
 

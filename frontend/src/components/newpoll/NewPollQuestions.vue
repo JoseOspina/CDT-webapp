@@ -40,9 +40,9 @@ import { getEmptyQuestion, getEmptyAxis } from '@/support/newPollEmptyElements'
 import { getElIx } from '@/support/general'
 
 export default {
-  props: {
-    orgId: {
-      type: String
+  computed: {
+    orgId () {
+      return this.$route.params.orgId
     }
   },
 

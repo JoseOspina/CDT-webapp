@@ -17,18 +17,10 @@
 
 <script>
 export default {
-  props: {
-    orgId: {
-      type: String
-    }
-  },
-
-  data () {
-    return {
-    }
-  },
-
   computed: {
+    orgId () {
+      return this.$route.params.orgId
+    }
   },
 
   methods: {

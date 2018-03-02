@@ -55,9 +55,9 @@ export default new Router({
         },
         {
           path: 'org/:orgId',
-          name: 'OrganizationContent',
           component: OrganizationContent,
           children: [
+            { path: '/', name: 'OrganizationContent', redirect: 'polls' },
             { path: 'polls', name: 'OrganizationPolls', component: OrganizationPolls },
             { path: 'poll/:pollId', name: 'OrganizationPoll', component: OrganizationPoll },
             {

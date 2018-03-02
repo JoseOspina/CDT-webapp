@@ -1,13 +1,13 @@
 <template lang="html">
-  <router-view :orgId="orgId"></router-view>
+  <router-view></router-view>
 </template>
 
 <script>
 import { getEmptyPoll } from '@/support/newPollEmptyElements'
 export default {
-  props: {
-    orgId: {
-      type: String
+  computed: {
+    orgId () {
+      return this.$route.params.orgId
     }
   },
 
