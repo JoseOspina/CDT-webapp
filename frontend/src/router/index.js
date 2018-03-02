@@ -51,25 +51,23 @@ export default new Router({
         {
           path: 'org',
           name: 'Organizations',
-          component: Organizations,
+          component: Organizations
+        },
+        {
+          path: 'org/:orgId',
+          name: 'OrganizationContent',
+          component: OrganizationContent,
           children: [
+            { path: 'polls', name: 'OrganizationPolls', component: OrganizationPolls },
+            { path: 'poll/:pollId', name: 'OrganizationPoll', component: OrganizationPoll },
             {
-              path: ':orgId',
-              component: OrganizationContent,
+              path: 'newpoll',
+              name: 'NewPoll',
+              component: NewPoll,
               children: [
-                { path: '/', name: 'OrganizationContent', redirect: 'polls' },
-                { path: 'polls', name: 'OrganizationPolls', component: OrganizationPolls },
-                { path: 'poll/:pollId', name: 'OrganizationPoll', component: OrganizationPoll },
-                {
-                  path: 'newpoll',
-                  name: 'NewPoll',
-                  component: NewPoll,
-                  children: [
-                    { path: 'template', name: 'NewPollTemplate', component: NewPollTemplate },
-                    { path: 'questions', name: 'NewPollQuestions', component: NewPollQuestions },
-                    { path: 'config', name: 'NewPollConfiguration', component: NewPollConfiguration }
-                  ]
-                }
+                { path: 'template', name: 'NewPollTemplate', component: NewPollTemplate },
+                { path: 'questions', name: 'NewPollQuestions', component: NewPollQuestions },
+                { path: 'config', name: 'NewPollConfiguration', component: NewPollConfiguration }
               ]
             }
           ]

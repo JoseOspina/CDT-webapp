@@ -50,7 +50,29 @@ export default {
 
   watch: {
     orgIdSelected () {
-      this.$router.push({name: 'OrganizationContent', params: {orgId: this.orgIdSelected}})
+      this.goToOrg()
+    },
+    '$route' () {
+      if (this.$route.params) {
+        if (this.$route.params.orgId !== '') {
+          this.orgIdSelected = this.$route.params.orgId
+        } else {
+          this.orgIdSelected = ''
+        }
+      } else {
+        this.orgIdSelected = ''
+      }
+    }
+  },
+
+  methods: {
+    goToOrg () {
+      if (this.orgIdSelected) {
+        if (this.orgIdSelected !== '') {
+          console.log('redirecting to organization content id: ' + this.orgIdSelected)
+          this.$router.push({name: 'OrganizationContent', params: {orgId: this.orgIdSelected}})
+        }
+      }
     }
   },
 

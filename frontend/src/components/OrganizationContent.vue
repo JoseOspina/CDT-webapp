@@ -5,25 +5,7 @@
 </template>
 
 <script>
-import loggedUser from '@/mixins/loggedUser'
-
 export default {
-  mixins: [ loggedUser ],
-
-  props: {
-  },
-
-  data () {
-    return {
-    }
-  },
-
-  methods: {
-  },
-
-  created () {
-  }
-
 }
 </script>
 
