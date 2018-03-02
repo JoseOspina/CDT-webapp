@@ -19,7 +19,7 @@ import NewPollTemplate from '@/components/newpoll/NewPollTemplate'
 import NewPollQuestions from '@/components/newpoll/NewPollQuestions'
 import NewPollConfiguration from '@/components/newpoll/NewPollConfiguration'
 
-import AnswerView from '@/components/AnswerView'
+import AnswerPoll from '@/components/AnswerPoll'
 
 Vue.use(Router)
 
@@ -78,9 +78,9 @@ export default new Router({
           ]
         },
         {
-          path: 'answer',
-          name: 'AnswerView',
-          component: AnswerView
+          path: 'answer/:pollId',
+          name: 'AnswerPoll',
+          component: AnswerPoll
         }
       ]
     }

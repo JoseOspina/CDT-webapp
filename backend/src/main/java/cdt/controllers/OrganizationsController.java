@@ -91,17 +91,7 @@ public class OrganizationsController extends BaseController {
 	public GetResult<PollDto> getPoll(
     		@PathVariable(name="pollId") String pollIdStr) {
 		
-		if (getLoggedUser() == null) {
-			return new GetResult<PollDto>("error", "endpoint enabled for users only", null);
-		}
-		
 		UUID pollId = UUID.fromString(pollIdStr);
-		UUID orgId = organizationService.getOrganizationIdFromPollId(pollId);
-		
-		if (!organizationService.isAdmin(orgId, getLoggedUserId())) {
-			return new GetResult<PollDto>("error", "endpoint enabled for admins only", null);
-		}
-		
 		return organizationService.getPoll(pollId);
 	}
 
