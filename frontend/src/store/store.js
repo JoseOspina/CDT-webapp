@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import user from './modules/user'
 import organization from './modules/organization'
 import newpoll from './modules/newpoll'
+import answerpoll from './modules/answerpoll'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export const store = new Vuex.Store({
   modules: {
     user,
     organization,
-    newpoll
+    newpoll,
+    answerpoll
   }
 })

@@ -19,7 +19,7 @@ import NewPollTemplate from '@/components/newpoll/NewPollTemplate'
 import NewPollQuestions from '@/components/newpoll/NewPollQuestions'
 import NewPollConfiguration from '@/components/newpoll/NewPollConfiguration'
 
-import AnswerPoll from '@/components/AnswerPoll'
+import AnswerPoll from '@/components/answerpoll/AnswerPoll'
 
 Vue.use(Router)
 
