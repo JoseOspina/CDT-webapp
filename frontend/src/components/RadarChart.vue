@@ -7,21 +7,12 @@ import { RadarChart } from '@/ext/radar-chart.js'
 
 export default {
 
-  data () {
-    return {
-      chartData:
-        [
-          [
-            {area: 'Central ', value: 80},
-            {area: 'Kirkdale', value: 40},
-            {area: 'Kensington ', value: 40},
-            {area: 'Everton ', value: 90},
-            {area: 'Picton ', value: 60},
-            {area: 'Riverside ', value: 20}
-          ]
-        ]
+  props: {
+    chartData: {
+      type: Array
     }
   },
+
   mounted () {
     var width = 300
     var height = 300
@@ -30,7 +21,6 @@ export default {
     var config = {
       w: width,
       h: height,
-      maxValue: 100,
       levels: 5,
       ExtraWidthX: 300
     }

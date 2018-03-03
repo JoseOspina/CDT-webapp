@@ -5,7 +5,7 @@
     <p>{{ poll.description }}</p>
     Number of answers: <b>{{ details.numberOfAnswers }}</b>
 
-    <app-radar-chart></app-radar-chart>
+    <app-radar-chart :chartData="chartData"></app-radar-chart>
   </div>
 </template>
 
@@ -19,9 +19,19 @@ export default {
   data () {
     return {
       poll: null,
-      details: null
+      details: null,
+      chartData:
+        [
+          [
+            {area: 'Alignemnt ', value: 3},
+            {area: 'Tranparency', value: 2},
+            {area: 'Openness ', value: 1},
+            {area: 'Purpose ', value: 2}
+          ]
+        ]
     }
   },
+
   computed: {
     pollId () {
       return this.$route.params.pollId

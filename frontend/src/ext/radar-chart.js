@@ -29,7 +29,7 @@ var RadarChart = {
       }
     }
 
-    cfg.maxValue = 100;
+    cfg.maxValue = 5;
 
     var allAxis = (d[0].map(function(i, j){return i.area}));
     var total = allAxis.length;
@@ -78,7 +78,7 @@ var RadarChart = {
        .style("font-size", "10px")
        .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor) + ")")
        .attr("fill", "#737373")
-       .text((j+1)*100/cfg.levels);
+       .text((j+1)* cfg.maxValue/cfg.levels);
     }
 
     var series = 0;

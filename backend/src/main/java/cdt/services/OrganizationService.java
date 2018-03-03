@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import cdt.dto.AnswerDto;
 import cdt.dto.AxisDto;
+import cdt.dto.AxisResultsDto;
 import cdt.dto.GetResult;
 import cdt.dto.OrganizationDto;
 import cdt.dto.PollDetailsDto;
@@ -143,8 +144,45 @@ public class OrganizationService extends BaseService {
 		PollDetailsDto pollDetailsDto = new PollDetailsDto();
 		
 		pollDetailsDto.setNumberOfAnswers(answerBatchRepository.countNAnswers(pollId));
+		pollDetailsDto.setAxesResults(getAxesResults(pollId));
 		
 		return new GetResult<PollDetailsDto>("success", "organization retrieved", pollDetailsDto);
+	}
+	
+
+	@Transactional
+	public List<AxisResultsDto> getAxesResults(UUID pollId) {
+		
+		Poll poll = pollRepository.findById(pollId);
+		
+		for (Axis axis : poll.getAxes()) {
+			for (Question question : axis.getQuestions()) {
+				
+				List<Integer> rates = answerBatchRepository.getQuestionRates(poll.getId(), question.getId());
+				
+				double average = 0;
+				double min = 500;
+				double max = -1;
+				
+				for (Integer rate : rates) {
+					double rateDouble = (double) rate;
+					
+					average += rateDouble;
+					
+					if (rateDouble < min) {
+						min = rateDouble;
+					}
+					
+					if (rateDouble > max) {
+						max = rateDouble;
+					}
+				}
+				
+				average = average/((double) rates.size());
+			}
+		}
+		
+		return new ArrayList<AxisResultsDto>();
 	}
 	
 	@Transactional
