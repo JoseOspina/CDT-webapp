@@ -6,9 +6,12 @@
     <div class="w3-row">
       <p>{{ poll.description }}</p>
     </div>
-    <div class="">
+    <div v-if="!answerSucessful" class="">
       <app-answer-axis v-for="axis in poll.axes" :key="axis.id" :axis="axis" class="">
       </app-answer-axis>
+    </div>
+    <div v-if="answerSucessful" class="">
+      Answer succesful!
     </div>
     <hr>
     <div class="w3-row w3-center">
@@ -31,10 +34,26 @@ export default {
     }
   },
 
+  data () {
+    return {
+      answerSucessful: false,
+      answerError: false,
+      answerErrorMsg: ''
+    }
+  },
+
   methods: {
     send () {
-      this.axios.post('/1/poll/' + poll.id + '/answer', this.$store.state.answerpoll.answers).then((response) => {
-
+      this.axios.post('/1/poll/' + this.poll.id + '/answer', this.$store.state.answerpoll.answers).then((response) => {
+        if (response.data.result === 'success') {
+          this.answerSucessful = true
+        } else {
+          this.answerError = true
+          this.answerErrorMsg = response.data.message
+        }
+      }).catch((error) => {
+        this.answerError = true
+        this.answerErrorMsg = error.message
       })
     }
   }

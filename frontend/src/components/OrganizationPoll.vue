@@ -1,8 +1,9 @@
 <template lang="html">
-  <div v-if="poll" class="">
+  <div v-if="poll !== null && details !== null" class="">
     Poll details
     <h3>{{ poll.title }}</h3>
     <p>{{ poll.description }}</p>
+    Number of answers: <b>{{ details.numberOfAnswers }}</b>
   </div>
 </template>
 
@@ -10,7 +11,8 @@
 export default {
   data () {
     return {
-      poll: null
+      poll: null,
+      details: null
     }
   },
   computed: {
@@ -21,11 +23,20 @@ export default {
 
   methods: {
     update () {
-      this.axios.get('/1/poll/' + this.pollId).then((response) => {
-        if (response.data.result === 'success') {
-          this.poll = response.data.data
+      if (this.pollId) {
+        if (this.pollId !== '') {
+          this.axios.get('/1/poll/' + this.pollId).then((response) => {
+            if (response.data.result === 'success') {
+              this.poll = response.data.data
+              return this.axios.get('/1/poll/' + this.poll.id + '/details')
+            }
+          }).then((response) => {
+            if (response.data.result === 'success') {
+              this.details = response.data.data
+            }
+          })
         }
-      })
+      }
     }
   },
 

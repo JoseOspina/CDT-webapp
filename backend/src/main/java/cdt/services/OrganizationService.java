@@ -9,12 +9,16 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import cdt.dto.AnswerDto;
 import cdt.dto.AxisDto;
 import cdt.dto.GetResult;
 import cdt.dto.OrganizationDto;
+import cdt.dto.PollDetailsDto;
 import cdt.dto.PollDto;
 import cdt.dto.PostResult;
 import cdt.dto.QuestionDto;
+import cdt.entities.Answer;
+import cdt.entities.AnswerBatch;
 import cdt.entities.AppUser;
 import cdt.entities.Axis;
 import cdt.entities.Organization;
@@ -22,6 +26,7 @@ import cdt.entities.Poll;
 import cdt.entities.PollAudience;
 import cdt.entities.PollConfig;
 import cdt.entities.Question;
+import cdt.entities.ResponderType;
 
 @Service
 public class OrganizationService extends BaseService {
@@ -123,13 +128,63 @@ public class OrganizationService extends BaseService {
 	}
 	
 	@Transactional
-	public GetResult<PollDto> getPoll(UUID pollId) {
+	public PollDto getPollDto(UUID pollId) {
 		Poll poll = pollRepository.findById(pollId);
-		return new GetResult<PollDto>("success", "organization retrieved", poll.toDto());
+		return poll.toDto();
+	}
+	
+	@Transactional
+	public GetResult<PollDto> getPoll(UUID pollId) {
+		return new GetResult<PollDto>("success", "organization retrieved", getPollDto(pollId));
+	}
+	
+	@Transactional
+	public GetResult<PollDetailsDto> getPollDetails(UUID pollId) {
+		PollDetailsDto pollDetailsDto = new PollDetailsDto();
+		
+		pollDetailsDto.setNumberOfAnswers(answerBatchRepository.countNAnswers(pollId));
+		
+		return new GetResult<PollDetailsDto>("success", "organization retrieved", pollDetailsDto);
 	}
 	
 	@Transactional
 	public PollAudience getPollAudience(UUID pollId) {
 		return pollRepository.findById(pollId).getConfig().getAudience();
+	}
+	
+	@Transactional
+	public PostResult answerPoll(UUID pollId, List<AnswerDto> answersDto, ResponderType responderType) {
+		
+		Poll poll = pollRepository.findById(pollId);
+		
+		if (poll == null) {
+			return new PostResult("error", "poll not found", null);
+		}
+		
+		AnswerBatch batch = new AnswerBatch();
+		
+		batch.setResponderType(responderType);
+		batch.setPoll(poll);
+		batch = answerBatchRepository.save(batch);
+		
+		for (AnswerDto answerDto : answersDto) {
+			
+			Question question = questionRepository.findById(UUID.fromString(answerDto.getQuestionId()));
+			if (question == null) {
+				return new PostResult("error", "question not found", null);
+			}
+			
+			Answer answer = new Answer();
+			
+			answer.setBatch(batch);
+			answer.setQuestion(question);
+			answer.setText(answerDto.getText());
+			answer.setRate(answerDto.getRate());
+			
+			answer = answerRepository.save(answer);
+			batch.getAnswers().add(answer);
+		}
+		
+		return new PostResult("success", "poll answered", batch.getId().toString());
 	}
 }

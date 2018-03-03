@@ -7,17 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
-import cdt.dto.QuestionDto;
-
 @Entity
-@Table(name="questions")
-public class Question {
+@Table(name="answers")
+public class Answer {
 
 	@Id
 	@GeneratedValue(generator = "UUID")
@@ -26,26 +25,41 @@ public class Question {
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
 	
+	@ManyToOne
+	private AnswerBatch batch;
+	
+	@ManyToOne
+	private Question question;
+	
 	@Lob
 	@Type(type = "org.hibernate.type.TextType")
 	private String text;
 	
+	private Integer rate;
 	
-	public QuestionDto toDto() {
-		QuestionDto dto = new QuestionDto();
-		
-		dto.setId(id.toString());
-		dto.setText(text);
-		
-		return dto;
-	}
-
+	
 	public UUID getId() {
 		return id;
 	}
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+	
+	public AnswerBatch getBatch() {
+		return batch;
+	}
+
+	public void setBatch(AnswerBatch batch) {
+		this.batch = batch;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public String getText() {
@@ -56,4 +70,12 @@ public class Question {
 		this.text = text;
 	}
 
+	public Integer getRate() {
+		return rate;
+	}
+
+	public void setRate(Integer rate) {
+		this.rate = rate;
+	}
+		
 }

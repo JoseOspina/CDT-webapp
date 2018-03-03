@@ -17,13 +17,13 @@ export default {
         var hasTemplates = response.data.data
         if (hasTemplates) {
           console.log('templates available')
-          this.$router.push({name: 'NewPollTemplate'})
+          this.$router.replace({name: 'NewPollTemplate'})
         } else {
           console.log('templates not available')
           if (!this.$store.state.newpoll.editing) {
             this.$store.commit('setNewPoll', getEmptyPoll())
           }
-          this.$router.push({name: 'NewPollQuestions'})
+          this.$router.replace({name: 'NewPollQuestions'})
         }
       } else {
         console.log(response.data.message)

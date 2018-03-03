@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import cdt.dto.AnswerDto;
 import cdt.dto.GetResult;
 import cdt.dto.OrganizationDto;
+import cdt.dto.PollDetailsDto;
 import cdt.dto.PollDto;
 import cdt.dto.PostResult;
 import cdt.entities.PollAudience;
+import cdt.entities.ResponderType;
 
 @RestController
 @RequestMapping("/1")
@@ -97,18 +99,44 @@ public class OrganizationsController extends BaseController {
 		return organizationService.getPoll(pollId);
 	}
 	
+	@RequestMapping(path = "/poll/{pollId}/details",  method = RequestMethod.GET)
+	public GetResult<PollDetailsDto> getPollDetails(
+    		@PathVariable(name="pollId") String pollIdStr) {
+		
+		UUID pollId = UUID.fromString(pollIdStr);
+		UUID orgId = organizationService.getOrganizationIdFromPollId(pollId);
+		UUID userId = getLoggedUserId();
+		
+		if (userId == null) {
+			return new GetResult<PollDetailsDto>("error", "endpoint enabled for users only", null);
+		}
+		
+		if (!organizationService.isAdmin(orgId, userId)) {
+			return new GetResult<PollDetailsDto>("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.getPollDetails(pollId);
+	}
+	
 	@RequestMapping(path = "/poll/{pollId}/answer",  method = RequestMethod.POST)
-	public GetResult<PollDto> getPoll(
+	public PostResult answerPoll(
     		@PathVariable(name="pollId") String pollIdStr, 
     		@RequestBody List<AnswerDto> answersDto) {
 		
 		UUID pollId = UUID.fromString(pollIdStr);
 		
-		if (organizationService.getPollAudience(pollId) == PollAudience.ANYONE_WITH_LINK) {
-			
-		}
+		ResponderType responderType = null;
 		
-		return organizationService.answerPoll(pollId);
+		if (organizationService.getPollAudience(pollId) == PollAudience.ANYONE_WITH_LINK) {
+			responderType = ResponderType.ANONYMOUS;
+		}
+
+		
+		if (responderType != null) {
+			return organizationService.answerPoll(pollId, answersDto, responderType);
+		} else {
+			return new PostResult("error", "not authorized to answer this poll", null);
+		}
 	}
 
 
