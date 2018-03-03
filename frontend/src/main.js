@@ -7,6 +7,7 @@ import { store } from './store/store'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueCookie from 'vue-cookie'
 
 import VueI18n from 'vue-i18n'
 import Datepicker from 'vuejs-datepicker'
@@ -35,6 +36,8 @@ export const i18n = new VueI18n({
   fallbackLocale: 'en',
   messages: translations
 })
+
+Vue.use(VueCookie)
 
 Vue.component('app-error-panel', ErrorPanel)
 Vue.component('datepicker', Datepicker)
