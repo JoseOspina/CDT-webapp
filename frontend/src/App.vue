@@ -32,6 +32,9 @@ export default {
 </script>
 
 <style>
+
 @import 'css/w3.css';
 @import 'css/modals.css';
+@import 'ext/radar-chart.css';
+
 </style>

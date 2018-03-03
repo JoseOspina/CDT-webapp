@@ -4,11 +4,18 @@
     <h3>{{ poll.title }}</h3>
     <p>{{ poll.description }}</p>
     Number of answers: <b>{{ details.numberOfAnswers }}</b>
+
+    <app-radar-chart></app-radar-chart>
   </div>
 </template>
 
 <script>
+import RadarChart from '@/components/RadarChart'
 export default {
+  components: {
+    'app-radar-chart': RadarChart
+  },
+
   data () {
     return {
       poll: null,
