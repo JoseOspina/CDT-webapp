@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -30,12 +32,17 @@ public class Question {
 	@Type(type = "org.hibernate.type.TextType")
 	private String text;
 	
+	@Enumerated(EnumType.STRING)
+	private QuestionType type;
 	
-	public QuestionDto toDto() {
+	
+	public QuestionDto toDto(double weight) {
 		QuestionDto dto = new QuestionDto();
 		
 		dto.setId(id.toString());
 		dto.setText(text);
+		dto.setType(type.toString());
+		dto.setWeight(weight);
 		
 		return dto;
 	}
@@ -56,4 +63,12 @@ public class Question {
 		this.text = text;
 	}
 
+	public QuestionType getType() {
+		return type;
+	}
+
+	public void setType(QuestionType type) {
+		this.type = type;
+	}
+	
 }

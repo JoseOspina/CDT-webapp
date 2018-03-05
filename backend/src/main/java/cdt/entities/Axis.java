@@ -42,7 +42,7 @@ public class Axis {
 	
 	@ManyToMany
 	@OrderColumn(name = "questions_order")
-	private List<Question> questions = new ArrayList<Question>();
+	private List<QuestionAndWeight> questionsAndWeights = new ArrayList<QuestionAndWeight>();
 
 	
 	public AxisDto toDto() {
@@ -51,8 +51,8 @@ public class Axis {
 		dto.setId(id.toString());
 		dto.setTitle(title);
 		dto.setDescription(description);
-		for (Question question : questions) {
-			dto.getQuestions().add(question.toDto());
+		for (QuestionAndWeight questionAndWeight : questionsAndWeights) {
+			dto.getQuestions().add(questionAndWeight.getQuestion().toDto(questionAndWeight.getWeight()));
 		}
 		
 		return dto;
@@ -90,12 +90,12 @@ public class Axis {
 		this.description = description;
 	}
 
-	public List<Question> getQuestions() {
-		return questions;
+	public List<QuestionAndWeight> getQuestionsAndWeights() {
+		return questionsAndWeights;
 	}
 
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
+	public void setQuestionsAndWeights(List<QuestionAndWeight> questionsAndWeights) {
+		this.questionsAndWeights = questionsAndWeights;
 	}
 		
 }

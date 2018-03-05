@@ -4,8 +4,9 @@
     <h3>{{ poll.title }}</h3>
     <p>{{ poll.description }}</p>
     Number of answers: <b>{{ details.numberOfAnswers }}</b>
-
-    <app-radar-chart :chartData="chartData"></app-radar-chart>
+    <div v-if="details.numberOfAnswers > 0" class="">
+      <app-radar-chart v-if="chartData.length > 0" :chartData="chartData"></app-radar-chart>
+    </div>
   </div>
 </template>
 
@@ -19,22 +20,48 @@ export default {
   data () {
     return {
       poll: null,
-      details: null,
-      chartData:
-        [
-          [
-            {area: 'Alignemnt ', value: 3},
-            {area: 'Tranparency', value: 2},
-            {area: 'Openness ', value: 1},
-            {area: 'Purpose ', value: 2}
-          ]
-        ]
+      details: null
     }
   },
 
   computed: {
     pollId () {
       return this.$route.params.pollId
+    },
+    chartData () {
+      if (this.details === null) {
+        return []
+      }
+
+      var layerData = []
+
+      for (var ixA in this.details.axesResults) {
+        var axisResults = this.details.axesResults[ixA]
+
+        var meanCombined = 0
+        for (var ixQ in axisResults.questionResults) {
+          var questionResult = axisResults.questionResults[ixQ]
+          if (questionResult.questionType === 'RATE_1_5') {
+            var sum = 0
+            var min = 999
+            var max = -1
+            for (var ixR in questionResult.answersRates) {
+              var rate = questionResult.answersRates[ixR]
+              sum += rate
+              if (rate < min) {
+                min = rate
+              }
+              if (max > rate) {
+                max = rate
+              }
+            }
+            var mean = sum / questionResult.answersRates.length
+            meanCombined += mean * questionResult.weight / 100.0
+          }
+        }
+        layerData.push({area: axisResults.axisTitle, value: meanCombined})
+      }
+      return [layerData]
     }
   },
 

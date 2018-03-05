@@ -2,6 +2,8 @@ const getEmptyQuestion = function () {
   return {
     id: Date.now().toString(),
     text: '',
+    type: 'RATE_1_5',
+    weight: 100,
     custom: true
   }
 }

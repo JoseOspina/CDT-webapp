@@ -4,7 +4,8 @@
       {{ question.text }}
     </div>
     <div class="w3-col m6">
-      <app-rating-selector @input="questionAnswered($event)"></app-rating-selector>
+      <app-rating-selector v-if="question.type === 'RATE_1_5'" @input="questionAnswered($event)"></app-rating-selector>
+      <textarea v-if="question.type === 'TEXT'" class="w3-input w3-border" @input="questionTextAnswered($event)" name="name" rows="3"></textarea>
     </div>
   </div>
 </template>
@@ -16,14 +17,19 @@ export default {
   components: {
     'app-rating-selector': RatingSelector
   },
+
   props: {
     question: {
       type: Object
     }
   },
+
   methods: {
     questionAnswered (rate) {
       this.$store.commit('addAnswer', { questionId: this.question.id, rate: rate })
+    },
+    questionTextAnswered (event) {
+      this.$store.commit('addAnswer', { questionId: this.question.id, text: event.target.value })
     }
   }
 }

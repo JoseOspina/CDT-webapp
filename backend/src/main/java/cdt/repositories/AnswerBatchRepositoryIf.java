@@ -20,6 +20,9 @@ public interface AnswerBatchRepositoryIf extends CrudRepository<AnswerBatch, UUI
 		return res == null ? 0 : res.intValue();
 	}
 	
+	@Query("SELECT ans.text FROM AnswerBatch batch JOIN batch.answers ans WHERE batch.poll.id = ?1 AND ans.question.id = ?2")
+	public List<String> getQuestionTextAnswers(UUID pollId, UUID questionId);
+	
 	@Query("SELECT ans.rate FROM AnswerBatch batch JOIN batch.answers ans WHERE batch.poll.id = ?1 AND ans.question.id = ?2")
 	public List<Integer> getQuestionRates(UUID pollId, UUID questionId);
 }

@@ -12,11 +12,18 @@
     <div class="w3-row w3-center">
       <button @click="create()" type="button" name="button">create</button>
     </div>
+    <app-error-panel v-if="errorCreatingPoll" :message="errorCreatingPollMsg"></app-error-panel>
   </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      errorCreatingPoll: false,
+      errorCreatingPollMsg: ''
+    }
+  },
   computed: {
     orgId () {
       return this.$route.params.orgId
@@ -33,7 +40,17 @@ export default {
       if (ok) {
         /* save in global state */
         this.$store.commit('setNewPoll', this.poll)
-        this.axios.post('/1/organization/' + this.orgId + '/poll', this.poll)
+        this.axios.post('/1/organization/' + this.orgId + '/poll', this.poll).then((response) => {
+          if (response.data.result === 'success') {
+            this.$router.push({name: 'OrganizationPolls'})
+          } else {
+            this.errorCreatingPoll = true
+            this.errorCreatingPollMsg = response.data.result
+          }
+        }).catch((error) => {
+          this.errorCreatingPoll = true
+          this.errorCreatingPollMsg = error.message
+        })
       }
     }
   },

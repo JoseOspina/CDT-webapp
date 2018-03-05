@@ -11,13 +11,14 @@ import org.springframework.stereotype.Service;
 
 import cdt.dto.AnswerDto;
 import cdt.dto.AxisDto;
-import cdt.dto.AxisResultsDto;
+import cdt.dto.AxisResultDto;
 import cdt.dto.GetResult;
 import cdt.dto.OrganizationDto;
 import cdt.dto.PollDetailsDto;
 import cdt.dto.PollDto;
 import cdt.dto.PostResult;
 import cdt.dto.QuestionDto;
+import cdt.dto.QuestionResultDto;
 import cdt.entities.Answer;
 import cdt.entities.AnswerBatch;
 import cdt.entities.AppUser;
@@ -27,6 +28,8 @@ import cdt.entities.Poll;
 import cdt.entities.PollAudience;
 import cdt.entities.PollConfig;
 import cdt.entities.Question;
+import cdt.entities.QuestionAndWeight;
+import cdt.entities.QuestionType;
 import cdt.entities.ResponderType;
 
 @Service
@@ -100,9 +103,15 @@ public class OrganizationService extends BaseService {
 			for (QuestionDto questionDto : axisDto.getQuestions()) {
 				Question question = new Question();
 				question.setText(questionDto.getText());
-				
+				question.setType(QuestionType.valueOf(questionDto.getType()));
 				question = questionRepository.save(question);
-				axis.getQuestions().add(question);
+				
+				QuestionAndWeight questionAndWeight = new QuestionAndWeight();
+				questionAndWeight.setQuestion(question);
+				questionAndWeight.setWeight(questionDto.getWeight());
+				questionAndWeight = questionAndWeightRepository.save(questionAndWeight);
+				
+				axis.getQuestionsAndWeights().add(questionAndWeight);
 			}
 			poll.getAxes().add(axis);
 		}
@@ -151,38 +160,41 @@ public class OrganizationService extends BaseService {
 	
 
 	@Transactional
-	public List<AxisResultsDto> getAxesResults(UUID pollId) {
+	public List<AxisResultDto> getAxesResults(UUID pollId) {
 		
 		Poll poll = pollRepository.findById(pollId);
+		List<AxisResultDto> axesResultsDto = new ArrayList<AxisResultDto>();
 		
 		for (Axis axis : poll.getAxes()) {
-			for (Question question : axis.getQuestions()) {
+			AxisResultDto axisResults = new AxisResultDto(); 
+			axisResults.setAxisId(axis.getId().toString());
+			axisResults.setAxisTitle(axis.getTitle());
+			
+			for (QuestionAndWeight questionAndWeight : axis.getQuestionsAndWeights()) {
 				
-				List<Integer> rates = answerBatchRepository.getQuestionRates(poll.getId(), question.getId());
+				QuestionResultDto questionResult = new QuestionResultDto();
+				questionResult.setQuestionId(questionAndWeight.getQuestion().getId().toString());
+				questionResult.setQuestionText(questionAndWeight.getQuestion().getText());
+				questionResult.setQuestionType(questionAndWeight.getQuestion().getType().toString());
 				
-				double average = 0;
-				double min = 500;
-				double max = -1;
-				
-				for (Integer rate : rates) {
-					double rateDouble = (double) rate;
+				switch (questionAndWeight.getQuestion().getType()) {
+				case TEXT:
+					questionResult.setAnswersTexts(answerBatchRepository.getQuestionTextAnswers(poll.getId(), questionAndWeight.getQuestion().getId()));
+					break;
 					
-					average += rateDouble;
-					
-					if (rateDouble < min) {
-						min = rateDouble;
-					}
-					
-					if (rateDouble > max) {
-						max = rateDouble;
-					}
+				case RATE_1_5:
+					questionResult.setWeight(questionAndWeight.getWeight());
+					questionResult.setAnswersRates(answerBatchRepository.getQuestionRates(poll.getId(), questionAndWeight.getQuestion().getId()));
+					break;
 				}
 				
-				average = average/((double) rates.size());
+				axisResults.getQuestionResults().add(questionResult);
 			}
+			
+			axesResultsDto.add(axisResults);
 		}
 		
-		return new ArrayList<AxisResultsDto>();
+		return axesResultsDto;
 	}
 	
 	@Transactional

@@ -4,6 +4,8 @@ public class QuestionDto {
 	
 	String id;
 	String text;
+	String type;
+	double weight;
 	Boolean custom;
 	
 	public String getId() {
@@ -17,6 +19,18 @@ public class QuestionDto {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public double getWeight() {
+		return weight;
+	}
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 	public Boolean getCustom() {
 		return custom;

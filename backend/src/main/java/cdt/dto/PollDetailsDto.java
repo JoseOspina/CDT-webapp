@@ -5,7 +5,7 @@ import java.util.List;
 public class PollDetailsDto {
 	
 	public Integer numberOfAnswers;
-	public List<AxisResultsDto> axesResults;
+	public List<AxisResultDto> axesResults;
 
 	public Integer getNumberOfAnswers() {
 		return numberOfAnswers;
@@ -15,11 +15,11 @@ public class PollDetailsDto {
 		this.numberOfAnswers = numberOfAnswers;
 	}
 
-	public List<AxisResultsDto> getAxesResults() {
+	public List<AxisResultDto> getAxesResults() {
 		return axesResults;
 	}
 
-	public void setAxesResults(List<AxisResultsDto> axesResults) {
+	public void setAxesResults(List<AxisResultDto> axesResults) {
 		this.axesResults = axesResults;
 	}
 	

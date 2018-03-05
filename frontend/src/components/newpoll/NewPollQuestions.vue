@@ -13,9 +13,30 @@
         <app-error-panel :show="showErrors && axis.title === ''"
           message="axis title cannot be empty">
         </app-error-panel>
+        <app-error-panel :show="axis.title.length > 25"
+          message="axis title should be shorter">
+        </app-error-panel>
         <div v-for="(question, ixq) in axis.questions" :key="question.id" class="question-container w3-margin-top">
           <button v-if="ixq > 0" @click="removeQuestion(axis, question)" type="button" name="button">remove question</button>
-          <textarea v-model="question.text" placeholder="Question" class="w3-input w3-round"></textarea>
+          <div class="w3-row-padding">
+            <div class="w3-col m6">
+              <textarea v-model="question.text" placeholder="Question" class="w3-input w3-round"></textarea>
+            </div>
+            <div class="w3-col m6 select-col">
+              <div class="w3-row-padding">
+                <div class="w3-col s6">
+                  <select v-model="question.type" class="w3-input">
+                    <option value="RATE_1_5">Rate 1 to 5</option>
+                    <option value="TEXT">Open text</option>
+                  </select>
+                </div>
+                <div v-if="question.type === 'RATE_1_5'" class="w3-col s6">
+                  <input v-model.number="question.weight" class="w3-input" type="text" name="" value="">
+                </div>
+              </div>
+            </div>
+
+          </div>
           <app-error-panel :show="showErrors && question.text === ''"
             message="question text cannot be empty">
           </app-error-panel>
@@ -23,6 +44,12 @@
         <div class="w3-row w3-margin-top question-container">
           <button @click="newQuestion(axis)" type="button" name="button">new question</button>
         </div>
+        <app-error-panel :show="!axisWeightsOk(axis.id)"
+          message="weights of rate questions must sum 100%">
+        </app-error-panel>
+        <app-error-panel :show="!axisHasARate(axis.id)"
+          message="at least one question must be rated">
+        </app-error-panel>
       </div>
       <div class="w3-row w3-margin-top axis-container">
         <button @click="newAxis()" type="button" name="button">new axis</button>
@@ -57,6 +84,40 @@ export default {
     newAxis () {
       this.poll.axes.push(getEmptyAxis())
     },
+    axisWeightsOk (axisId) {
+      var ixA = getElIx(axisId, this.poll.axes)
+      if (ixA !== -1) {
+        var axis = this.poll.axes[ixA]
+        var weight = 0
+        var hasRates = false
+        for (var ixQ in axis.questions) {
+          var question = axis.questions[ixQ]
+          if (question.type === 'RATE_1_5') {
+            hasRates = true
+            weight += question.weight
+          }
+        }
+        if (!hasRates) {
+          return true
+        } else {
+          return Math.abs(weight - 100) < 0.001
+        }
+      }
+    },
+    axisHasARate (axisId) {
+      var ixA = getElIx(axisId, this.poll.axes)
+      if (ixA !== -1) {
+        var axis = this.poll.axes[ixA]
+        var hasRates = false
+        for (var ixQ in axis.questions) {
+          var question = axis.questions[ixQ]
+          if (question.type === 'RATE_1_5') {
+            return true
+          }
+        }
+        return false
+      }
+    },
     removeAxis (axis) {
       var ix = getElIx(axis.id, this.poll.axes)
       if (ix !== -1) {
@@ -90,6 +151,10 @@ export default {
       for (var ixAxis in this.poll.axes) {
         var axis = this.poll.axes[ixAxis]
         if (axis.title === '') {
+          ok = false
+        }
+
+        if (axis.title.length > 25) {
           ok = false
         }
 
@@ -130,6 +195,10 @@ export default {
 
 .question-container {
   padding-left: 30px;
+}
+
+.select-col {
+  padding-top: 15px;
 }
 
 </style>
