@@ -4,11 +4,11 @@
 
     <!-- Title -->
     <div v-if="fromTemplate && !customTitle" class="w3-row">
-      <i @click="customTitle = true" class="w3-left fa fa-pencil" aria-hidden="true"></i>
+      <i @click="setCustomTitle()" class="w3-left fa fa-pencil" aria-hidden="true"></i>
       <h2 class="w3-left">{{ poll.title }}</h2>
     </div>
     <div v-else class="w3-row">
-      <i v-if="fromTemplate" @click="customTitle = false" class="w3-left fa fa-undo" aria-hidden="true"></i>
+      <i v-if="fromTemplate" @click="customTitleBack()" class="w3-left fa fa-undo" aria-hidden="true"></i>
       <input v-model="poll.title" placeholder="Polls Title" class="w3-input w3-round" type="text" name="" value="">
       <app-error-panel :show="showErrors && poll.title === ''"
         message="poll title cannot be empty">
@@ -17,11 +17,11 @@
 
     <!-- Description -->
     <div v-if="fromTemplate && !customDescription" class="w3-row">
-      <i @click="customDescription = true" class="w3-left fa fa-pencil" aria-hidden="true"></i>
+      <i @click="setCustomDescription()" class="w3-left fa fa-pencil" aria-hidden="true"></i>
       <p>{{ poll.description }}</p>
     </div>
     <div v-else class="w3-row">
-      <i v-if="fromTemplate" @click="customDescription = false" class="w3-left fa fa-undo" aria-hidden="true"></i>
+      <i v-if="fromTemplate" @click="customDescriptionBack()" class="w3-left fa fa-undo" aria-hidden="true"></i>
       <textarea v-model="poll.description" placeholder="Poll Description" class="w3-input w3-round w3-margin-top w3-border"></textarea>
     </div>
 
@@ -35,7 +35,7 @@
           <h3>{{ axis.title }}</h3>
         </div>
         <div v-else class="">
-          <i v-if="fromTemplate && axis.custom" @click="axis.custom = false" class="w3-left fa fa-undo" aria-hidden="true"></i>
+          <i v-if="fromTemplate && axis.custom" @click="customAxisBack(axis.id)" class="w3-left fa fa-undo" aria-hidden="true"></i>
           <button v-if="ix > 0" @click="removeAxis(axis)" type="button" name="button">remove axis</button>
           <input v-model="axis.title" placeholder="Axis title" class="w3-input w3-round">
           <app-error-panel :show="showErrors && axis.title === ''"
@@ -50,11 +50,17 @@
         <div v-for="(question, ixq) in axis.questions" :key="question.id" class="question-container w3-margin-top">
 
           <div v-if="fromTemplate && !question.custom" class="w3-row">
-            <i @click="customQuestion(axis.id, question.id)" class="w3-left fa fa-pencil" aria-hidden="true"></i>
-            <p>{{ question.text }}</p>
+            <div class="w3-col m6">
+              <i @click="customQuestion(axis.id, question.id)" class="w3-left fa fa-pencil" aria-hidden="true"></i>
+              <p>{{ question.text }}</p>
+            </div>
+            <div class="w3-col m6">
+              {{ question.type }}
+              {{ question.weight }}
+            </div>
           </div>
           <div v-else class="">
-            <i v-if="fromTemplate && question.custom" @click="question.custom = false" class="w3-left fa fa-undo" aria-hidden="true"></i>
+            <i v-if="fromTemplate && question.custom" @click="customQuestionBack(axis.id, question.id)" class="w3-left fa fa-undo" aria-hidden="true"></i>
             <button v-if="ixq > 0" @click="removeQuestion(axis, question)" type="button" name="button">remove question</button>
             <div class="w3-row-padding">
               <div class="w3-col m6">
@@ -111,6 +117,9 @@ export default {
     },
     fromTemplate () {
       return this.$store.state.newpoll.fromTemplate
+    },
+    pollG () {
+      return this.$store.state.newpoll.poll
     }
   },
 
@@ -124,10 +133,37 @@ export default {
   },
 
   methods: {
+    setCustomTitle () {
+      this.customTitle = true
+      this.poll.custom = false
+    },
+    setCustomDescription () {
+      this.customDescription = true
+      this.poll.custom = false
+    },
+    customTitleBack () {
+      this.poll.title = this.pollG.title
+      this.customTitle = false
+      this.poll.custom = this.customDescription
+    },
+    customDescriptionBack () {
+      this.poll.description = this.pollG.description
+      this.customDescription = false
+      this.poll.custom = this.customTitle
+    },
     customAxis (axisId) {
       var ixA = getElIx(axisId, this.poll.axes)
       if (ixA !== -1) {
         this.poll.axes[ixA].custom = true
+      }
+    },
+    customAxisBack (axisId) {
+      // Undo the local editions of the poll and overwrite with the global version
+      var ixA = getElIx(axisId, this.poll.axes)
+      var ixAG = getElIx(axisId, this.pollG.axes)
+      if ((ixA !== -1) && (ixAG !== -1)) {
+        this.poll.axes.splice(ixA, 1, JSON.parse(JSON.stringify(this.pollG.axes[ixAG])))
+        this.poll.axes[ixA].custom = false
       }
     },
     customQuestion (axisId, questionId) {
@@ -139,6 +175,22 @@ export default {
 
       if (questionIx !== -1) {
         this.poll.axes[axisIx].questions[questionIx].custom = true
+      }
+    },
+    customQuestionBack (axisId, questionId) {
+      // Undo the local editions of the poll and overwrite with the global version
+      var axisIx = getElIx(axisId, this.poll.axes)
+      var axisIxG = getElIx(axisId, this.pollG.axes)
+
+      if ((axisIx === -1) || (axisIxG === -1)) {
+        return
+      }
+      var questionIx = getElIx(questionId, this.poll.axes[axisIx].questions)
+      var questionIxG = getElIx(questionId, this.pollG.axes[axisIx].questions)
+
+      if ((questionIx !== -1) || (questionIxG !== -1)) {
+        this.poll.axes[axisIx].questions.splice(questionIx, 1, JSON.parse(JSON.stringify(this.pollG.axes[axisIxG].questions[questionIxG])))
+        this.poll.axes[axisIx].questions[questionIx].custom = false
       }
     },
     newAxis () {
@@ -186,6 +238,7 @@ export default {
     newQuestion (axis) {
       var ix = getElIx(axis.id, this.poll.axes)
       if (ix !== -1) {
+        this.poll.axes[ix].custom = true
         this.poll.axes[ix].questions.push(getEmptyQuestion())
       }
     },

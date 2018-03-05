@@ -10,6 +10,7 @@ public class PollDto {
 	String description;
 	Boolean isTemplate;
 	Boolean isPublicTemplate;
+	Boolean custom;
 	
 	List<AxisDto> axes = new ArrayList<AxisDto>();
 	PollConfigDto config;
@@ -55,6 +56,12 @@ public class PollDto {
 	}
 	public void setConfig(PollConfigDto config) {
 		this.config = config;
+	}
+	public Boolean getCustom() {
+		return custom;
+	}
+	public void setCustom(Boolean custom) {
+		this.custom = custom;
 	}
 	
 }

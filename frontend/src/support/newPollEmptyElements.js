@@ -18,20 +18,25 @@ const getEmptyAxis = function () {
   }
 }
 
+const getDefaultConfig = function () {
+  return {
+    audience: 'ANYONE_WITH_LINK'
+  }
+}
+
 const getEmptyPoll = function () {
   return {
     id: Date.now().toString(),
     title: '',
     description: '',
     axes: [ getEmptyAxis() ],
-    config: {
-      audience: 'ANYONE_WITH_LINK'
-    }
+    custom: true
   }
 }
 
 export {
   getEmptyQuestion,
   getEmptyAxis,
-  getEmptyPoll
+  getEmptyPoll,
+  getDefaultConfig
 }

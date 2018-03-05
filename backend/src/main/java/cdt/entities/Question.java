@@ -43,6 +43,7 @@ public class Question {
 		dto.setText(text);
 		dto.setType(type.toString());
 		dto.setWeight(weight);
+		dto.setCustom(false);
 		
 		return dto;
 	}

@@ -53,6 +53,7 @@ export default {
       })
     },
     skip () {
+      this.$store.commit('setFromTemplate', false)
       this.$store.commit('setNewPoll', getEmptyPoll())
       this.$router.push({name: 'NewPollQuestions'})
     }

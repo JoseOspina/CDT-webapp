@@ -106,24 +106,47 @@ public class OrganizationService extends BaseService {
 		
 		
 		for (AxisDto axisDto : pollDto.getAxes()) {
-			Axis axis = new Axis();
-			axis.setTitle(axisDto.getTitle());
-			axis.setDescription(axisDto.getDescription());
-			axis = axisRepository.save(axis);
 			
-			for (QuestionDto questionDto : axisDto.getQuestions()) {
-				Question question = new Question();
-				question.setText(questionDto.getText());
-				question.setType(QuestionType.valueOf(questionDto.getType()));
-				question = questionRepository.save(question);
+			Axis axis = null;
+			if (axisDto.getCustom()) {
+				axis = new Axis();
 				
-				QuestionAndWeight questionAndWeight = new QuestionAndWeight();
-				questionAndWeight.setQuestion(question);
-				questionAndWeight.setWeight(questionDto.getWeight());
-				questionAndWeight = questionAndWeightRepository.save(questionAndWeight);
+				axis.setTitle(axisDto.getTitle());
+				axis.setDescription(axisDto.getDescription());
+				axis = axisRepository.save(axis);
 				
-				axis.getQuestionsAndWeights().add(questionAndWeight);
+				for (QuestionDto questionDto : axisDto.getQuestions()) {
+					Question question = null;
+					
+					if (questionDto.getCustom()) {
+						question = new Question();
+						
+					} else {
+						question = questionRepository.findById(UUID.fromString(questionDto.getId()));
+						if (question == null) {
+							return new PostResult("error", "non-custom question not found", null);
+						}
+					}
+					
+					question.setText(questionDto.getText());
+					question.setType(QuestionType.valueOf(questionDto.getType()));
+					question = questionRepository.save(question);
+					
+					QuestionAndWeight questionAndWeight = new QuestionAndWeight();
+					
+					questionAndWeight.setQuestion(question);
+					questionAndWeight.setWeight(questionDto.getWeight());
+					questionAndWeight = questionAndWeightRepository.save(questionAndWeight);
+					
+					axis.getQuestionsAndWeights().add(questionAndWeight);
+				}
+			} else {
+				axis = axisRepository.findById(UUID.fromString(axisDto.getId()));
+				if (axis == null) {
+					return new PostResult("error", "non-custom axis not found", null);
+				}
 			}
+			
 			poll.getAxes().add(axis);
 		}
 
