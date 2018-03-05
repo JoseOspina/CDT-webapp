@@ -75,6 +75,17 @@ public class OrganizationService extends BaseService {
 	}
 	
 	@Transactional
+	public GetResult<List<PollDto>> getTemplates(UUID orgId) {
+		List<Poll> templates = pollRepository.getTemplates(orgId);
+		List<PollDto> templateDtos = new ArrayList<PollDto>();
+		
+		for (Poll template : templates) {
+			templateDtos.add(template.toDtoLight());
+		}
+		return new GetResult<List<PollDto>>("success", "templates retrieved", templateDtos);
+	}
+	
+	@Transactional
 	public PostResult createPoll(UUID orgId, PollDto pollDto, UUID creatorId) {
 		
 		Organization organization = organizationRepository.findById(orgId);
@@ -146,6 +157,15 @@ public class OrganizationService extends BaseService {
 	@Transactional
 	public GetResult<PollDto> getPoll(UUID pollId) {
 		return new GetResult<PollDto>("success", "organization retrieved", getPollDto(pollId));
+	}
+	
+	@Transactional
+	public PostResult makeTemplate(UUID pollId, Boolean isTemplate) {
+		Poll poll = pollRepository.findById(pollId);
+		poll.setIsTemplate(isTemplate);
+		
+		pollRepository.save(poll);
+		return new PostResult("success", "poll template modified", poll.getId().toString());
 	}
 	
 	@Transactional

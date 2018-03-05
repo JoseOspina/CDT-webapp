@@ -3,6 +3,9 @@
     Poll details
     <h3>{{ poll.title }}</h3>
     <p>{{ poll.description }}</p>
+    <button v-if="!poll.isTemplate" @click="makeTemplate(true)" type="button" name="button">make template</button>
+    <button v-else @click="makeTemplate(false)" type="button" name="button">remove template</button>
+    <br><br>
     Number of answers: <b>{{ details.numberOfAnswers }}</b>
     <div v-if="details.numberOfAnswers > 0" class="">
       <app-radar-chart v-if="chartData.length > 0" :chartData="chartData"></app-radar-chart>
@@ -20,7 +23,9 @@ export default {
   data () {
     return {
       poll: null,
-      details: null
+      details: null,
+      errorMakingTemplate: false,
+      errorMakingTemplateMsg: ''
     }
   },
 
@@ -71,6 +76,7 @@ export default {
         if (this.pollId !== '') {
           this.axios.get('/1/poll/' + this.pollId).then((response) => {
             if (response.data.result === 'success') {
+              console.log('updating poll data')
               this.poll = response.data.data
               return this.axios.get('/1/poll/' + this.poll.id + '/details')
             }
@@ -81,6 +87,21 @@ export default {
           })
         }
       }
+    },
+    makeTemplate (value) {
+      this.axios.put('/1/poll/' + this.pollId + '/makeTemplate', {},
+        {
+          params: {
+            isTemplate: value
+          }
+        }).then((response) => {
+        if (response.data.result === 'success') {
+          this.update()
+        } else {
+          this.errorMakingTemplate = true
+          this.errorMakingTemplateMsg = response.data.message
+        }
+      })
     }
   },
 

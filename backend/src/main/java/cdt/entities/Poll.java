@@ -54,6 +54,8 @@ public class Poll {
 	
 	private Boolean isTemplate;	
 	
+	private Boolean isPublicTemplate;
+	
 	@OneToOne(mappedBy = "poll")
 	private PollConfig config;
 	
@@ -64,6 +66,8 @@ public class Poll {
 		dto.setId(id.toString());
 		dto.setTitle(title);
 		dto.setDescription(description);
+		dto.setIsTemplate(isTemplate);
+		dto.setIsPublicTemplate(isPublicTemplate);
 		
 		return dto;
 	}
@@ -140,6 +144,14 @@ public class Poll {
 
 	public void setIsTemplate(Boolean isTemplate) {
 		this.isTemplate = isTemplate;
+	}
+	
+	public Boolean getIsPublicTemplate() {
+		return isPublicTemplate;
+	}
+
+	public void setIsPublicTemplate(Boolean isPublicTemplate) {
+		this.isPublicTemplate = isPublicTemplate;
 	}
 
 	public PollConfig getConfig() {

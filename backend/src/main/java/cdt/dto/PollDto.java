@@ -8,6 +8,9 @@ public class PollDto {
 	String id;
 	String title;
 	String description;
+	Boolean isTemplate;
+	Boolean isPublicTemplate;
+	
 	List<AxisDto> axes = new ArrayList<AxisDto>();
 	PollConfigDto config;
 	
@@ -28,6 +31,18 @@ public class PollDto {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Boolean getIsTemplate() {
+		return isTemplate;
+	}
+	public void setIsTemplate(Boolean isTemplate) {
+		this.isTemplate = isTemplate;
+	}
+	public Boolean getIsPublicTemplate() {
+		return isPublicTemplate;
+	}
+	public void setIsPublicTemplate(Boolean isPublicTemplate) {
+		this.isPublicTemplate = isPublicTemplate;
 	}
 	public List<AxisDto> getAxes() {
 		return axes;

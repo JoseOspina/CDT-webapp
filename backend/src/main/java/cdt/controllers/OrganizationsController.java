@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cdt.dto.AnswerDto;
@@ -58,6 +59,18 @@ public class OrganizationsController extends BaseController {
 		UUID orgId = UUID.fromString(orgIdStr);
 		
 		return new GetResult<Boolean>("success", "", organizationService.hasTemplates(orgId));
+	}
+	
+	@RequestMapping(path = "/organization/{organizationId}/templates",  method = RequestMethod.GET)
+    public GetResult<List<PollDto>> getTemplates(@PathVariable(name="organizationId") String orgIdStr) {
+		
+		if (getLoggedUser() == null) {
+			return new GetResult<List<PollDto>>("error", "endpoint enabled for users only", null);
+		}
+		
+		UUID orgId = UUID.fromString(orgIdStr);
+		
+		return organizationService.getTemplates(orgId);
 	}
 	
 	@RequestMapping(path = "/organization/{organizationId}/poll",  method = RequestMethod.POST)
@@ -130,7 +143,6 @@ public class OrganizationsController extends BaseController {
 		if (organizationService.getPollAudience(pollId) == PollAudience.ANYONE_WITH_LINK) {
 			responderType = ResponderType.ANONYMOUS;
 		}
-
 		
 		if (responderType != null) {
 			return organizationService.answerPoll(pollId, answersDto, responderType);
@@ -138,6 +150,25 @@ public class OrganizationsController extends BaseController {
 			return new PostResult("error", "not authorized to answer this poll", null);
 		}
 	}
-
-
+	
+	@RequestMapping(path = "/poll/{pollId}/makeTemplate",  method = RequestMethod.PUT)
+	public PostResult makeTemplate(
+    		@PathVariable(name="pollId") String pollIdStr,
+    		@RequestParam(name ="isTemplate") Boolean isTemplate) {
+		
+		UUID pollId = UUID.fromString(pollIdStr);
+		
+		UUID orgId = organizationService.getOrganizationIdFromPollId(pollId);
+		UUID userId = getLoggedUserId();
+		
+		if (userId == null) {
+			return new PostResult("error", "endpoint enabled for users only", null);
+		}
+		
+		if (!organizationService.isAdmin(orgId, userId)) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.makeTemplate(pollId, isTemplate);
+	}
 }

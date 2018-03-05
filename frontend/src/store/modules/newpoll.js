@@ -1,6 +1,7 @@
 const state = {
   poll: null,
-  editing: false
+  editing: false,
+  fromTemplate: false
 }
 
 const getters = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   setEditingNewPoll: (state, payload) => {
     state.editing = payload
+  },
+  setFromTemplate: (state, payload) => {
+    state.fromTemplate = payload
   }
 }
 
