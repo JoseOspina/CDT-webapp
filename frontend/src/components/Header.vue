@@ -8,6 +8,7 @@
       <select v-model="orgIdSelected" class="" name="">
         <option v-for="org in orgs" :key="org.id" :value="org.id">{{ org.name }}</option>
       </select>
+      <router-link :to="{ name: 'OrganizationPolls', params: {} }">polls</router-link>
       <button @click="newOrgModal = true" type="button" name="button">+</button>
       <span class="">
         {{ userNickname }}
