@@ -71,7 +71,11 @@ export default {
       }
       this.axios.post('/1/organization/create', orgDto).then((response) => {
         if (response.data.result === 'success') {
+          this.$store.dispatch('updateProfile')
           this.closeThis()
+          console.log('og created:' + response.data.data)
+          console.log(response)
+          this.$router.push({name: 'OrganizationPolls', params: {orgId: response.data.elementId}})
         } else {
           console.log(response.data)
           this.errorWhenCreating = true

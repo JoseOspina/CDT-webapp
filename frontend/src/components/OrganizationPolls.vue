@@ -3,7 +3,7 @@
     Organization Polls
     <button @click="newPoll()" type="button" name="button">new poll</button>
     <div class="w3-row-padding">
-      <div v-for="poll in this.polls" :key="poll.id" class="w3-col s4">
+      <div v-for="poll in this.polls" :key="poll.id" class="w3-col s4 w3-margin-bottom">
         <app-poll-card :poll="poll"></app-poll-card>
       </div>
     </div>

@@ -5,6 +5,7 @@
       @close="newOrgModal = false">
     </app-new-org-modal>
     <div class="w3-row header-container w3-padding">
+      <router-link :to="{ name: 'Organizations', params: {} }">home</router-link>
       <select v-model="orgIdSelected" class="" name="">
         <option v-for="org in orgs" :key="org.id" :value="org.id">{{ org.name }}</option>
       </select>
