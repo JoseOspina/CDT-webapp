@@ -1,20 +1,35 @@
 <template lang="html">
   <div v-if="poll !== null && details !== null" class="w3-container organization-poll-container">
-    <div class="w3-row">
-      <div class="w3-left">
-        <router-link :to="{ name: 'OrganizationPolls', params: {} }"></router-link>
-      </div>
-      <div class="w3-left">
-        <h3>Poll details</h3>
-      </div>
-    </div>
-
     <div class="column-container">
+      <div class="back-button cursor-pointer">
+        <div class="back-button-content">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="w3-row">
+        <app-new-poll-header>
+          Poll Details
+        </app-new-poll-header>
+      </div>
+
       <div class="w3-row">
         <div class="w3-col m8">
-          <h3>{{ poll.title }}</h3>
-          <p>{{ poll.description }}</p>
-          <app-button @click="makeTemplate(!poll.isTemplate)" type="button" name="button">{{ poll.isTemplate ? 'remove' : 'make'}} template</app-button>
+          <div class="w3-row w3-center title-container">
+            <h3>{{ poll.title }}</h3>
+            <p>{{ poll.description }}</p>
+          </div>
+          <div class="w3-row-padding">
+            <div class="w3-col m6 w3-center">
+              <button class="w3-button app-button" @click="makeTemplate(!poll.isTemplate)">{{ poll.isTemplate ? 'remove' : 'mark as'}} template</button>
+            </div>
+            <div class="w3-col m6 w3-center">
+              <button v-if="poll.isTemplate" class="w3-button app-button" @click="makeTemplatePublic(!poll.isPublicTemplate)">make it {{ poll.isPublicTemplate ? 'private' : 'public' }}</button>
+            </div>
+          </div>
+          <div v-if="poll.isTemplate" class="w3-row w3-margin-top w3-padding message-panel w3-round">
+            <span>this poll can be used as a template when creating new polls in {{ poll.isPublicTemplate ? 'any' : 'this' }} organization</span>
+          </div>
         </div>
         <div class="w3-col m4">
           <div class="w3-row w3-center n-answers-div">
@@ -28,13 +43,16 @@
       <div v-if="details.numberOfAnswers > 0" class="">
         <hr>
         <div class="w3-row">
-          Answers plot:
           <app-radar-chart v-if="chartData.length > 0" :chartData="chartData"></app-radar-chart>
         </div>
         <div class="w3-row">
-          Answers details:
+          <h4>Detailed Results:</h4>
           <div v-for="axis in poll.axes" :key="axis.id" class="w3-row">
-            {{ axis.title }}:
+            <app-poll-question-input
+              :value="axis.title"
+              :showAsInput="false">
+            </app-poll-question-input>
+
             <div v-for="question in axis.questions" :key="question.id" class="w3-row">
               {{ question.text }}?
               <span v-if="question.type === 'RATE_1_5'" class="">
@@ -54,11 +72,15 @@
 <script>
 import RadarChart from '@/components/RadarChart'
 import AppButton from '@/components/styled/AppButton'
+import NewPollHeader from '@/components/styled/NewPollHeader'
+import PollQuestionInput from '@/components/styled/PollQuestionInput'
 
 export default {
   components: {
     'app-radar-chart': RadarChart,
-    'app-button': AppButton
+    'app-button': AppButton,
+    'app-new-poll-header': NewPollHeader,
+    'app-poll-question-input': PollQuestionInput
   },
 
   data () {
@@ -205,7 +227,15 @@ export default {
 .n-answers-div {
   color: #FFDE17;
   font-size: 55px;
-  padding-top: 8px;
+  padding-top: 22px;
+}
+
+.title-container {
+  padding: 6px 0px;
+}
+
+.message-panel {
+  background-color: #3F3E3E;
 }
 
 </style>

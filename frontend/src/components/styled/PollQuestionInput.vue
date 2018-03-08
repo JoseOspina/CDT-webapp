@@ -2,8 +2,8 @@
   <div class="w3-row">
     <div class="box-container">
       <div v-if="!showAsInput" class="box-content">
-        <i v-if="restorable" @click="setCustomTitle()" class="w3-left fa fa-pencil" aria-hidden="true"></i>
-        <h2 class="w3-left">{{ text }}</h2>
+        <i v-if="restorable" @click="setCustomTitle()" class="fa fa-pencil" aria-hidden="true"></i>
+        {{ value }}
       </div>
       <div v-else class="box-content">
         <i v-if="restorable" @click="customTitleBack()" class="w3-left fa fa-undo" aria-hidden="true"></i>

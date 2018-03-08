@@ -1,8 +1,6 @@
 <template lang="html">
-  <div class="box-container">
-    <div class="box-content">
-      <slot></slot>
-    </div>
+  <div @click="$emit('click')" class="button-container no-select">
+    <slot></slot>
   </div>
 </template>
 
@@ -13,19 +11,17 @@ export default {
 
 <style scoped>
 
-.box-container {
+.button-container {
+  text-align: center;
   background-color: #339470;
   padding: 2px;
+  padding: 4px 16px;
   border-radius: 16px;
+  cursor: pointer;
 }
 
-.box-content {
-  font-size: 18px;
-  padding: 3px 18px;
-  height: 100%;
-  background-color: #2F2F2F;
-  border-radius: 16px;
-  color: white;
+.button-container:hover {
+  background-color: #009B9C;
 }
 
 </style>

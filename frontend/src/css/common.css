@@ -5,3 +5,25 @@
 a {
   text-decoration: none;
 }
+
+.app-button {
+  background-color: #339470;
+  border-radius: 16px;
+}
+
+.column-container {
+  margin: 0 auto;
+  max-width: 700px;
+  padding: 20px 32px;
+  background-color: #231F20;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
