@@ -1,10 +1,16 @@
 <template lang="html">
-  <div class="">
+  <div class="w3-container organizations-container">
+    <div class="w3-row">
+      <h4><b>My Organizations</b></h4>
+    </div>
     <div class="w3-row-padding middle-container">
-      <div v-for="organization in organizations" class="w3-card-2 w3-col m4 w3-padding w3-margin-bottom w3-margin-left">
-        <router-link :to="{ name: 'OrganizationPolls', params: {orgId: organization.id} }">{{ organization.name }}</router-link>
+      <router-link v-for="organization in organizations" :key="organization.id"
+        :to="{ name: 'OrganizationPolls', params: {orgId: organization.id} }"
+        class="w3-card-2 w3-col m4 w3-padding w3-margin-bottom w3-margin-left app-card">
+        <b>{{ organization.name }}</b>
         {{ organization.description }}
-      </div>
+      </router-link>
+
     </div>
   </div>
 </template>
@@ -20,4 +26,18 @@ export default {
 </script>
 
 <style scoped>
+
+.organizations-container {
+  min-height: calc(100vh - 65px);
+  background: url('./../assets/background-3.png') center left / cover no-repeat;
+  background-color: #2F2F2F;
+  color: white;
+}
+
+.app-card {
+  background-color: white;
+  border-radius: 16px;
+  color: #2F2F2F;
+}
+
 </style>

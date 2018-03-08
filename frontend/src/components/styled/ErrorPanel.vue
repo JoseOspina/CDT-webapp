@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="slider-container">
+  <div class="slider-container ">
     <transition name="slideDownUp">
-      <div v-if="show" class="w3-row w3-tag error-row w3-round" :class="{'error-panel': isError, 'success-panel': isSuccess}">
+      <div v-if="show" class="w3-row w3-tag panel-container" :class="{'error-panel': isError, 'success-panel': isSuccess}">
         {{ message }}
       </div>
     </transition>
@@ -30,5 +30,13 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.panel-container {
+  margin-top: 6px;
+  width: 100%;
+  background-color: #E93E70;
+  border-radius: 12px;
+}
+
 </style>

@@ -1,11 +1,22 @@
 <template lang="html">
-  <div class="">
-    Organization Polls
-    <button @click="newPoll()" type="button" name="button">new poll</button>
-    <div class="w3-row-padding">
-      <div v-for="poll in this.polls" :key="poll.id" class="w3-col s4 w3-margin-bottom">
+  <div class="w3-container organization-polls-container">
+    <div class="w3-row">
+      <div class="w3-left w3-margin-right">
+        <h4><b>Organization Polls</b></h4>
+      </div>
+      <div class="w3-left new-poll-button cursor-pointer">
+        <i @click="newPoll()" class="fa fa-plus-circle" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <div class="w3-row organization-polls-row">
+      <div v-for="poll in this.polls" :key="poll.id" class="w3-col s12 m6 l4 w3-margin-bottom">
         <app-poll-card :poll="poll"></app-poll-card>
       </div>
+    </div>
+
+    <div v-if="this.polls.length === 0" class="w3-row w3-center w3-margin-top">
+      <i>no polls have been created</i>
     </div>
   </div>
 </template>
@@ -58,5 +69,26 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style>
+
+.organization-polls-container {
+  min-height: calc(100vh - 66px);
+  background: url('./../assets/background-1.png') center left / cover no-repeat;
+  background-color: #2F2F2F;
+  color: white;
+}
+
+.new-poll-button {
+  padding-top: 5px;
+  font-size: 28px;
+}
+
+.new-poll-button:hover {
+  color: #CCCCCC;
+}
+
+.organization-polls-row {
+  padding: 22px 16px;
+}
+
 </style>

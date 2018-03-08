@@ -1,25 +1,44 @@
 <template lang="html">
-  <div class="w3-container">
-    <h3>Poll Configuration</h3>
-    <div class="w3-row w3-margin-top">
-      <select v-model="config.audience" class="w3-input">
-        <option value="ANYONE_WITH_LINK">Anyone with the link</option>
-        <option value="ANY_MEMBER">Any member in the organization</option>
-        <option value="SPECIFIC_MEMBERS">Select specific members</option>
-      </select>
+  <div class="w3-container new-poll-container">
+    <div class="column-container">
+
+      <div class="back-button cursor-pointer">
+        <div class="back-button-content">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="w3-row">
+        <app-new-poll-header>
+          New Poll - <i>Configuration</i>
+        </app-new-poll-header>
+      </div>
+
+      <div class="w3-row w3-margin-top">
+        <app-config-select
+          v-model="config.audience"
+          :elements="audienceElements">
+        </app-config-select>
+      </div>
+      <hr>
+      <div class="w3-row w3-center">
+        <button @click="create()" type="button" name="button">create</button>
+      </div>
+      <app-error-panel v-if="errorCreatingPoll" :message="errorCreatingPollMsg"></app-error-panel>
     </div>
-    <hr>
-    <div class="w3-row w3-center">
-      <button @click="create()" type="button" name="button">create</button>
-    </div>
-    <app-error-panel v-if="errorCreatingPoll" :message="errorCreatingPollMsg"></app-error-panel>
   </div>
 </template>
 
 <script>
+import NewPollHeader from '@/components/styled/NewPollHeader'
+import PollConfigSelect from '@/components/styled/PollConfigSelect'
 import { getDefaultConfig } from '@/support/newPollEmptyElements'
 
 export default {
+  components: {
+    'app-new-poll-header': NewPollHeader,
+    'app-config-select': PollConfigSelect
+  },
   data () {
     return {
       poll: null,
@@ -31,6 +50,13 @@ export default {
   computed: {
     orgId () {
       return this.$route.params.orgId
+    },
+    audienceElements () {
+      return [
+        { value: 'ANYONE_WITH_LINK', text: 'Anyone with the link' },
+        { value: 'ANY_MEMBER', text: 'Any member in the organization' },
+        { value: 'SPECIFIC_MEMBERS', text: 'Select specific members' }
+      ]
     }
   },
 
@@ -68,5 +94,6 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
 </style>

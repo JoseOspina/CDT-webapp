@@ -36,5 +36,6 @@ export default {
 @import 'css/w3.css';
 @import 'css/modals.css';
 @import 'ext/radar-chart.css';
+@import 'css/common.css';
 
 </style>

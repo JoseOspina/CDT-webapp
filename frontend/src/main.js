@@ -12,7 +12,7 @@ import VueCookie from 'vue-cookie'
 import VueI18n from 'vue-i18n'
 import Datepicker from 'vuejs-datepicker'
 
-import ErrorPanel from '@/components/global/ErrorPanel.vue'
+import ErrorPanel from '@/components/styled/ErrorPanel.vue'
 
 import { translations } from '@/lang'
 

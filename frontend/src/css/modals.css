@@ -1,3 +1,11 @@
 .w3-modal {
   display: block;
 }
+
+.w3-modal-content {
+  color: #2F2F2F;
+}
+
+.w3-modal-content.w3-card-4 {
+  border-radius: 22px;
+}

@@ -1,27 +1,49 @@
 <template lang="html">
-  <div v-if="poll !== null && details !== null" class="">
-    <router-link :to="{ name: 'OrganizationPolls', params: {} }">back</router-link>
-    Poll details
-    <h3>{{ poll.title }}</h3>
-    <p>{{ poll.description }}</p>
-    <button v-if="!poll.isTemplate" @click="makeTemplate(true)" type="button" name="button">make template</button>
-    <button v-else @click="makeTemplate(false)" type="button" name="button">remove template</button>
-    <br><br>
-    Number of answers: <b>{{ details.numberOfAnswers }}</b>
-    <div v-if="details.numberOfAnswers > 0" class="">
-      <app-radar-chart v-if="chartData.length > 0" :chartData="chartData"></app-radar-chart>
-    </div>
+  <div v-if="poll !== null && details !== null" class="w3-container organization-poll-container">
     <div class="w3-row">
-      Answers details:
-      <div v-for="axis in poll.axes" :key="axis.id" class="w3-row">
-        {{ axis.title }}:
-        <div v-for="question in axis.questions" :key="question.id" class="w3-row">
-          {{ question.text }}?
-          <span v-if="question.type === 'RATE_1_5'" class="">
-            min: {{ getQuestionResultMin(question.id).toFixed(1) }} - mean: {{ getQuestionResultMean(question.id).toFixed(1) }} - max: {{ getQuestionResultMax(question.id).toFixed(1) }}
-          </span>
-          <div v-if="question.type === 'TEXT'" class="">
-            <p v-for="(answer, ix) in getQuestionTextResults(question.id)" :key="ix">{{ answer }}</p>
+      <div class="w3-left">
+        <router-link :to="{ name: 'OrganizationPolls', params: {} }"></router-link>
+      </div>
+      <div class="w3-left">
+        <h3>Poll details</h3>
+      </div>
+    </div>
+
+    <div class="column-container">
+      <div class="w3-row">
+        <div class="w3-col m8">
+          <h3>{{ poll.title }}</h3>
+          <p>{{ poll.description }}</p>
+          <app-button @click="makeTemplate(!poll.isTemplate)" type="button" name="button">{{ poll.isTemplate ? 'remove' : 'make'}} template</app-button>
+        </div>
+        <div class="w3-col m4">
+          <div class="w3-row w3-center n-answers-div">
+            <b>{{ details.numberOfAnswers }}</b>
+          </div>
+          <div class="w3-row w3-center">
+            answers
+          </div>
+        </div>
+      </div>
+      <div v-if="details.numberOfAnswers > 0" class="">
+        <hr>
+        <div class="w3-row">
+          Answers plot:
+          <app-radar-chart v-if="chartData.length > 0" :chartData="chartData"></app-radar-chart>
+        </div>
+        <div class="w3-row">
+          Answers details:
+          <div v-for="axis in poll.axes" :key="axis.id" class="w3-row">
+            {{ axis.title }}:
+            <div v-for="question in axis.questions" :key="question.id" class="w3-row">
+              {{ question.text }}?
+              <span v-if="question.type === 'RATE_1_5'" class="">
+                min: {{ getQuestionResultMin(question.id).toFixed(1) }} - mean: {{ getQuestionResultMean(question.id).toFixed(1) }} - max: {{ getQuestionResultMax(question.id).toFixed(1) }}
+              </span>
+              <div v-if="question.type === 'TEXT'" class="">
+                <p v-for="(answer, ix) in getQuestionTextResults(question.id)" :key="ix">{{ answer }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -31,9 +53,12 @@
 
 <script>
 import RadarChart from '@/components/RadarChart'
+import AppButton from '@/components/styled/AppButton'
+
 export default {
   components: {
-    'app-radar-chart': RadarChart
+    'app-radar-chart': RadarChart,
+    'app-button': AppButton
   },
 
   data () {
@@ -168,5 +193,19 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.organization-poll-container {
+  min-height: calc(100vh - 66px);
+  background: url('./../assets/background-1.png') center left / cover no-repeat;
+  background-color: #2F2F2F;
+  color: white;
+}
+
+.n-answers-div {
+  color: #FFDE17;
+  font-size: 55px;
+  padding-top: 8px;
+}
+
 </style>

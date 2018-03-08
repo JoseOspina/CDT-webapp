@@ -1,12 +1,9 @@
 <template lang="html">
-  <div class="w3-card-2  w3-white w3-round-large">
-    <div class="w3-padding">
-      <router-link :to="{ name: 'OrganizationPoll', params: {pollId: poll.id} }">
-        <h3>{{ poll.title }}</h3>
-      </router-link>
-      <p>{{ poll.description }}</p>
-    </div>
-  </div>
+  <router-link :to="{ name: 'OrganizationPoll', params: {pollId: poll.id} }"
+    class="w3-card-2 w3-round-large poll-card">
+    <h3><b>{{ poll.title }}</b></h3>
+    <p>{{ poll.description }}</p>
+  </router-link>
 </template>
 
 <script>
@@ -19,5 +16,13 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.poll-card {
+  background-color: #DADADA;
+  color: #231F20;
+  display: block;
+  padding: 6px 18px;
+}
+
 </style>
