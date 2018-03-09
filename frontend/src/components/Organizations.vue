@@ -4,12 +4,15 @@
       <h4><b>My Organizations</b></h4>
     </div>
     <div class="w3-row-padding middle-container">
-      <router-link v-for="organization in organizations" :key="organization.id"
-        :to="{ name: 'OrganizationPolls', params: {orgId: organization.id} }"
-        class="w3-card-2 w3-col m4 w3-padding w3-margin-bottom w3-margin-left app-card">
-        <b>{{ organization.name }}</b>
-        {{ organization.description }}
-      </router-link>
+      <div v-for="organization in organizations" :key="organization.id"
+        class="w3-col l4 m6 s12 w3-margin-bottom app-card-container">
+        <router-link class="w3-card-4 app-card"
+          :to="{ name: 'OrganizationPolls', params: {orgId: organization.id} }">
+          <b>{{ organization.name }}</b>
+          {{ organization.description }}
+        </router-link>
+      </div>
+
 
     </div>
   </div>
@@ -32,10 +35,8 @@ export default {
   background-color: #3F3E3E;
 }
 
-.app-card {
-  background-color: white;
-  border-radius: 16px;
-  color: #2F2F2F;
+.middle-container {
+  padding-top: 20px;
 }
 
 </style>

@@ -44,6 +44,18 @@ h1, h2, h3, h4, h5, h6 {
   padding: 20px 32px;
 }
 
+.app-card-container {
+ width: 100%;
+}
+
+.app-card {
+  padding: 12px 18px;
+  background-color: white;
+  border-radius: 16px;
+  color: #2F2F2F;
+  width: 100%;
+}
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
