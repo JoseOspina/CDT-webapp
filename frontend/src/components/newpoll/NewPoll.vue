@@ -37,12 +37,9 @@ export default {
 
 <style>
 
-.new-poll-container {
-  min-height: calc(100vh - 65px);
+.this-container {
   background: url('./../../assets/background-2.png') center left / cover no-repeat;
   background-color: #2F2F2F;
-  color: white;
-  padding-top: 42px;
 }
 
 </style>

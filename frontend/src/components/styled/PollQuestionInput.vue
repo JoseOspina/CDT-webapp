@@ -8,7 +8,7 @@
       <div v-else class="box-content">
         <i v-if="restorable" @click="customTitleBack()" class="w3-left fa fa-undo" aria-hidden="true"></i>
         <input v-if="!useTextArea" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round" type="text" name="" value="">
-        <textarea v-else @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round"></textarea>
+        <textarea v-else ref="textarea" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round"></textarea>
       </div>
     </div>
   </div>
@@ -38,12 +38,39 @@ export default {
     }
   },
 
+  watch: {
+    value () {
+      this.checkHeight ()
+    }
+  },
+
   methods: {
+    checkHeight () {
+      if (this.$refs.textarea) {
+        if (this.value !== '') {
+          /* resize text area */
+          this.$refs.textarea.style.height = (this.$refs.textarea.scrollHeight) + 'px'
+        } else {
+          this.$refs.textarea.style.height = '90px'
+        }
+      }
+    },
+  },
+
+  mounted () {
+    this.$nextTick(() => {
+      this.checkHeight()
+    })
   }
 }
 </script>
 
 <style scoped>
+
+textarea {
+  resize: vertical;
+  min-height: 35px;
+}
 
 .box-container {
   background-color: #339470;

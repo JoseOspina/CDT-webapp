@@ -1,12 +1,17 @@
 <template lang="html">
-  <div class="w3-container new-poll-container">
-    <div class="column-container">
+  <div class="w3-container content-container this-container">
 
-      <div class="back-button cursor-pointer">
-        <div class="back-button-content">
-          <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        </div>
-      </div>
+    <router-link :to="{ name: 'OrganizationPolls'}"
+      class="w3-row disp-block w3-margin-bottom w3-hide-large">
+      <app-back-button class=""></app-back-button>
+    </router-link>
+
+    <div class="central-column-container dark-1">
+
+      <router-link :to="{ name: fromTemplate ? 'NewPollTemplate' : 'OrganizationPolls'}"
+        class="w3-hide-medium w3-hide-small back-button-in-column">
+        <app-back-button class=""></app-back-button>
+      </router-link>
 
       <div class="w3-row">
         <app-column-header>
