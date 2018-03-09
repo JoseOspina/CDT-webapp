@@ -1,16 +1,16 @@
 <template lang="html">
-  <div class="w3-container organization-polls-container">
+  <div class="w3-container content-container this-container">
     <div class="w3-row">
       <div class="w3-left w3-margin-right">
         <h4><b>Organization Polls</b></h4>
       </div>
-      <div class="w3-left new-poll-button cursor-pointer">
+      <div class="w3-left new-poll-button cursor-pointer app-color-white-1">
         <i @click="newPoll()" class="fa fa-plus-circle" aria-hidden="true"></i>
       </div>
     </div>
 
     <div class="w3-row organization-polls-row">
-      <div v-for="poll in this.polls" :key="poll.id" class="w3-col s12 l w3-margin-bottom">
+      <div v-for="poll in this.polls" :key="poll.id" class="w3-col l4 m6 s12 w3-margin-bottom">
         <app-poll-card :poll="poll"></app-poll-card>
       </div>
     </div>
@@ -71,20 +71,15 @@ export default {
 
 <style>
 
-.organization-polls-container {
-  min-height: calc(100vh - 65px);
+.this-container {
   background: url('./../assets/background-1.png') center left / cover no-repeat;
-  background-color: #2F2F2F;
-  color: white;
+  background-color: #3F3E3E;
 }
 
 .new-poll-button {
-  padding-top: 5px;
-  font-size: 28px;
-}
-
-.new-poll-button:hover {
-  color: #CCCCCC;
+  padding: 0px;
+  font-size: 32px;
+  line-height: 32px;
 }
 
 .organization-polls-row {

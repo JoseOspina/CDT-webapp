@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="question-results-container w3-row">
+  <div class="question-results-container w3-row app-color-2-br">
     <div class="w3-col m6 question-text">
       {{ question.text }}?
     </div>
@@ -38,7 +38,6 @@ export default {
   border-style: solid;
   border-top-style: none;
   border-width: 2px;
-  border-color: rgb(56, 200, 88);
 }
 
 .question-text {

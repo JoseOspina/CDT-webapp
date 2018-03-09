@@ -9,9 +9,9 @@
       </div>
 
       <div class="w3-row">
-        <app-new-poll-header>
+        <app-column-header>
           New Poll - <i>Customization</i>
-        </app-new-poll-header>
+        </app-column-header>
       </div>
 
       <!-- Title -->
@@ -117,14 +117,12 @@
 </template>
 
 <script>
-import NewPollHeader from '@/components/styled/NewPollHeader'
 import PollQuestionInput from '@/components/styled/PollQuestionInput'
 import { getEmptyQuestion, getEmptyAxis } from '@/support/newPollEmptyElements'
 import { getElIx } from '@/support/general'
 
 export default {
   components: {
-    'app-new-poll-header': NewPollHeader,
     'app-poll-question-input': PollQuestionInput
   },
   computed: {

@@ -9,9 +9,9 @@
       </div>
 
       <div class="w3-row">
-        <app-new-poll-header>
+        <app-column-header>
           New Poll - <i>Configuration</i>
-        </app-new-poll-header>
+        </app-column-header>
       </div>
 
       <div class="w3-row w3-margin-top">
@@ -30,13 +30,11 @@
 </template>
 
 <script>
-import NewPollHeader from '@/components/styled/NewPollHeader'
 import PollConfigSelect from '@/components/styled/PollConfigSelect'
 import { getDefaultConfig } from '@/support/newPollEmptyElements'
 
 export default {
   components: {
-    'app-new-poll-header': NewPollHeader,
     'app-config-select': PollConfigSelect
   },
   data () {

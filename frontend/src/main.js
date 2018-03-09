@@ -13,12 +13,17 @@ import VueI18n from 'vue-i18n'
 import Datepicker from 'vuejs-datepicker'
 
 import ErrorPanel from '@/components/styled/ErrorPanel.vue'
-
 import { translations } from '@/lang'
+
+import ColumnHeader from '@/components/styled/ColumnHeader'
+import BackButton from '@/components/styled/BackButton'
 
 Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
+
+Vue.component('app-column-header', ColumnHeader)
+Vue.component('app-back-button', BackButton)
 
 axios.interceptors.request.use(
   function (config) {

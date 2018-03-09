@@ -1,14 +1,17 @@
 
 .dark-1 {
   background-color: #231F20;
+  color: white;
 }
 
 .dark-2 {
   background-color: #2F2F2F;
+  color: white;
 }
 
 .dark-3 {
   background-color: #3F3E3E;
+  color: white;
 }
 
 .vivid {
@@ -29,14 +32,6 @@
 
 .app-color-1-bg {
   background-color: #009B9C;
-}
-
-.app-color-1-2-bg {
-  background-color: #009B9C;
-}
-
-.app-color-1-2-bg:hover {
-  background-color: #339470;
 }
 
 .app-color-1-co {

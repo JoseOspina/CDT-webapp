@@ -1,25 +1,31 @@
 <template lang="html">
-  <div v-if="poll !== null && details !== null" class="w3-container organization-poll-container">
-    <div class="column-container">
-      <div class="back-button cursor-pointer">
-        <div class="back-button-content">
-          <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        </div>
-      </div>
+  <div v-if="poll !== null && details !== null" class="w3-container content-container this-container">
+
+    <router-link :to="{ name: 'OrganizationPolls'}"
+      class="w3-row disp-block w3-margin-bottom w3-hide-large">
+      <app-back-button class=""></app-back-button>
+    </router-link>
+
+    <div class="central-column-container dark-1">
+
+      <router-link :to="{ name: 'OrganizationPolls'}"
+        class="w3-hide-medium w3-hide-small back-button-in-column">
+        <app-back-button class=""></app-back-button>
+      </router-link>
 
       <div class="w3-row">
-        <app-new-poll-header>
+        <app-column-header>
           Poll Details
-        </app-new-poll-header>
+        </app-column-header>
       </div>
 
-      <div class="w3-row">
+      <div class="w3-row w3-margin-top">
         <div class="w3-col m8">
-          <div class="w3-row w3-center title-container">
+          <div class="w3-row w3-center title-container dark-3 w3-round-large">
             <h3>{{ poll.title }}</h3>
             <p>{{ poll.description }}</p>
           </div>
-          <div class="w3-row-padding">
+          <div class="w3-row-padding w3-margin-top">
             <div class="w3-col m6 w3-center">
               <button class="w3-button app-button" @click="makeTemplate(!poll.isTemplate)">{{ poll.isTemplate ? 'remove' : 'mark as'}} template</button>
             </div>
@@ -27,7 +33,7 @@
               <button v-if="poll.isTemplate" class="w3-button app-button" @click="makeTemplatePublic(!poll.isPublicTemplate)">make it {{ poll.isPublicTemplate ? 'private' : 'public' }}</button>
             </div>
           </div>
-          <div v-if="poll.isTemplate" class="w3-row w3-margin-top w3-padding message-panel w3-round">
+          <div v-if="poll.isTemplate" class="w3-row w3-margin-top w3-padding dark-3 anouncement w3-round">
             <span>this poll can be used as a template when creating new polls in {{ poll.isPublicTemplate ? 'any' : 'this' }} organization</span>
           </div>
         </div>
@@ -40,21 +46,22 @@
           </div>
         </div>
       </div>
-      <div class="w3-row">
-        <input type="text" name="" :value="pollAnswerUrl">
+      <div class="w3-row w3-margin-top">
+        <span class="w3-margin-left w3-small anouncement">link to answer the poll:</span>
+        <input class="rounded-input dark-3 app-color-2-br" type="text" name="" :value="pollAnswerUrl">
       </div>
       <div v-if="details.numberOfAnswers > 0" class="">
         <hr>
-        <div class="w3-row">
+        <h4>Results:</h4>
+        <div class="w3-row w3-white w3-round-large">
           <app-radar-chart v-if="chartData.length > 0" :chartData="chartData"></app-radar-chart>
         </div>
-        <div class="w3-row">
+        <div class="w3-row w3-margin-top">
           <h4>Detailed Results:</h4>
           <div v-for="axis in poll.axes" :key="axis.id" class="w3-row">
-            <app-poll-question-input
-              :value="axis.title"
-              :showAsInput="false">
-            </app-poll-question-input>
+            <div class="rounded-input app-color-2-br">
+             {{ axis.title }}
+            </div>
 
             <div v-for="question in axis.questions" :key="question.id" class="w3-row question-result-row">
               <app-poll-question-results
@@ -73,7 +80,6 @@
 <script>
 import RadarChart from '@/components/RadarChart'
 import AppButton from '@/components/styled/AppButton'
-import NewPollHeader from '@/components/styled/NewPollHeader'
 import PollQuestionInput from '@/components/styled/PollQuestionInput'
 import PollQuestionResults from '@/components/PollQuestionResults'
 
@@ -81,7 +87,6 @@ export default {
   components: {
     'app-radar-chart': RadarChart,
     'app-button': AppButton,
-    'app-new-poll-header': NewPollHeader,
     'app-poll-question-input': PollQuestionInput,
     'app-poll-question-results': PollQuestionResults
   },
@@ -218,25 +223,18 @@ export default {
 
 <style scoped>
 
-.organization-poll-container {
-  min-height: calc(100vh - 66px);
+.this-container {
   background: url('./../assets/background-1.png') center left / cover no-repeat;
-  background-color: #2F2F2F;
-  color: white;
+  background-color: #3F3E3E;
 }
 
 .n-answers-div {
   color: #FFDE17;
   font-size: 55px;
-  padding-top: 22px;
 }
 
 .title-container {
-  padding: 6px 0px;
-}
-
-.message-panel {
-  background-color: #3F3E3E;
+  padding: 16px 6px 6px 6px;;
 }
 
 .question-result-row {

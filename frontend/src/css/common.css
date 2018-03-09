@@ -2,7 +2,10 @@
   /*font-family: 'Roboto', sans-serif;*/
   /*font-family: 'Roboto Slab', serif;*/
   font-family: 'Open Sans', sans-serif;
-  color: white;
+}
+
+.anouncement {
+  font-family: 'Roboto Slab', serif;
 }
 
 a {
@@ -11,7 +14,7 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .cursor-pointer {
@@ -19,7 +22,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app-button {
+  background-color: #009B9C;
   border-radius: 16px;
+}
+
+.app-button:hover {
+  background-color: #339470 !important;
+}
+
+.rounded-input {
+  width: 100%;
+  padding: 6px 16px;
+  border-radius: 16px;
+  border-style: solid;
 }
 
 .bordered-text {
@@ -35,17 +50,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .content-container {
   min-height: calc(100vh - 70px);
-  padding-top: 20px;
+  padding-top: 35px;
 }
 
 .central-column-container {
   margin: 0 auto;
   max-width: 700px;
-  padding: 20px 32px;
+  padding: 28px 32px;
+  margin-bottom: 50px;
 }
 
-.app-card-container {
- width: 100%;
+.back-button-in-column {
+  position: absolute;
+  margin-left: -100px;
+}
+
+.disp-block {
+  display: block;
 }
 
 .app-card {
@@ -53,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: white;
   border-radius: 16px;
   color: #2F2F2F;
-  width: 100%;
+  display: block;
 }
 
 .noselect {
