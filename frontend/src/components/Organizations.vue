@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="w3-container organizations-container">
+  <div class="w3-container content-container this-container">
     <div class="w3-row">
       <h4><b>My Organizations</b></h4>
     </div>
@@ -27,11 +27,9 @@ export default {
 
 <style scoped>
 
-.organizations-container {
-  min-height: calc(100vh - 65px);
+.this-container {
   background: url('./../assets/background-3.png') center left / cover no-repeat;
-  background-color: #2F2F2F;
-  color: white;
+  background-color: #3F3E3E;
 }
 
 .app-card {

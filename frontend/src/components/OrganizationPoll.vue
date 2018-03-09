@@ -40,6 +40,9 @@
           </div>
         </div>
       </div>
+      <div class="w3-row">
+        <input type="text" name="" :value="pollAnswerUrl">
+      </div>
       <div v-if="details.numberOfAnswers > 0" class="">
         <hr>
         <div class="w3-row">
@@ -53,14 +56,12 @@
               :showAsInput="false">
             </app-poll-question-input>
 
-            <div v-for="question in axis.questions" :key="question.id" class="w3-row">
-              {{ question.text }}?
-              <span v-if="question.type === 'RATE_1_5'" class="">
-                min: {{ getQuestionResultMin(question.id).toFixed(1) }} - mean: {{ getQuestionResultMean(question.id).toFixed(1) }} - max: {{ getQuestionResultMax(question.id).toFixed(1) }}
-              </span>
-              <div v-if="question.type === 'TEXT'" class="">
-                <p v-for="(answer, ix) in getQuestionTextResults(question.id)" :key="ix">{{ answer }}</p>
-              </div>
+            <div v-for="question in axis.questions" :key="question.id" class="w3-row question-result-row">
+              <app-poll-question-results
+                :question="question"
+                :stats="getQuestionResultStats(question.id)"
+                :textAnswers="getQuestionTextResults(question.id)">
+              </app-poll-question-results>
             </div>
           </div>
         </div>
@@ -74,13 +75,15 @@ import RadarChart from '@/components/RadarChart'
 import AppButton from '@/components/styled/AppButton'
 import NewPollHeader from '@/components/styled/NewPollHeader'
 import PollQuestionInput from '@/components/styled/PollQuestionInput'
+import PollQuestionResults from '@/components/PollQuestionResults'
 
 export default {
   components: {
     'app-radar-chart': RadarChart,
     'app-button': AppButton,
     'app-new-poll-header': NewPollHeader,
-    'app-poll-question-input': PollQuestionInput
+    'app-poll-question-input': PollQuestionInput,
+    'app-poll-question-results': PollQuestionResults
   },
 
   data () {
@@ -96,6 +99,9 @@ export default {
   computed: {
     pollId () {
       return this.$route.params.pollId
+    },
+    pollAnswerUrl () {
+      return window.location.host + '/app/answer/' + this.poll.id
     }
   },
 
@@ -180,14 +186,9 @@ export default {
         }
       }
     },
-    getQuestionResultMin (questionId) {
-      return this.getQuestionResult(questionId).min
-    },
-    getQuestionResultMean (questionId) {
-      return this.getQuestionResult(questionId).mean
-    },
-    getQuestionResultMax (questionId) {
-      return this.getQuestionResult(questionId).max
+    getQuestionResultStats (questionId) {
+      var result = this.getQuestionResult(questionId)
+      return [ result.min, result.mean, result.max ]
     },
     getQuestionTextResults (questionId) {
       return this.getQuestionResult(questionId).answersTexts
@@ -236,6 +237,11 @@ export default {
 
 .message-panel {
   background-color: #3F3E3E;
+}
+
+.question-result-row {
+  width: calc(100% - 50px);
+  margin: 0 auto;
 }
 
 </style>

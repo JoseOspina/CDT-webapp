@@ -10,7 +10,7 @@
     </div>
 
     <div class="w3-row organization-polls-row">
-      <div v-for="poll in this.polls" :key="poll.id" class="w3-col s12 m6 l4 w3-margin-bottom">
+      <div v-for="poll in this.polls" :key="poll.id" class="w3-col s12 l w3-margin-bottom">
         <app-poll-card :poll="poll"></app-poll-card>
       </div>
     </div>
@@ -72,7 +72,7 @@ export default {
 <style>
 
 .organization-polls-container {
-  min-height: calc(100vh - 66px);
+  min-height: calc(100vh - 65px);
   background: url('./../assets/background-1.png') center left / cover no-repeat;
   background-color: #2F2F2F;
   color: white;

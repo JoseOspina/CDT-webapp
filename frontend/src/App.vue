@@ -34,8 +34,8 @@ export default {
 <style>
 
 @import 'css/w3.css';
-@import 'css/modals.css';
-@import 'ext/radar-chart.css';
+@import 'css/colors.css';
 @import 'css/common.css';
+@import 'ext/radar-chart.css';
 
 </style>

@@ -4,29 +4,31 @@
       v-if="newOrgModal"
       @close="newOrgModal = false">
     </app-new-org-modal>
-    <div class="w3-row w3-center header-container w3-padding">
+    <div class="w3-row header-container">
 
-      <div class="w3-left">
+      <div class="w3-col m3 s12">
         <div class="w3-left w3-margin-right select-container">
-          <select v-model="orgIdSelected" class="" name="">
+          <select v-model="orgIdSelected" class="app-select dark-3" name="">
             <option v-for="org in orgs" :key="org.id" :value="org.id">{{ org.name }}</option>
           </select>
         </div>
-        <div @click="newOrgModal = true" class="w3-left circular-button cursor-pointer">
+        <div @click="newOrgModal = true" class="w3-left circular-button cursor-pointer app-color-white-1">
           <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </div>
       </div>
 
-      <router-link class="" :to="{ name: 'Organizations', params: {} }">
-        <img class="logo" src="./../assets/logo-white.png" alt="">
-      </router-link>
+      <div class="w3-col m6 s12 w3-center">
+        <router-link class="" :to="{ name: 'Organizations', params: {} }">
+          <img class="logo" src="./../assets/logo-white.png" alt="">
+        </router-link>
+      </div>
 
-      <div class="w3-right user-container">
-        <div class="w3-left w3-margin-right">
-          {{ userNickname }}
-        </div>
-        <div class="w3-left cursor-pointer">
+      <div class="w3-col m3 s12 user-container">
+        <div class="w3-right cursor-pointer app-color-white-1">
           <i @click="logout()" class="fa fa-sign-out" aria-hidden="true"></i>
+        </div>
+        <div class="w3-right w3-margin-right">
+          {{ userNickname }}
         </div>
       </div>
     </div>
@@ -106,43 +108,39 @@ export default {
 
 .header-container {
   background: linear-gradient(to right, #FFDE17, #009B9C, #009B9C);
-  min-height: 65px;
+  min-height: 70px;
   color: white;
   font-size: 18px;
-  /*background-image: -moz-linear-gradient(center bottom, rgb(14,173,173) 33%, rgb(0,255,255) 67% );*/
 }
 
 .logo {
-  margin-top: 6px;
+  margin-top: 16px;
   height: 40px;
 }
 
 .circular-button {
-  padding-top: 2px;
+  padding-top: 8px;
   font-size: 32px;
-  color: #3F3E3E;
-}
-
-.circular-button:hover {
-  color: #CCCCCC;
 }
 
 .select-container {
-  padding-top: 12px;
+  padding-top: 18px;
+  padding-left: 18px;
   font-size: 16px;
+  width: 70%;
 }
 
 .select-container select {
-  min-width: 150px;
-  background-color: #3F3E3E;
-  border-radius: 16px;
-  border-width: 0px;
-  color: white;
-  padding: 4px 16px;
+  width: 100%;
 }
 
 .user-container {
-  padding-top: 12px;
+  padding-top: 20px;
+  padding-right: 12px;
+}
+
+.user-container .fa {
+  font-size: 32px;
 }
 
 </style>

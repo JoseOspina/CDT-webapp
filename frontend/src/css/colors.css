@@ -1,0 +1,60 @@
+
+.dark-1 {
+  background-color: #231F20;
+}
+
+.dark-2 {
+  background-color: #2F2F2F;
+}
+
+.dark-3 {
+  background-color: #3F3E3E;
+}
+
+.vivid {
+  background-color: #E93E70;
+}
+
+.light {
+  background-color: #FFDE17;
+}
+
+.app-color-white-1 {
+  color: white;
+}
+
+.app-color-white-1:hover {
+  color: #FFDE17;
+}
+
+.app-color-1-bg {
+  background-color: #009B9C;
+}
+
+.app-color-1-2-bg {
+  background-color: #009B9C;
+}
+
+.app-color-1-2-bg:hover {
+  background-color: #339470;
+}
+
+.app-color-1-co {
+  color: #009B9C;
+}
+
+.app-color-1-br {
+  border-color: #009B9C;
+}
+
+.app-color-2-bg {
+  background-color: #339470;
+}
+
+.app-color-2-co {
+  color: #339470;
+}
+
+.app-color-2-br {
+  border-color: #339470;
+}
