@@ -79,13 +79,11 @@
 
 <script>
 import RadarChart from '@/components/RadarChart'
-import AppButton from '@/components/styled/AppButton'
 import PollQuestionResults from '@/components/PollQuestionResults'
 
 export default {
   components: {
     'app-radar-chart': RadarChart,
-    'app-button': AppButton,
     'app-poll-question-results': PollQuestionResults
   },
 

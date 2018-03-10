@@ -1,7 +1,7 @@
 <template lang="html">
   <div @click="$emit('click', $event)" class="this-button-container cursor-pointer">
     <div class="this-button-content">
-      <slot></slot>
+      <i class="fa fa-plus" aria-hidden="true"></i>
     </div>
   </div>
 </template>
@@ -15,17 +15,20 @@ export default {
 
 .this-button-container {
   background: linear-gradient(135deg, #FFDE17, #009B9C);
-  border-radius: 16px;
+  width: 42px;
+  height: 42px;
+  border-radius: 21px;
   padding: 3px;
-  color: white;
-  width: 200px;
 }
 
 .this-button-content {
   background-color: #2F2F2F;
-  border-radius: 16px;
+  color: #009B9C;
+  height: 100%;
+  width: 100%;
+  border-radius: 21px;
   font-size: 24px;
-  padding: 14px 20px;
+  padding: 0px 0px 0px 8px;
 }
 
 .back-button-content:hover {

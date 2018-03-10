@@ -34,6 +34,7 @@ export default {
 
 .panel-container {
   margin-top: 6px;
+  margin-bottom: 6px;
   width: 100%;
   background-color: #E93E70;
   border-radius: 12px;

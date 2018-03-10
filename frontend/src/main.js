@@ -17,6 +17,8 @@ import { translations } from '@/lang'
 
 import ColumnHeader from '@/components/styled/ColumnHeader'
 import BackButton from '@/components/styled/BackButton'
+import PlusButton from '@/components/styled/PlusButton'
+import AppButton from '@/components/styled/AppButton'
 
 Vue.config.productionTip = false
 
@@ -24,6 +26,8 @@ Vue.use(VueAxios, axios)
 
 Vue.component('app-column-header', ColumnHeader)
 Vue.component('app-back-button', BackButton)
+Vue.component('app-plus-button', PlusButton)
+Vue.component('app-button', AppButton)
 
 axios.interceptors.request.use(
   function (config) {

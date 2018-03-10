@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="back-button-container cursor-pointer">
+  <div @click="$emit('click', $event)" class="back-button-container cursor-pointer">
     <div class="back-button-content">
       <i class="fa fa-chevron-left" aria-hidden="true"></i>
     </div>

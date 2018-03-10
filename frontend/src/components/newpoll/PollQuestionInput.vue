@@ -11,18 +11,12 @@
       </div>
     </div>
     <div v-else class="">
-      <div class="w3-row">
-        <div class="btns-container app-color-2-co">
-          <div class="w3-left cursor-pointer">
-            <i class="fa fa-caret-up" aria-hidden="true"></i>
-          </div>
-          <div class="w3-left cursor-pointer">
-            <i class="fa fa-times-circle" aria-hidden="true"></i>
-          </div>
-          <div class="w3-left cursor-pointer">
-            <i class="fa fa-caret-down" aria-hidden="true"></i>
-          </div>
-        </div>
+      <div v-if="showMoveBtns" class="w3-row">
+        <app-move-btns
+          @move-up="$emit('move-up')"
+          @move-down="$emit('move-down')"
+          @remove="$emit('remove')">
+        </app-move-btns>
       </div>
       <div class="w3-row">
         <div class="w3-col m9 w3-margin-bottom">
@@ -54,28 +48,22 @@
 
 <script>
 import PollTextInput from '@/components/newpoll/PollTextInput'
+import MoveBtns from '@/components/newpoll/MoveBtns'
 
 export default {
   components: {
-    'app-poll-text-input': PollTextInput
+    'app-poll-text-input': PollTextInput,
+    'app-move-btns': MoveBtns
   },
   props: {
     value: {
       type: Object
     },
-    showAsInput: {
-      type: Boolean,
-      default: true
-    },
     restorable: {
       type: Boolean,
       default: false
     },
-    placeholder: {
-      type: String,
-      default: ''
-    },
-    useTextArea: {
+    showMoveBtns: {
       type: Boolean,
       default: false
     }
@@ -90,22 +78,6 @@ export default {
 </script>
 
 <style scoped>
-
-.btns-container {
-  font-size: 18px;
-  width: 90px;
-  margin: 0 auto;
-  overflow: auto;
-}
-
-.btns-container > div {
-  width: 30px;
-  text-align: center;
-}
-
-.btns-container > div:hover {
-  color: #FFDE17;
-}
 
 .percentage {
   margin-left: 50px;

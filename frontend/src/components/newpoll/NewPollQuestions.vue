@@ -43,54 +43,74 @@
 
       <!-- Axes -->
       <div class="axes-container">
-        <div v-for="axis in poll.axes" :key="axis.id" class="w3-row axis-container w3-margin-top">
+        <div v-for="(axis, ixA) in poll.axes" :key="axis.id" class="axis-container w3-margin-top">
 
-          <div class="w3-col l2 s12 axis-number-col w3-center w3-margin-bottom">
-            <h4>Axis 1</h4>
+          <div v-if="poll.axes.length > 1" class="w3-row">
+            <app-move-btns
+              @move-up="moveUpAxis(axis)"
+              @remove="removeAxis(axis)"
+              @move-down="moveDownAxis(axis)">
+            </app-move-btns>
           </div>
-          <div class="w3-col l10 s12">
-            <!-- Axis -->
-            <div class="w3-row w3-margin-bottom">
-              <app-poll-text-input
-                v-model="axis.title"
-                placeholder="Axis title"
-                :restorable="fromTemplate">
-              </app-poll-text-input>
-              <app-error-panel :show="showErrors && axis.title === ''"
-                message="axis title cannot be empty">
-              </app-error-panel>
-              <app-error-panel :show="axis.title.length > 25"
-                message="axis title should be shorter">
-              </app-error-panel>
+          <div class="w3-row">
+            <div class="w3-col l2 s12 axis-number-col w3-center w3-margin-bottom">
+              <h4>Axis {{ ixA + 1 }}</h4>
             </div>
+            <div class="w3-col l10 s12">
+              <!-- Axis -->
+              <div class="w3-row w3-margin-bottom">
+                <app-poll-text-input
+                  v-model="axis.title"
+                  placeholder="Axis title"
+                  :restorable="fromTemplate">
+                </app-poll-text-input>
+                <app-error-panel :show="showErrors && axis.title === ''"
+                  message="axis title cannot be empty">
+                </app-error-panel>
+                <app-error-panel :show="axis.title.length > 25"
+                  message="axis title should be shorter">
+                </app-error-panel>
+              </div>
 
-            <!-- Questions -->
-            <div v-for="(question, ixq) in axis.questions" :key="question.id" class="question-container w3-margin-top">
-              <app-poll-question-input v-model="axis.questions[ixq]"></app-poll-question-input>
-              <app-error-panel :show="showErrors && question.text === ''"
-                message="question text cannot be empty">
+              <!-- Questions -->
+              <div v-for="(question, ixq) in axis.questions" :key="question.id"
+                class="question-container">
+
+                <app-poll-question-input
+                  v-model="axis.questions[ixq]"
+                  :showMoveBtns="axis.questions.length > 1"
+                  @move-up="moveUpQuestion(axis, question)"
+                  @move-down="moveDownQuestion(axis, question)"
+                  @remove="removeQuestion(axis, question)">
+                </app-poll-question-input>
+
+                <app-error-panel :show="showErrors && question.text === ''"
+                  message="question text cannot be empty">
+                </app-error-panel>
+              </div>
+
+              <div class="w3-row add-question-row">
+                <app-plus-button @click="newQuestion(axis)" class="w3-right"></app-plus-button>
+                <span class="w3-right">Add Question</span>
+              </div>
+              <app-error-panel :show="!axisWeightsOk(axis.id)"
+                message="weights of rate questions must sum 100%">
               </app-error-panel>
-            </div>
+              <app-error-panel :show="!axisHasARate(axis.id)"
+                message="at least one question must be rated">
+              </app-error-panel>
 
-            <div class="w3-row w3-margin-top question-container">
-              <button @click="newQuestion(axis)" type="button" name="button">new question</button>
             </div>
-            <app-error-panel :show="!axisWeightsOk(axis.id)"
-              message="weights of rate questions must sum 100%">
-            </app-error-panel>
-            <app-error-panel :show="!axisHasARate(axis.id)"
-              message="at least one question must be rated">
-            </app-error-panel>
-
           </div>
+
         </div>
-        <div class="w3-row w3-margin-top axis-container">
-          <button @click="newAxis()" type="button" name="button">new axis</button>
+        <div class="w3-row w3-margin-top new-axis-row">
+          <span class="w3-left">Add Axis</span>
+          <app-plus-button @click="newAxis()" class="w3-left"></app-plus-button>
         </div>
       </div>
-      <hr>
       <div class="w3-row w3-center">
-        <button @click="next()" type="button" name="button">contine</button>
+        <app-button @click="next()" class="w3-right">Next</app-button>
       </div>
     </div>
   </div>
@@ -99,13 +119,15 @@
 <script>
 import PollTextInput from '@/components/newpoll/PollTextInput'
 import PollQuestionInput from '@/components/newpoll/PollQuestionInput'
+import MoveBtns from '@/components/newpoll/MoveBtns'
 import { getEmptyQuestion, getEmptyAxis } from '@/support/newPollEmptyElements'
 import { getElIx } from '@/support/general'
 
 export default {
   components: {
     'app-poll-text-input': PollTextInput,
-    'app-poll-question-input': PollQuestionInput
+    'app-poll-question-input': PollQuestionInput,
+    'app-move-btns': MoveBtns
   },
   computed: {
     orgId () {
@@ -225,6 +247,32 @@ export default {
         return false
       }
     },
+    moveUpAxis (axis) {
+      var axisIx = getElIx(axis.id, this.poll.axes)
+      if (axisIx === -1) {
+        return
+      }
+      if (axisIx !== -1 && axisIx > 0) {
+        var axisBefore = this.poll.axes[axisIx - 1]
+        /* set before */
+        this.poll.axes.splice(axisIx - 1, 1, this.poll.axes[axisIx])
+        /* set at */
+        this.poll.axes.splice(axisIx, 1, axisBefore)
+      }
+    },
+    moveDownAxis (axis) {
+      var axisIx = getElIx(axis.id, this.poll.axes)
+      if (axisIx === -1) {
+        return
+      }
+      if (axisIx !== -1 && axisIx < (this.poll.axes.length - 1)) {
+        var axisAfter = this.poll.axes[axisIx + 1]
+        /* set before */
+        this.poll.axes.splice(axisIx + 1, 1, this.poll.axes[axisIx])
+        /* set at */
+        this.poll.axes.splice(axisIx, 1, axisAfter)
+      }
+    },
     removeAxis (axis) {
       var ix = getElIx(axis.id, this.poll.axes)
       if (ix !== -1) {
@@ -245,8 +293,39 @@ export default {
       }
       var questionIx = getElIx(question.id, this.poll.axes[axisIx].questions)
 
-      if (questionIx !== -1) {
+      if (this.poll.axes[axisIx].questions.length > 1 && questionIx !== -1) {
         this.poll.axes[axisIx].questions.splice(questionIx, 1)
+      }
+    },
+    moveUpQuestion (axis, question) {
+      var axisIx = getElIx(axis.id, this.poll.axes)
+      if (axisIx === -1) {
+        return
+      }
+      var questionIx = getElIx(question.id, this.poll.axes[axisIx].questions)
+
+      if (questionIx !== -1 && questionIx > 0) {
+        var questionBefore = axis.questions[questionIx - 1]
+        /* set before */
+        axis.questions.splice(questionIx - 1, 1, axis.questions[questionIx])
+        /* set at */
+        axis.questions.splice(questionIx, 1, questionBefore)
+      }
+    },
+    moveDownQuestion (axis, question) {
+      var axisIx = getElIx(axis.id, this.poll.axes)
+      if (axisIx === -1) {
+        return
+      }
+
+      var questionIx = getElIx(question.id, this.poll.axes[axisIx].questions)
+
+      if (questionIx !== -1 && questionIx < (axis.questions.length - 1)) {
+        var questionAfter = this.poll.axes[axisIx].questions[questionIx + 1]
+        /* set after */
+        axis.questions.splice(questionIx + 1, 1, axis.questions[questionIx])
+        /* set at */
+        axis.questions.splice(questionIx, 1, questionAfter)
       }
     },
     next () {
@@ -306,6 +385,12 @@ export default {
 }
 
 .question-container {
+}
+
+.add-question-row > span, .new-axis-row > span {
+  font-size: 18px;
+  padding-top: 6px;
+  padding-right: 22px;
 }
 
 </style>
