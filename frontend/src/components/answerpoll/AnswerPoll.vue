@@ -1,5 +1,5 @@
 <template lang="html">
-  <div v-if="poll" class="">
+  <div v-if="poll" class="answer-poll-container">
     <app-answer-poll :poll="poll"></app-answer-poll>
   </div>
 </template>
@@ -40,5 +40,10 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.answer-poll-container {
+  color: black;
+}
+
 </style>

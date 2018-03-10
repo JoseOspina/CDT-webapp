@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <div class="w3-row organization-polls-row">
+    <div class="w3-row-padding organization-polls-row">
       <div v-for="poll in this.polls" :key="poll.id" class="w3-col l4 m6 s12 w3-margin-bottom">
         <app-poll-card :poll="poll"></app-poll-card>
       </div>
@@ -72,7 +72,7 @@ export default {
 <style>
 
 .this-container {
-  background: url('./../assets/background-1.png') center left / cover no-repeat;
+  background: url('./../assets/background-1.png') center left;
   background-color: #3F3E3E;
 }
 
@@ -83,7 +83,7 @@ export default {
 }
 
 .organization-polls-row {
-  padding: 22px 16px;
+  padding: 22px 0px;
 }
 
 </style>

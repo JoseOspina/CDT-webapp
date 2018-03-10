@@ -29,7 +29,7 @@ export default {
 <style scoped>
 
 .this-container {
-  background: url('./../assets/background-3.png') center left / cover no-repeat;
+  background: url('./../assets/background-3.png') center;
   background-color: #3F3E3E;
 }
 

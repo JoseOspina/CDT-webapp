@@ -58,7 +58,7 @@
         </div>
         <div class="w3-row w3-margin-top">
           <h4>Detailed Results:</h4>
-          <div v-for="axis in poll.axes" :key="axis.id" class="w3-row">
+          <div v-for="axis in poll.axes" :key="axis.id" class="w3-row w3-margin-top">
             <div class="rounded-input app-color-2-br">
              {{ axis.title }}
             </div>
@@ -80,14 +80,12 @@
 <script>
 import RadarChart from '@/components/RadarChart'
 import AppButton from '@/components/styled/AppButton'
-import PollQuestionInput from '@/components/styled/PollQuestionInput'
 import PollQuestionResults from '@/components/PollQuestionResults'
 
 export default {
   components: {
     'app-radar-chart': RadarChart,
     'app-button': AppButton,
-    'app-poll-question-input': PollQuestionInput,
     'app-poll-question-results': PollQuestionResults
   },
 
@@ -224,7 +222,7 @@ export default {
 <style scoped>
 
 .this-container {
-  background: url('./../assets/background-1.png') center left / cover no-repeat;
+  background: url('./../assets/background-1.png') center;
   background-color: #3F3E3E;
 }
 

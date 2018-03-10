@@ -40,13 +40,13 @@ export default {
 
   watch: {
     value () {
-      this.checkHeight ()
+      this.checkHeight()
     }
   },
 
   methods: {
     checkHeight () {
-      if (this.$refs.textarea) {
+      if (this.$refs.textarea && this.useTextArea) {
         if (this.value !== '') {
           /* resize text area */
           this.$refs.textarea.style.height = (this.$refs.textarea.scrollHeight) + 'px'
@@ -54,7 +54,7 @@ export default {
           this.$refs.textarea.style.height = '90px'
         }
       }
-    },
+    }
   },
 
   mounted () {

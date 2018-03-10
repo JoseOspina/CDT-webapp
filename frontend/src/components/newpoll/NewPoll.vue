@@ -38,7 +38,7 @@ export default {
 <style>
 
 .this-container {
-  background: url('./../../assets/background-2.png') center left / cover no-repeat;
+  background: url('./../../assets/background-2.png') center right;
   background-color: #2F2F2F;
 }
 

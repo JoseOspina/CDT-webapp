@@ -21,11 +21,11 @@
 
       <!-- Title -->
       <div class="w3-row w3-margin-top">
-        <app-poll-question-input
+        <app-poll-text-input
           v-model="poll.title"
           placeholder="Poll Title"
           :restorable="fromTemplate">
-        </app-poll-question-input>
+        </app-poll-text-input>
         <app-error-panel :show="showErrors && poll.title === ''"
           message="poll title cannot be empty">
         </app-error-panel>
@@ -33,81 +33,56 @@
 
       <!-- Description -->
       <div class="w3-row w3-margin-top">
-        <app-poll-question-input
+        <app-poll-text-input
           v-model="poll.description"
           placeholder="Poll Description"
           :restorable="fromTemplate"
           :useTextArea="true">
-        </app-poll-question-input>
+        </app-poll-text-input>
       </div>
 
       <!-- Axes -->
       <div class="axes-container">
-        <div v-for="axis in poll.axes" :key="axis.id" class="axis-container w3-margin-top">
+        <div v-for="axis in poll.axes" :key="axis.id" class="w3-row axis-container w3-margin-top">
 
-          <!-- Axis -->
-          <div class="w3-row w3-margin-top">
-            <app-poll-question-input
-              v-model="axis.title"
-              placeholder="Axis title"
-              :restorable="fromTemplate">
-            </app-poll-question-input>
-            <app-error-panel :show="showErrors && axis.title === ''"
-              message="axis title cannot be empty">
-            </app-error-panel>
-            <app-error-panel :show="axis.title.length > 25"
-              message="axis title should be shorter">
-            </app-error-panel>
+          <div class="w3-col l2 s12 axis-number-col w3-center w3-margin-bottom">
+            <h4>Axis 1</h4>
           </div>
-
-          <!-- Questions -->
-          <div v-for="(question, ixq) in axis.questions" :key="question.id" class="question-container w3-margin-top">
-
-            <div v-if="fromTemplate && !question.custom" class="w3-row">
-              <div class="w3-col m6">
-                <i @click="customQuestion(axis.id, question.id)" class="w3-left fa fa-pencil" aria-hidden="true"></i>
-                <p>{{ question.text }}</p>
-              </div>
-              <div class="w3-col m6">
-                {{ question.type }}
-                {{ question.weight }}
-              </div>
+          <div class="w3-col l10 s12">
+            <!-- Axis -->
+            <div class="w3-row w3-margin-bottom">
+              <app-poll-text-input
+                v-model="axis.title"
+                placeholder="Axis title"
+                :restorable="fromTemplate">
+              </app-poll-text-input>
+              <app-error-panel :show="showErrors && axis.title === ''"
+                message="axis title cannot be empty">
+              </app-error-panel>
+              <app-error-panel :show="axis.title.length > 25"
+                message="axis title should be shorter">
+              </app-error-panel>
             </div>
-            <div v-else class="">
-              <i v-if="fromTemplate && question.custom" @click="customQuestionBack(axis.id, question.id)" class="w3-left fa fa-undo" aria-hidden="true"></i>
-              <button v-if="ixq > 0" @click="removeQuestion(axis, question)" type="button" name="button">remove question</button>
-              <div class="w3-row-padding">
-                <div class="w3-col m6">
-                  <textarea v-model="question.text" placeholder="Question" class="w3-input w3-round"></textarea>
-                </div>
-                <div class="w3-col m6 select-col">
-                  <div class="w3-row-padding">
-                    <div class="w3-col s6">
-                      <select v-model="question.type" class="w3-input">
-                        <option value="RATE_1_5">Rate 1 to 5</option>
-                        <option value="TEXT">Open text</option>
-                      </select>
-                    </div>
-                    <div v-if="question.type === 'RATE_1_5'" class="w3-col s6">
-                      <input v-model.number="question.weight" class="w3-input" type="text" name="" value="">
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+            <!-- Questions -->
+            <div v-for="(question, ixq) in axis.questions" :key="question.id" class="question-container w3-margin-top">
+              <app-poll-question-input v-model="axis.questions[ixq]"></app-poll-question-input>
               <app-error-panel :show="showErrors && question.text === ''"
                 message="question text cannot be empty">
               </app-error-panel>
             </div>
+
+            <div class="w3-row w3-margin-top question-container">
+              <button @click="newQuestion(axis)" type="button" name="button">new question</button>
+            </div>
+            <app-error-panel :show="!axisWeightsOk(axis.id)"
+              message="weights of rate questions must sum 100%">
+            </app-error-panel>
+            <app-error-panel :show="!axisHasARate(axis.id)"
+              message="at least one question must be rated">
+            </app-error-panel>
+
           </div>
-          <div class="w3-row w3-margin-top question-container">
-            <button @click="newQuestion(axis)" type="button" name="button">new question</button>
-          </div>
-          <app-error-panel :show="!axisWeightsOk(axis.id)"
-            message="weights of rate questions must sum 100%">
-          </app-error-panel>
-          <app-error-panel :show="!axisHasARate(axis.id)"
-            message="at least one question must be rated">
-          </app-error-panel>
         </div>
         <div class="w3-row w3-margin-top axis-container">
           <button @click="newAxis()" type="button" name="button">new axis</button>
@@ -122,12 +97,14 @@
 </template>
 
 <script>
-import PollQuestionInput from '@/components/styled/PollQuestionInput'
+import PollTextInput from '@/components/newpoll/PollTextInput'
+import PollQuestionInput from '@/components/newpoll/PollQuestionInput'
 import { getEmptyQuestion, getEmptyAxis } from '@/support/newPollEmptyElements'
 import { getElIx } from '@/support/general'
 
 export default {
   components: {
+    'app-poll-text-input': PollTextInput,
     'app-poll-question-input': PollQuestionInput
   },
   computed: {
@@ -324,12 +301,11 @@ export default {
   padding-top: 22px;
 }
 
-.question-container {
-  padding-left: 30px;
+.axis-number-col {
+  padding-top: 12px;
 }
 
-.select-col {
-  padding-top: 15px;
+.question-container {
 }
 
 </style>
