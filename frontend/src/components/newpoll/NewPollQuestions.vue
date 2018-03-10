@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="w3-container content-container this-container">
 
-    <router-link :to="{ name: 'OrganizationPolls'}"
+    <router-link :to="{ name: fromTemplate ? 'NewPollTemplate' : 'OrganizationPolls'}"
       class="w3-row disp-block w3-margin-bottom w3-hide-large">
       <app-back-button class=""></app-back-button>
     </router-link>
@@ -24,7 +24,10 @@
         <app-poll-text-input
           v-model="poll.title"
           placeholder="Poll Title"
-          :restorable="fromTemplate">
+          :restorable="fromTemplate"
+          :showAsInput="customTitle || !fromTemplate"
+          @set-custom-value="setCustomTitle()"
+          @custom-value-back="customTitleBack()">
         </app-poll-text-input>
         <app-error-panel :show="showErrors && poll.title === ''"
           message="poll title cannot be empty">
@@ -37,7 +40,10 @@
           v-model="poll.description"
           placeholder="Poll Description"
           :restorable="fromTemplate"
-          :useTextArea="true">
+          :useTextArea="true"
+          :showAsInput="customDescription || !fromTemplate"
+          @set-custom-value="setCustomDescription()"
+          @custom-value-back="customDescriptionBack()">
         </app-poll-text-input>
       </div>
 
@@ -62,7 +68,10 @@
                 <app-poll-text-input
                   v-model="axis.title"
                   placeholder="Axis title"
-                  :restorable="fromTemplate">
+                  :restorable="fromTemplate"
+                  :showAsInput="axis.custom || !fromTemplate"
+                  @set-custom-value="customAxis(axis.id)"
+                  @custom-value-back="customAxisBack(axis.id)">
                 </app-poll-text-input>
                 <app-error-panel :show="showErrors && axis.title === ''"
                   message="axis title cannot be empty">
@@ -81,7 +90,10 @@
                   :showMoveBtns="axis.questions.length > 1"
                   @move-up="moveUpQuestion(axis, question)"
                   @move-down="moveDownQuestion(axis, question)"
-                  @remove="removeQuestion(axis, question)">
+                  @remove="removeQuestion(axis, question)"
+                  :restorable="fromTemplate"
+                  @set-custom-question="customQuestion(axis.id, question.id)"
+                  @custom-question-back="customQuestionBack(axis.id, question.id)">
                 </app-poll-question-input>
 
                 <app-error-panel :show="showErrors && question.text === ''"
@@ -89,7 +101,7 @@
                 </app-error-panel>
               </div>
 
-              <div class="w3-row add-question-row">
+              <div v-if="axis.custom" class="w3-row add-question-row">
                 <app-plus-button @click="newQuestion(axis)" class="w3-right"></app-plus-button>
                 <span class="w3-right">Add Question</span>
               </div>
@@ -109,7 +121,7 @@
           <app-plus-button @click="newAxis()" class="w3-left"></app-plus-button>
         </div>
       </div>
-      <div class="w3-row w3-center">
+      <div class="w3-row">
         <app-button @click="next()" class="w3-right">Next</app-button>
       </div>
     </div>

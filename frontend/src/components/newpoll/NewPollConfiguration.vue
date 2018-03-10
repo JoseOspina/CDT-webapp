@@ -1,30 +1,40 @@
 <template lang="html">
-  <div class="w3-container new-poll-container">
+  <div class="w3-container content-container this-container">
     <div class="column-container">
 
-      <div class="back-button cursor-pointer">
-        <div class="back-button-content">
-          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+      <router-link :to="{ name: 'NewPollQuestions'}"
+        class="w3-row disp-block w3-margin-bottom w3-hide-large">
+        <app-back-button class=""></app-back-button>
+      </router-link>
+
+      <div class="central-column-container dark-1">
+
+        <router-link :to="{ name: 'NewPollQuestions'}"
+          class="w3-hide-medium w3-hide-small back-button-in-column">
+          <app-back-button class=""></app-back-button>
+        </router-link>
+
+        <div class="w3-row">
+          <app-column-header>
+            New Poll - <i>Configuration</i>
+          </app-column-header>
         </div>
+
+        <div class="w3-row w3-margin-top">
+          <select v-model="config.audience" class="app-select-input app-color-2-br dark-3">
+            <option value="ANYONE_WITH_LINK">Anyone with the link</option>
+          </select>
+        </div>
+        <div class="w3-row w3-center create-row">
+          <app-button class="w3-right" @click="create()">create!</app-button>
+        </div>
+        <app-error-panel
+          :show="errorCreatingPoll"
+          :message="errorCreatingPollMsg">
+        </app-error-panel>
+
       </div>
 
-      <div class="w3-row">
-        <app-column-header>
-          New Poll - <i>Configuration</i>
-        </app-column-header>
-      </div>
-
-      <div class="w3-row w3-margin-top">
-        <app-config-select
-          v-model="config.audience"
-          :elements="audienceElements">
-        </app-config-select>
-      </div>
-      <hr>
-      <div class="w3-row w3-center">
-        <button @click="create()" type="button" name="button">create</button>
-      </div>
-      <app-error-panel v-if="errorCreatingPoll" :message="errorCreatingPollMsg"></app-error-panel>
     </div>
   </div>
 </template>
@@ -48,13 +58,6 @@ export default {
   computed: {
     orgId () {
       return this.$route.params.orgId
-    },
-    audienceElements () {
-      return [
-        { value: 'ANYONE_WITH_LINK', text: 'Anyone with the link' },
-        { value: 'ANY_MEMBER', text: 'Any member in the organization' },
-        { value: 'SPECIFIC_MEMBERS', text: 'Select specific members' }
-      ]
     }
   },
 
@@ -93,5 +96,9 @@ export default {
 </script>
 
 <style scoped>
+
+.create-row {
+  margin-top: 36px;
+}
 
 </style>

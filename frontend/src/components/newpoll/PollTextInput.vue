@@ -1,14 +1,24 @@
 <template lang="html">
   <div class="w3-row">
     <div class="box-container">
-      <div v-if="!showAsInput" class="box-content">
-        <i v-if="restorable" @click="setCustomTitle()" class="fa fa-pencil" aria-hidden="true"></i>
-        {{ value }}
+      <div v-if="!showAsInput" class="box-content dark-1">
+        <div class="value-content">
+          <div @click="$emit('set-custom-value')"
+            class="w3-left cursor-pointer app-color-white-1">
+            <i v-if="restorable" class="fa fa-pencil" aria-hidden="true"></i>
+          </div>
+          <div class="w3-left w3-margin-left">
+            <span>{{ value }}</span>
+          </div>
+        </div>
       </div>
-      <div v-else class="box-content">
-        <i v-if="restorable" @click="customTitleBack()" class="w3-left fa fa-undo" aria-hidden="true"></i>
-        <input v-if="!useTextArea" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round" type="text" name="" value="">
-        <textarea v-else ref="textarea" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round"></textarea>
+      <div v-else class="box-content dark-2">
+        <div v-if="restorable" @click="$emit('custom-value-back')"
+          class="custom-value-back app-color-white-1 cursor-pointer">
+          <i class="fa fa-undo" aria-hidden="true"></i>
+        </div>
+        <input v-if="!useTextArea" :value="value" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round" type="text" name="" >
+        <textarea v-else ref="textarea" :value="value" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round"></textarea>
       </div>
     </div>
   </div>
@@ -82,7 +92,6 @@ textarea {
   font-size: 18px;
   padding: 3px 18px;
   height: 100%;
-  background-color: #2F2F2F;
   border-radius: 16px;
 }
 
@@ -90,6 +99,17 @@ textarea {
   border-width: 0px;
   background-color: #2F2F2F;
   color: white;
+}
+
+.value-content {
+  padding: 3px 0px;
+  overflow: auto;
+}
+
+.custom-value-back {
+  position: absolute;
+  margin-left: -12px;
+  margin-top: -6px;
 }
 
 </style>
