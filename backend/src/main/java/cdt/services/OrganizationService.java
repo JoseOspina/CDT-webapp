@@ -27,6 +27,7 @@ import cdt.entities.Organization;
 import cdt.entities.Poll;
 import cdt.entities.PollAudience;
 import cdt.entities.PollConfig;
+import cdt.entities.PollStatus;
 import cdt.entities.Question;
 import cdt.entities.QuestionAndWeight;
 import cdt.entities.QuestionType;
@@ -96,6 +97,8 @@ public class OrganizationService extends BaseService {
 		poll.setDescription(pollDto.getDescription());
 		poll.setCreator(appUserRepository.findById(creatorId));
 		poll.setCreationDate(new Timestamp(System.currentTimeMillis()));
+		poll.setStatus(PollStatus.OPEN);
+		
 		poll = pollRepository.save(poll);
 		
 		PollConfig config = new PollConfig();
@@ -155,7 +158,7 @@ public class OrganizationService extends BaseService {
 	
 	@Transactional
 	public GetResult<List<PollDto>> getPollsList(UUID orgId) {
-		List<Poll> polls = pollRepository.findByOrganization_Id(orgId);
+		List<Poll> polls = pollRepository.findByOrganization_IdAndNotInStatus(orgId, PollStatus.DELETED);
 		
 		List<PollDto> pollDtos = new ArrayList<PollDto>();
 		
@@ -183,9 +186,26 @@ public class OrganizationService extends BaseService {
 	}
 	
 	@Transactional
+	public PostResult deletePoll(UUID pollId) {
+		Poll poll = pollRepository.findById(pollId);
+		poll.setStatus(PollStatus.DELETED);
+		
+		return new PostResult("success", "poll deleted", null);
+	}
+	
+	@Transactional
 	public PostResult makeTemplate(UUID pollId, Boolean isTemplate) {
 		Poll poll = pollRepository.findById(pollId);
 		poll.setIsTemplate(isTemplate);
+		
+		pollRepository.save(poll);
+		return new PostResult("success", "poll template modified", poll.getId().toString());
+	}
+	
+	@Transactional
+	public PostResult makeTemplatePublic(UUID pollId, Boolean isPublic) {
+		Poll poll = pollRepository.findById(pollId);
+		poll.setIsPublicTemplate(isPublic);
 		
 		pollRepository.save(poll);
 		return new PostResult("success", "poll template modified", poll.getId().toString());

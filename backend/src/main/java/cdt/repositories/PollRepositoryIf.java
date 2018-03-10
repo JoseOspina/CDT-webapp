@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import cdt.entities.Poll;
+import cdt.entities.PollStatus;
 
 public interface PollRepositoryIf extends CrudRepository<Poll, UUID> {
 	
@@ -15,6 +16,9 @@ public interface PollRepositoryIf extends CrudRepository<Poll, UUID> {
 	
 	@Query("SELECT COUNT(po) FROM Poll po WHERE (po.isTemplate = TRUE AND po.organization.id = ?1) OR po.isPublicTemplate = TRUE")
 	public Integer countNTemplatesInternal(UUID orgId);
+	
+	@Query("SELECT po FROM Poll po WHERE po.organization.id = ?1 AND po.status != ?2")
+	public List<Poll> findByOrganization_IdAndNotInStatus(UUID orgId, PollStatus status);
 	
 	public List<Poll> findByOrganization_Id(UUID orgId);
 	

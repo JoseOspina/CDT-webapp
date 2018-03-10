@@ -112,6 +112,26 @@ public class OrganizationsController extends BaseController {
 		return organizationService.getPoll(pollId);
 	}
 	
+	@RequestMapping(path = "/poll/{pollId}",  method = RequestMethod.DELETE)
+	public PostResult deletePoll(
+    		@PathVariable(name="pollId") String pollIdStr) {
+		
+		UUID pollId = UUID.fromString(pollIdStr);
+		UUID orgId = organizationService.getOrganizationIdFromPollId(pollId);
+		UUID userId = getLoggedUserId();
+		
+		if (userId == null) {
+			return new PostResult("error", "endpoint enabled for users only", null);
+		}
+		
+		if (!organizationService.isAdmin(orgId, userId)) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.deletePoll(pollId);
+	}
+	
+	
 	@RequestMapping(path = "/poll/{pollId}/details",  method = RequestMethod.GET)
 	public GetResult<PollDetailsDto> getPollDetails(
     		@PathVariable(name="pollId") String pollIdStr) {
@@ -170,5 +190,26 @@ public class OrganizationsController extends BaseController {
 		}
 		
 		return organizationService.makeTemplate(pollId, isTemplate);
+	}
+	
+	@RequestMapping(path = "/poll/{pollId}/makePublicTemplate",  method = RequestMethod.PUT)
+	public PostResult makePublicTemplate(
+    		@PathVariable(name="pollId") String pollIdStr,
+    		@RequestParam(name ="isPublic") Boolean isTemplate) {
+		
+		UUID pollId = UUID.fromString(pollIdStr);
+		
+		UUID orgId = organizationService.getOrganizationIdFromPollId(pollId);
+		UUID userId = getLoggedUserId();
+		
+		if (userId == null) {
+			return new PostResult("error", "endpoint enabled for users only", null);
+		}
+		
+		if (!organizationService.isAdmin(orgId, userId)) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.makeTemplatePublic(pollId, isTemplate);
 	}
 }

@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -47,6 +49,9 @@ public class Poll {
 	
 	@Column(name = "creation_date")
 	private Timestamp creationDate;
+	
+	@Enumerated(EnumType.STRING)
+	public PollStatus status;
 	
 	@ManyToMany
 	@OrderColumn(name = "axes_order")
@@ -129,6 +134,14 @@ public class Poll {
 
 	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
+	}
+	
+	public PollStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(PollStatus status) {
+		this.status = status;
 	}
 
 	public List<Axis> getAxes() {

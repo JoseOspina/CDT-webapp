@@ -26,11 +26,14 @@
             <p>{{ poll.description }}</p>
           </div>
           <div class="w3-row-padding w3-margin-top">
-            <div class="w3-col m6 w3-center">
-              <button class="w3-button app-button" @click="makeTemplate(!poll.isTemplate)">{{ poll.isTemplate ? 'remove' : 'mark as'}} template</button>
+
+            <div class="w3-col m6">
+              <input v-model="localIsTemplate" class="w3-check" type="checkbox">
+              <label>Make a template</label>
             </div>
-            <div class="w3-col m6 w3-center">
-              <button v-if="poll.isTemplate" class="w3-button app-button" @click="makeTemplatePublic(!poll.isPublicTemplate)">make it {{ poll.isPublicTemplate ? 'private' : 'public' }}</button>
+            <div v-if="poll.isTemplate" class="w3-col m6">
+              <input v-model="localIsTemplatePublic" class="w3-check" type="checkbox">
+              <label>Public</label>
             </div>
           </div>
           <div v-if="poll.isTemplate" class="w3-row w3-margin-top w3-padding dark-3 anouncement w3-round">
@@ -73,6 +76,17 @@
           </div>
         </div>
       </div>
+
+      <hr>
+      <div class="bottom-row">
+        <div class="w3-row w3-center">
+          <button class="w3-button app-button-danger" @click="deleteIntent()">delete</button>
+        </div>
+        <div v-if="deleteTemplateIntent" class="w3-row w3-center w3-margin-top">
+          <button class="w3-button app-button" @click="deleteTemplateIntent = false">cancel</button>
+          <button class="w3-button app-button-danger" @click="deletePoll()">confirm</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -93,7 +107,11 @@ export default {
       details: null,
       chartData: [],
       errorMakingTemplate: false,
-      errorMakingTemplateMsg: ''
+      errorMakingTemplateMsg: '',
+      localIsTemplate: false,
+      localIsTemplatePublic: false,
+      loaded: false,
+      deleteTemplateIntent: false
     }
   },
 
@@ -106,6 +124,19 @@ export default {
     }
   },
 
+  watch: {
+    localIsTemplate () {
+      if (this.loaded) {
+        this.makeTemplate(this.localIsTemplate)
+      }
+    },
+    localIsTemplatePublic () {
+      if (this.loaded) {
+        this.makeTemplatePublic(this.localIsTemplatePublic)
+      }
+    }
+  },
+
   methods: {
     update () {
       if (this.pollId) {
@@ -114,11 +145,14 @@ export default {
             if (response.data.result === 'success') {
               console.log('updating poll data')
               this.poll = response.data.data
+              this.localIsTemplate = this.poll.isTemplate
+              this.localIsTemplatePublic = this.poll.isPublicTemplate
               return this.axios.get('/1/poll/' + this.poll.id + '/details')
             }
           }).then((response) => {
             if (response.data.result === 'success') {
               this.details = response.data.data
+              this.loaded = true
               this.updateStats()
               this.updateChartData()
             }
@@ -208,6 +242,33 @@ export default {
           this.errorMakingTemplateMsg = response.data.message
         }
       })
+    },
+    makeTemplatePublic (value) {
+      this.axios.put('/1/poll/' + this.pollId + '/makePublicTemplate', {},
+        {
+          params: {
+            isPublic: value
+          }
+        }).then((response) => {
+        if (response.data.result === 'success') {
+          this.update()
+        } else {
+          this.errorMakingTemplate = true
+          this.errorMakingTemplateMsg = response.data.message
+        }
+      })
+    },
+    deleteIntent () {
+      setTimeout(() => {
+        this.deleteTemplateIntent = true
+      }, 1000)
+    },
+    deletePoll () {
+      this.axios.delete('/1/poll/' + this.pollId).then((response) => {
+        if (response.data.result === 'success') {
+          this.$router.push({name: 'OrganizationPolls'})
+        }
+      })
     }
   },
 
@@ -236,6 +297,10 @@ export default {
 .question-result-row {
   width: calc(100% - 50px);
   margin: 0 auto;
+}
+
+.bottom-row button {
+  width: 100px;
 }
 
 </style>

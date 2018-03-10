@@ -31,6 +31,11 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #339470 !important;
 }
 
+.app-button-danger {
+  background-color: #9c0000;
+  border-radius: 16px;
+}
+
 .rounded-input {
   width: 100%;
   padding: 6px 16px;
