@@ -49,6 +49,14 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
 }
 
+.app-select-input {
+  width: 100%;
+  border-radius: 16px;
+  border-width: 2px;
+  padding: 6px 16px;
+  color: white;
+}
+
 .content-container {
   min-height: calc(100vh - 70px);
   padding-top: 35px;
@@ -56,7 +64,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .central-column-container {
   margin: 0 auto;
-  max-width: 700px;
+  max-width: 780px;
   padding: 28px 32px;
   margin-bottom: 50px;
 }
