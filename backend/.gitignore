@@ -22,3 +22,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### Compiled webapp ###
+/src/main/resources/public/index.html
+/src/main/resources/public/static/*
