@@ -7,29 +7,24 @@
     <div class="w3-row header-container">
 
       <div class="w3-col m3 s12">
-        <div class="w3-left w3-margin-right select-container">
-          <select v-model="orgIdSelected" class="app-select dark-3" name="">
-            <option v-for="org in orgs" :key="org.id" :value="org.id">{{ org.name }}</option>
-          </select>
-        </div>
-        <div @click="newOrgModal = true" class="w3-left circular-button cursor-pointer app-color-white-1">
-          <i class="fa fa-plus-circle" aria-hidden="true"></i>
-        </div>
+        <router-link v-if="showHome" :to="{ name: 'OrganizationContent', params: {} }"
+          class="circular-button w3-center cursor-pointer app-color-white-1 disp-block">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </router-link>
       </div>
 
       <div class="w3-col m6 s12 w3-center">
-        <router-link class="" :to="{ name: 'Organizations', params: {} }">
-          <img class="logo" src="./../assets/logo-white.png" alt="">
-        </router-link>
+        <img class="logo" src="./../assets/logo-white.png" alt="">
       </div>
 
       <div class="w3-col m3 s12 user-container">
         <div class="w3-right cursor-pointer app-color-white-1">
           <i @click="logout()" class="fa fa-sign-out" aria-hidden="true"></i>
         </div>
-        <div class="w3-right w3-margin-right">
+        <router-link :to="{ name: 'Organizations', params: {} }"
+          class="w3-right w3-margin-right cursor-pointer app-color-white-1 disp-block">
           {{ userNickname }}
-        </div>
+        </router-link>
       </div>
     </div>
     <div class="w3-row w3-center">
@@ -63,13 +58,15 @@ export default {
   computed: {
     orgs () {
       return this.$store.getters.organizations
+    },
+    showHome () {
+      if (this.$route.params.orgId) {
+        return true
+      }
     }
   },
 
   watch: {
-    orgIdSelected () {
-      this.goToOrg()
-    },
     '$route' () {
       if (this.$route.params) {
         if (this.$route.params.orgId !== '') {
@@ -111,6 +108,10 @@ export default {
   min-height: 70px;
   color: white;
   font-size: 18px;
+}
+
+.w3-col {
+  min-height: 1px;
 }
 
 .logo {

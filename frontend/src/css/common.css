@@ -31,6 +31,12 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #339470 !important;
 }
 
+.app-button-light {
+  background-color: #dbdbdb;
+  color: black;
+  border-radius: 16px;
+}
+
 .app-button-danger {
   background-color: #9c0000;
   border-radius: 16px;
@@ -40,6 +46,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   padding: 6px 16px;
   border-radius: 16px;
+  border-width: 2px;
   border-style: solid;
 }
 
@@ -99,16 +106,4 @@ h1, h2, h3, h4, h5, h6 {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
-}
-
-.w3-modal {
-  display: block;
-}
-
-.w3-modal-content {
-  color: #2F2F2F;
-}
-
-.w3-modal-content.w3-card-4 {
-  border-radius: 22px;
 }

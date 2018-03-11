@@ -16,7 +16,6 @@ export default {
   created () {
     console.log('app loaded')
     this.$store.commit('updateAuthenticated')
-    this.$store.dispatch('updateProfile')
 
     this.$store.state.user.auth.authNotifier.on('authChange',
       (authState) => {
@@ -24,6 +23,10 @@ export default {
         this.$store.commit('setAuthenticated', authState.authenticated)
         this.$router.push({name: 'RootView'})
       })
+
+    if (this.$store.state.user.authenticated) {
+      this.$store.dispatch('updateProfile')
+    }
 
     /* set locale */
     i18n.locale = 'de'

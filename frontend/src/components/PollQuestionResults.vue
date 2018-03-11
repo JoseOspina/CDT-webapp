@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="question-results-container w3-row app-color-2-br">
     <div class="w3-col m6 question-text">
-      {{ question.text }}?
+      {{ question.text }}
     </div>
     <div class="w3-col m6 stats-cell w3-center">
       <span v-if="question.type === 'RATE_1_5'" class="">

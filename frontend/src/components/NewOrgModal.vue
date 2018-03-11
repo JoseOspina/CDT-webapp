@@ -1,9 +1,9 @@
 <template lang="html">
   <div class="w3-modal">
-    <div class="w3-modal-content">
-      <div class="w3-card-4">
+    <div class="w3-modal-content dark-3">
+      <div class="w3-card-4 dark-3">
 
-        <div class="close-div w3-display-topright w3-xlarge" @click="closeThis()">
+        <div class="close-div w3-display-topright w3-xlarge cursor-pointer app-color-white-1" @click="closeThis()">
           <i class="fa fa-times" aria-hidden="true"></i>
         </div>
 
@@ -16,15 +16,15 @@
           <div class="w3-container form ">
             <div class="w3-row">
               <label for=""><b>Name:</b></label>
-              <input v-model="name" class="w3-input w3-border" type="text" name="" value="">
+              <input v-model="name" class="rounded-input app-color-2-br dark-3" type="text" name="" value="">
             </div>
-            <div class="">
+            <div class="w3-row w3-margin-top">
               <label for=""><b>Description:</b></label>
-              <textarea v-model="description" class="w3-input w3-border"></textarea>
+              <textarea v-model="description" class="rounded-input app-color-2-br dark-3"></textarea>
             </div>
           </div>
 
-          <div class="w3-row bottom-btns-row">
+          <div class="w3-row-padding bottom-btns-row">
             <div class="w3-col m6">
               <button type="button" class="w3-button app-button-light" @click="closeThis()">Cancel</button>
             </div>
@@ -93,9 +93,34 @@ export default {
 
 <style scoped>
 
+.w3-modal {
+  display: block;
+}
+
+.w3-modal-content {
+  border-radius: 22px;
+}
+
+.w3-modal-content .w3-card-4 {
+  border-radius: 22px;
+  padding: 22px 36px;
+}
+
+.close-div {
+  margin-right: 10px;
+}
+
+.form-container {
+  padding-top: 22px;
+}
+
 .button-bar .w3-bar-item {
   width: 110px;
   font-size: 12px;
+}
+
+.bottom-btns-row {
+  margin-top: 22px;
 }
 
 .bottom-btns-row button {

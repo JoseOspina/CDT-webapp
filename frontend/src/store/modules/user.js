@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import router from './../../router'
 import AuthService from '@/auth/AuthService.js'
 const auth = new AuthService()
 
@@ -44,9 +45,9 @@ const actions = {
     context.state.auth.handleAuthentication(context)
   },
   updateProfile: (context) => {
-    console.log('updating profile')
     /* user profile */
     if (context.state.authenticated) {
+      console.log('updating profile')
       Vue.axios.get('/1/user/myProfile').then((response) => {
         if (response.data.result === 'success') {
           context.commit('setProfile', response.data.data)
@@ -59,6 +60,9 @@ const actions = {
         console.log(error)
         context.dispatch('logout')
       })
+    } else {
+      console.log('not authenticated, redirecting')
+      router.push({name: 'LandingPage'})
     }
   }
 }

@@ -9,7 +9,7 @@
         <router-link class="w3-card-4 app-card disp-block"
           :to="{ name: 'OrganizationPolls', params: {orgId: organization.id} }">
           <b>{{ organization.name }}</b>
-          {{ organization.description }}
+          <p>{{ organization.description }}</p>
         </router-link>
       </div>
     </div>
