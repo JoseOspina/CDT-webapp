@@ -1,12 +1,10 @@
 <template lang="html">
   <div class="w3-container content-container this-container">
     <div class="w3-row">
-      <div class="w3-left w3-margin-right">
+      <div class="w3-left content-title-div">
         <h4><b>Organization Polls</b></h4>
       </div>
-      <div class="w3-left new-poll-button cursor-pointer app-color-white-1">
-        <i @click="newPoll()" class="fa fa-plus-circle" aria-hidden="true"></i>
-      </div>
+      <app-plus-button class="w3-left w3-margin-left" @click="newPoll()"></app-plus-button>
     </div>
 
     <div class="w3-row-padding organization-polls-row">

@@ -1,15 +1,11 @@
 <template lang="html">
   <div class="w3-row header-container">
-    <app-new-org-modal
-      v-if="newOrgModal"
-      @close="newOrgModal = false">
-    </app-new-org-modal>
     <div class="w3-row header-container">
 
       <div class="w3-col m3 s12">
         <router-link v-if="showHome" :to="{ name: 'OrganizationContent', params: {} }"
           class="circular-button w3-center cursor-pointer app-color-white-1 disp-block">
-          <i class="fa fa-home" aria-hidden="true"></i>
+          <i class="fa fa-home" aria-hidden="true"></i><span> {{ orgName }}</span>
         </router-link>
       </div>
 
@@ -38,19 +34,13 @@
 
 <script>
 import loggedUser from '@/mixins/loggedUser'
-import NewOrgModal from '@/components/NewOrgModal'
 
 export default {
   mixins: [ loggedUser ],
 
-  components: {
-    'app-new-org-modal': NewOrgModal
-  },
-
   data () {
     return {
       organizationCreationError: false,
-      newOrgModal: false,
       orgIdSelected: ''
     }
   },
@@ -63,6 +53,16 @@ export default {
       if (this.$route.params.orgId) {
         return true
       }
+    },
+    orgName () {
+      if (this.$store.state.user.profile) {
+        for (var ix in this.$store.state.user.profile.organizations) {
+          if (this.$store.state.user.profile.organizations[ix].id === this.$route.params.orgId) {
+            return this.$store.state.user.profile.organizations[ix].name
+          }
+        }
+      }
+      return ''
     }
   },
 
@@ -120,7 +120,10 @@ export default {
 }
 
 .circular-button {
-  padding-top: 8px;
+  padding-top: 18px;
+}
+
+.circular-button .fa {
   font-size: 32px;
 }
 
