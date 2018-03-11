@@ -40,7 +40,7 @@
 }
 
 .app-color-1-br {
-  border-color: #009B9C;
+  border-color: #009B9C !important;
 }
 
 .app-color-2-bg {
@@ -53,5 +53,5 @@
 }
 
 .app-color-2-br {
-  border-color: #339470;
+  border-color: #339470 !important;
 }

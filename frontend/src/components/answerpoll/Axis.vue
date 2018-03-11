@@ -1,15 +1,18 @@
 <template lang="html">
   <div class="">
-    <div class="w3-row">
+    <div class="w3-row rounded-input app-color-1-br w3-margin-top">
       <h3>{{ axis.title }}</h3>
     </div>
-    <div class="w3-row">
-      <p>{{ axis.description }}</p>
+    <div class="w3-row questions-row">
+      <div class="w3-row question-container app-color-2-br"
+        v-for="(question, ixq) in axis.questions" :key="question.id">
+        <div class="w3-row">
+          <b>{{ ixq + 1}}.</b>
+        </div>
+        <app-answer-question :question="question">
+        </app-answer-question>
+      </div>
     </div>
-    <app-answer-question
-      v-for="question in axis.questions" :key="question.id"
-      :question="question" class="w3-row question-container">
-    </app-answer-question>
   </div>
 </template>
 
@@ -31,8 +34,18 @@ export default {
 
 <style scoped>
 
+.questions-row {
+  width: 90%;
+  margin: 0 auto;
+  padding-top: 35px;
+}
+
 .question-container {
+  padding-bottom: 20px;
   margin-bottom: 20px;
+  min-height: 85px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
 }
 
 </style>

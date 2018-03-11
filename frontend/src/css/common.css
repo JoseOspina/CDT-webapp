@@ -69,6 +69,10 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
 }
 
+.margin-0-auto {
+  margin: 0 auto;
+}
+
 .content-container {
   min-height: calc(100vh - 70px);
   padding-top: 35px;

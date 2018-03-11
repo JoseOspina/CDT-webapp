@@ -1,5 +1,5 @@
 <template lang="html">
-  <div v-if="poll" class="answer-poll-container">
+  <div v-if="poll" class="content-container this-container">
     <app-answer-poll :poll="poll"></app-answer-poll>
   </div>
 </template>
@@ -41,6 +41,15 @@ export default {
 </script>
 
 <style scoped>
+
+.this-container {
+  background: url('./../../assets/background-1.png') center;
+  background-color: #3F3E3E;
+}
+
+.content-container {
+  padding-top: 0px;
+}
 
 .answer-poll-container {
   color: black;

@@ -17,8 +17,15 @@
           class="custom-value-back app-color-white-1 cursor-pointer">
           <i class="fa fa-undo" aria-hidden="true"></i>
         </div>
-        <input v-if="!useTextArea" :value="value" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round" type="text" name="" >
-        <textarea v-else ref="textarea" :value="value" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="w3-input w3-round"></textarea>
+
+        <input v-if="!useTextArea" :value="value"
+          @input="$emit('input', $event.target.value)" :placeholder="placeholder"
+          class="w3-input w3-round" type="text" name="" >
+
+        <textarea v-else ref="textarea" :value="value"
+          @input="$emit('input', $event.target.value)" :placeholder="placeholder"
+          class="w3-input w3-round">
+        </textarea>
       </div>
     </div>
   </div>

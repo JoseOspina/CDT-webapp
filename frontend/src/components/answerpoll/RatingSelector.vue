@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="">
+  <div class="rating-container">
     <div v-for="ix in [1, 2, 3, 4, 5]"
       @click="clicked(ix)" :key="ix" class="rating-space"
       @mouseenter="hoverEnter(ix)"
@@ -36,20 +36,27 @@ export default {
 
 <style scoped>
 
+.rating-container {
+  padding-top: 12px;
+  overflow: auto;
+  font-size: 18px;
+}
+
 .rating-space {
   float: left;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 8px;
+  padding-left: 8px;
   text-align: center;
   cursor: pointer;
+  color: #3F3E3E;
 }
 
 .rating-space-hover {
-  background-color: rgb(159, 124, 167);
+  color: #009B9C;
 }
 
 .rating-space-selected {
-  background-color: rgb(66, 3, 156);
+  color: #009B9C;
 }
 
 .rating-dot {

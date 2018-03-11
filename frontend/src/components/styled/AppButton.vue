@@ -1,5 +1,5 @@
 <template lang="html">
-  <div @click="$emit('click', $event)" class="this-button-container cursor-pointer">
+  <div @click="$emit('click', $event)" class="this-button-container cursor-pointer w3-center noselect">
     <div class="this-button-content">
       <slot></slot>
     </div>
