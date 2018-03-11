@@ -1,8 +1,20 @@
 <template lang="html">
-  <div class="">
-    <h1>Landing Page</h1>
-    <button v-if="!isAuthenticated" @click="login()" class="w3-button w3-blue w3-round-large">login</button>
-    <button v-else @click="logout()" class="w3-button w3-blue w3-round-large">logout</button>
+  <div class="content-container this-container">
+    <div class="central-column-container dark-1">
+      <div class="w3-row w3-center">
+
+      </div>
+      <div class="w3-row w3-center">
+        <img class="logo" src="./../assets/logo-white.png" alt="">
+      </div>
+      <div class="w3-row btn-row">
+        <app-button v-if="!isAuthenticated" @click="login()"
+          class="margin-0-auto">Start!</app-button>
+      </div>
+      <div class="w3-row w3-center">
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,5 +26,27 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.this-container {
+  background: url('./../assets/background-2.png');
+  background-color: #3F3E3E;
+  height: 100vh;
+}
+
+.central-column-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 85px);
+}
+
+.btn-row {
+  margin-top: 35px;
+}
+
+.logo {
+  width: 350px;
+}
+
 </style>
