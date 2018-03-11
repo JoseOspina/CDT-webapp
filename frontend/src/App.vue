@@ -17,7 +17,7 @@ export default {
   created () {
     var options = {
       auth: {
-        responseType: 'token',
+        responseType: 'token id_token',
         params: {
           connectionScopes: {
             connectionName: [ 'openid', 'user_metadata', 'app_metadata', 'picture' ]
