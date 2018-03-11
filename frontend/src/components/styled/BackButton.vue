@@ -32,7 +32,7 @@ export default {
 }
 
 .back-button-content:hover {
-  background-color: #FFDE17;
+  background-color: #544800;
 }
 
 </style>

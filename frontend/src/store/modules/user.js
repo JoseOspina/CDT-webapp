@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import router from './../../router'
-import AuthService from '@/auth/AuthService.js'
-const auth = new AuthService()
 
 const state = {
-  auth: auth,
+  lock: null,
   authenticated: false,
   profile: null
 }
@@ -23,24 +21,18 @@ const getters = {
 }
 
 const mutations = {
-  updateAuthenticated: (state) => {
-    state.authenticated = auth.authenticated
-  },
   setAuthenticated: (state, payload) => {
     state.authenticated = payload
   },
   setProfile: (state, payload) => {
     state.profile = payload
+  },
+  setLock: (state, payload) => {
+    state.lock = payload
   }
 }
 
 const actions = {
-  login: (context) => {
-    context.state.auth.login()
-  },
-  logout: (context) => {
-    context.state.auth.logout()
-  },
   handleAuthentication: (context) => {
     context.state.auth.handleAuthentication(context)
   },
@@ -53,17 +45,23 @@ const actions = {
           context.commit('setProfile', response.data.data)
         } else {
           if (response.data.message === 'anonymous user') {
+            router.push({name: 'LandingPage'})
             context.commit('setAuthenticated', false)
           }
         }
       }).catch((error) => {
         console.log(error)
         context.dispatch('logout')
+        router.push({name: 'LandingPage'})
       })
-    } else {
-      console.log('not authenticated, redirecting')
-      router.push({name: 'LandingPage'})
     }
+  },
+  logoutUser: (context) => {
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('id_token')
+    context.commit('setAuthenticated', false)
+    context.commit('setProfile', null)
+    router.push({name: 'LandingPage'})
   }
 }
 

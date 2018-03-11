@@ -31,8 +31,8 @@ export default {
   padding: 0px 0px 0px 8px;
 }
 
-.back-button-content:hover {
-  background-color: #FFDE17;
+.this-button-content:hover {
+  background-color: #544800;
 }
 
 </style>

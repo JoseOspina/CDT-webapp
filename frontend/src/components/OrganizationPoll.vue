@@ -120,7 +120,7 @@ export default {
       return this.$route.params.pollId
     },
     pollAnswerUrl () {
-      return window.location.host + '/app/answer/' + this.poll.id
+      return window.location.host + '/#/app/answer/' + this.poll.id
     }
   },
 

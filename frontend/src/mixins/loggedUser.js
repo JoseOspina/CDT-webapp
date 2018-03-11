@@ -13,10 +13,10 @@ export default {
   },
   methods: {
     login () {
-      this.$store.dispatch('login')
+      this.$store.state.user.lock.show()
     },
     logout () {
-      this.$store.dispatch('logout')
+      this.$store.dispatch('logoutUser')
     }
   }
 }
