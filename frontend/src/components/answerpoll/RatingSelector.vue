@@ -12,6 +12,11 @@
 
 <script>
 export default {
+  props: {
+    valueInit: {
+      type: Number
+    }
+  },
   data () {
     return {
       hoveringOver: 0,
@@ -29,6 +34,12 @@ export default {
     },
     hoverLeave (n) {
       this.hoveringOver = 0
+    }
+  },
+
+  created () {
+    if (this.valueInit) {
+      this.selected = this.valueInit
     }
   }
 }

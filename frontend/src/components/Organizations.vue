@@ -18,7 +18,7 @@
         <router-link class="w3-card-4 app-card disp-block"
           :to="{ name: 'OrganizationPolls', params: {orgId: organization.id} }">
           <h4><b>{{ organization.name }}</b></h4>
-          <p>{{ organization.description }}</p>
+          <vue-markdown class="marked-text" :source="organization.description.length < 60 ? organization.description : organization.description.slice(0, 59) + ' ...'"></vue-markdown>
         </router-link>
       </div>
     </div>

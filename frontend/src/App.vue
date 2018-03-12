@@ -71,6 +71,7 @@ export default {
 .app-container {
   background: url('./assets/background-2.png');
   background-color: #3F3E3E;
+  padding-bottom: 75px;
 }
 
 </style>

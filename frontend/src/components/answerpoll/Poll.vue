@@ -5,7 +5,7 @@
       <div class="central-column-container dark-1">
         <div class="w3-row title-container">
           <h1><b>{{ poll.title }}</b></h1>
-          <p>{{ poll.description }}</p>
+          <vue-markdown class="marked-text" :source="poll.description"></vue-markdown>
         </div>
         <div v-if="!alreadyFilled && !answerSucessful" class="w3-row start-button">
           <app-button @click="axisIx = 0" class="margin-0-auto">Start</app-button>
@@ -133,10 +133,6 @@ export default {
 
 .start-button {
   margin-top: 10vh;
-}
-
-.title-page .w3-row:nth-child(2) {
-  margin-top: 85px;
 }
 
 .title-container {

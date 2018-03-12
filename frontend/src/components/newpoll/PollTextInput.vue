@@ -22,10 +22,10 @@
           @input="$emit('input', $event.target.value)" :placeholder="placeholder"
           class="w3-input w3-round" type="text" name="" >
 
-        <textarea v-else ref="textarea" :value="value"
-          @input="$emit('input', $event.target.value)" :placeholder="placeholder"
-          class="w3-input w3-round">
-        </textarea>
+        <app-markdown-editor v-else :value="value"  @input="$emit('input', $event)"
+          :placeholder="placeholder">
+        </app-markdown-editor>
+
       </div>
     </div>
   </div>
@@ -53,41 +53,11 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-
-  watch: {
-    value () {
-      this.checkHeight()
-    }
-  },
-
-  methods: {
-    checkHeight () {
-      if (this.$refs.textarea && this.useTextArea) {
-        if (this.value !== '') {
-          /* resize text area */
-          this.$refs.textarea.style.height = (this.$refs.textarea.scrollHeight) + 'px'
-        } else {
-          this.$refs.textarea.style.height = '90px'
-        }
-      }
-    }
-  },
-
-  mounted () {
-    this.$nextTick(() => {
-      this.checkHeight()
-    })
   }
 }
 </script>
 
 <style scoped>
-
-textarea {
-  resize: vertical;
-  min-height: 35px;
-}
 
 .box-container {
   background-color: rgba(0, 0, 0, 0.05);

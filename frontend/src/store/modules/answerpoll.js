@@ -12,6 +12,17 @@ const state = {
 }
 
 const getters = {
+  getAnswer: (state) => (questionId) => {
+    var ix = getAnswerIx(questionId, state.answers)
+    if (ix !== -1) {
+      if (state.answers[ix].type === 'RATE_1_5') {
+        return state.answers[ix].rate
+      }
+      if (state.answers[ix].type === 'TEXT') {
+        return state.answers[ix].text
+      }
+    }
+  }
 }
 
 const mutations = {

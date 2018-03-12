@@ -23,7 +23,7 @@
           @click="selectTemplate(template)"
           class="card-template cursor-pointer" :class="{'card-template-selected': isSelected(template)}">
           <h4>{{ template.title }}</h4>
-          <p>{{ template.description }}</p>
+          <vue-markdown class="marked-text" :source="template.description"></vue-markdown>
         </div>
       </div>
 

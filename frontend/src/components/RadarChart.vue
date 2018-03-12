@@ -29,7 +29,7 @@ export default {
         TranslateX: 40,
         TranslateY: 25,
         ExtraWidthX: 70,
-        ExtraWidthY: 60
+        ExtraWidthY: 100
       }
 
       RadarChart.draw('#chart-container', this.chartData, config)
