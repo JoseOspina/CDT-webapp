@@ -5,7 +5,7 @@
 
       </div>
       <div class="w3-row w3-center">
-        <img class="logo" src="./../assets/logo-white.png" alt="">
+        <img class="logo-landing" src="./../assets/logo-white.png" alt="">
       </div>
       <div class="w3-row btn-row">
         <app-button v-if="!isAuthenticated" @click="login()"
@@ -38,14 +38,14 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 85px);
+  height: 70vh;
 }
 
 .btn-row {
   margin-top: 35px;
 }
 
-.logo {
+.logo-landing {
   width: 350px;
 }
 
