@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="poll-fill-container">
 
-    <div v-if="axisIx == -1 || alreadyFilled || answerSucessful" class="w3-center title-page">
+    <div v-if="axisIx == -1 || alreadyFilled || answerSucessful" class="title-page">
       <div class="central-column-container dark-1">
         <div class="w3-row title-container">
           <h1><b>{{ poll.title }}</b></h1>

@@ -13,8 +13,8 @@
     </div>
     <div v-if="restorable && !question.custom" class="w3-row">
       <div class="w3-col m9">
-        <div class="rounded-input app-color-2-br">
-          {{ question.text }}
+        <div class="rounded-input app-color-2-br dark-1">
+          <vue-markdown class="marked-text" :source="question.text"></vue-markdown>
         </div>
       </div>
       <div class="w3-col m3 select-col">

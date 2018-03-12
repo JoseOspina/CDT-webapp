@@ -22,7 +22,7 @@
 
       <div class="w3-row w3-margin-top">
         <div class="w3-col m8">
-          <div class="w3-row w3-center title-container dark-3 w3-round-large">
+          <div class="w3-row w3-padding title-container dark-3 w3-round-large">
             <h3>{{ poll.title }}</h3>
             <vue-markdown class="marked-text" :source="poll.description"></vue-markdown>
           </div>

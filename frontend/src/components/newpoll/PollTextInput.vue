@@ -8,7 +8,8 @@
             <i v-if="restorable" class="fa fa-pencil" aria-hidden="true"></i>
           </div>
           <div class="w3-left w3-margin-left">
-            <span>{{ value }}</span>
+            <vue-markdown v-if="useTextArea" class="marked-text" :source="value"></vue-markdown>
+            <span v-else>{{ value }}</span>
           </div>
         </div>
       </div>
