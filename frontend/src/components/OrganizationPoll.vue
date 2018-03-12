@@ -56,7 +56,7 @@
       <div v-if="details.numberOfAnswers > 0" class="">
         <hr>
         <h4>Results:</h4>
-        <div class="w3-row w3-white w3-round-large">
+        <div class="w3-row w3-round-large">
           <app-radar-chart v-if="chartData.length > 0" :chartData="chartData"></app-radar-chart>
         </div>
         <div class="w3-row w3-margin-top">

@@ -49,20 +49,25 @@ var RadarChart = {
     //Circular segments
     for(var j=0; j<cfg.levels; j++){
       var levelFactor = cfg.factor*radius*((j+1)/cfg.levels);
-      g.selectAll(".levels")
-       .data(allAxis)
-       .enter()
-       .append("svg:line")
-       .attr("x1", function(d, i){return levelFactor*(1-cfg.factor*Math.sin(i*cfg.radians/total));})
-       .attr("y1", function(d, i){return levelFactor*(1-cfg.factor*Math.cos(i*cfg.radians/total));})
-       .attr("x2", function(d, i){return levelFactor*(1-cfg.factor*Math.sin((i+1)*cfg.radians/total));})
-       .attr("y2", function(d, i){return levelFactor*(1-cfg.factor*Math.cos((i+1)*cfg.radians/total));})
-       .attr("class", "line")
-       .style("stroke", "grey")
+      g.append("svg:circle")
+       .attr("cx", cfg.w/2)
+       .attr("cy", cfg.w/2)
+       .attr("r", levelFactor)
+       .style("fill", "none")
+       .style("stroke", "#009B9C")
        .style("stroke-opacity", "0.75")
-       .style("stroke-width", "0.3px")
-       .attr("transform", "translate(" + (cfg.w/2-levelFactor) + ", " + (cfg.h/2-levelFactor) + ")");
+       .style("stroke-width", "0.3px");
     }
+
+    // outer circle
+    g.append("svg:circle")
+     .attr("cx", cfg.w/2)
+     .attr("cy", cfg.w/2)
+     .attr("r", cfg.factor*radius)
+     .style("fill", "none")
+     .style("stroke", "#009B9C")
+     .style("stroke-opacity", "0.75")
+     .style("stroke-width", "3px");
 
     //Text indicating at what % each level is
     for(var j=0; j<cfg.levels; j++){
@@ -76,8 +81,8 @@ var RadarChart = {
        .attr("class", "legend")
        .style("font-family", "sans-serif")
        .style("font-size", "10px")
-       .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor) + ")")
-       .attr("fill", "#737373")
+       .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor+13) + ")")
+       .attr("fill", "#009B9C")
        .text((j+1)* cfg.maxValue/cfg.levels);
     }
 
@@ -96,14 +101,15 @@ var RadarChart = {
       .attr("x2", function(d, i){return cfg.w/2*(1-cfg.factor*Math.sin(i*cfg.radians/total));})
       .attr("y2", function(d, i){return cfg.h/2*(1-cfg.factor*Math.cos(i*cfg.radians/total));})
       .attr("class", "line")
-      .style("stroke", "grey")
+      .style("stroke", "#009B9C")
       .style("stroke-width", "1px");
 
     axis.append("text")
       .attr("class", "legend")
       .text(function(d){return d})
       .style("font-family", "sans-serif")
-      .style("font-size", "11px")
+      .style("font-size", "13px")
+      .style("stroke", "#FFFFFF")
       .attr("text-anchor", "middle")
       .attr("dy", "1.5em")
       .attr("transform", function(d, i){return "translate(0, -10)"})
@@ -155,7 +161,7 @@ var RadarChart = {
     series=0;
 
 
-var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+   var tooltip = d3.select("body").append("div").attr("class", "toolTip");
     d.forEach(function(y, x){
       g.selectAll(".nodes")
       .data(y).enter()
@@ -167,8 +173,8 @@ var tooltip = d3.select("body").append("div").attr("class", "toolTip");
         dataValues.push([
         cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)),
         cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
-      ]);
-      return cfg.w/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total));
+        ]);
+        return cfg.w/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total));
       })
       .attr("cy", function(j, i){
         return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
@@ -176,16 +182,7 @@ var tooltip = d3.select("body").append("div").attr("class", "toolTip");
       .attr("data-id", function(j){return j.area})
       .style("fill", "#fff")
       .style("stroke-width", "2px")
-      .style("stroke", cfg.color(series)).style("fill-opacity", .9)
-      .on('mouseover', function (d){
-        // console.log(d.area)
-            tooltip
-              .style("left", d3.event.pageX - 40 + "px")
-              .style("top", d3.event.pageY - 80 + "px")
-              .style("display", "inline-block")
-      				.html((d.area) + "<br><span>" + (d.value) + "</span>");
-            })
-    		.on("mouseout", function(d){ tooltip.style("display", "none");});
+      .style("stroke", cfg.color(series)).style("fill-opacity", .9);
 
       series++;
     });

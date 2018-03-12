@@ -13,19 +13,48 @@ export default {
     }
   },
 
-  mounted () {
-    var width = 300
-    var height = 300
-
-    // Config for the Radar chart
-    var config = {
-      w: width,
-      h: height,
-      levels: 5,
-      ExtraWidthX: 300
+  data () {
+    return {
+      width: 300,
+      height: 300
     }
+  },
 
-    RadarChart.draw('#chart-container', this.chartData, config)
+  methods: {
+    draw () {
+      var config = {
+        w: this.width,
+        h: this.height,
+        levels: 5,
+        TranslateX: 40,
+        TranslateY: 25,
+        ExtraWidthX: 70,
+        ExtraWidthY: 60
+      }
+
+      RadarChart.draw('#chart-container', this.chartData, config)
+    },
+    checkWindowSize () {
+      var windowWidth = window.innerWidth
+
+      if (windowWidth < 800) {
+        this.width = windowWidth / 2
+        this.height = windowWidth / 2
+      } else {
+        this.width = 400
+        this.height = 400
+      }
+      console.log('width:' + this.width)
+      console.log('height:' + this.height)
+
+      this.draw()
+    }
+  },
+
+  mounted () {
+    this.draw()
+    this.checkWindowSize()
+    window.addEventListener('resize', this.checkWindowSize)
   }
 }
 </script>
@@ -44,9 +73,9 @@ export default {
 }
 
 #chart-container {
-  position: relative;
-  top: 50px;
-  left: 100px;
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 .toolTip {
