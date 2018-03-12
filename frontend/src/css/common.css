@@ -6,7 +6,8 @@
 }
 
 .anouncement {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Open Sans', sans-serif;
+  /*font-family: 'Roboto Slab', serif;*/
 }
 
 a {
@@ -18,13 +19,25 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto', sans-serif;
 }
 
+.header-container {
+  background: linear-gradient(45deg, #FFDE17, #339470, #339470);
+  min-height: 75px;
+  color: white;
+  font-size: 18px;
+}
+
+.logo {
+  margin-top: 18px;
+  height: 40px;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
 
 .app-button {
   background-color: #009B9C;
-  border-radius: 16px;
+  border-radius: 3px;
 }
 
 .app-button:hover {
@@ -34,18 +47,18 @@ h1, h2, h3, h4, h5, h6 {
 .app-button-light {
   background-color: #dbdbdb;
   color: black;
-  border-radius: 16px;
+  border-radius: 3px;
 }
 
 .app-button-danger {
   background-color: #9c0000;
-  border-radius: 16px;
+  border-radius: 3px;
 }
 
 .rounded-input {
   width: 100%;
   padding: 6px 16px;
-  border-radius: 16px;
+  border-radius: 3px;
   border-width: 2px;
   border-style: solid;
 }
@@ -78,15 +91,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .content-container {
-  min-height: calc(100vh - 70px);
-  padding-top: 35px;
+  min-height: calc(100vh - 75px);
+  padding-top: 10vh;
 }
 
 .central-column-container {
   margin: 0 auto;
   max-width: 780px;
-  padding: 28px 32px;
+  padding: 0px 32px 10vh 32px;
   margin-bottom: 50px;
+}
+
+.column-header {
+  margin-bottom: 6vh;
+}
+
+.bottom-row {
+  margin-top: 10vh;
 }
 
 .back-button-in-column {
@@ -98,12 +119,45 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
 }
 
+.app-card-container {
+  display: inline-block;
+  margin-bottom: 10vh;
+}
+
+@media screen and (min-width: 992px) {
+  .app-card-container {
+    width: calc(23.33%);
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+@media screen and (max-width: 991px) and (min-width: 602px) {
+  .app-card-container {
+    width: calc(40%);
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+@media screen and (max-width: 601px) {
+  .app-card-container {
+    width: calc(90%);
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
 .app-card {
-  padding: 12px 18px;
-  background-color: white;
+  padding: 24px 18px 12px 18px;
+  min-height: 200px;
+  background-color: rgba(255, 255, 255, 0.80);
   border-radius: 16px;
   color: #2F2F2F;
-  display: block;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .noselect {

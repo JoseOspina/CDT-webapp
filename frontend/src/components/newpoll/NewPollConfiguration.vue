@@ -14,7 +14,7 @@
           <app-back-button class=""></app-back-button>
         </router-link>
 
-        <div class="w3-row">
+        <div class="w3-row column-header">
           <app-column-header>
             New Poll - <i>Configuration</i>
           </app-column-header>
@@ -25,7 +25,7 @@
             <option value="ANYONE_WITH_LINK">Anyone with the link</option>
           </select>
         </div>
-        <div class="w3-row w3-center create-row">
+        <div class="w3-row w3-center bottom-row">
           <app-button class="w3-right" @click="create()">create!</app-button>
         </div>
         <app-error-panel
@@ -96,9 +96,5 @@ export default {
 </script>
 
 <style scoped>
-
-.create-row {
-  margin-top: 36px;
-}
 
 </style>

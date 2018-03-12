@@ -15,8 +15,8 @@ export default {
 
 .this-button-container {
   background: linear-gradient(135deg, #FFDE17, #009B9C);
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   border-radius: 21px;
   padding: 3px;
 }
@@ -27,7 +27,8 @@ export default {
   height: 100%;
   width: 100%;
   border-radius: 21px;
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: lighter;
   padding: 0px 0px 0px 8px;
 }
 

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    <div class="w3-row rounded-input app-color-1-br w3-margin-top">
+    <div class="w3-row rounded-input axis-title app-color-1-br">
       <h3>{{ axis.title }}</h3>
     </div>
     <div class="w3-row questions-row">
@@ -33,6 +33,10 @@ export default {
 </script>
 
 <style scoped>
+
+.axis-title {
+  border-radius: 16px;
+}
 
 .questions-row {
   width: 90%;

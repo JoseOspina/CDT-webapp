@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="w3-container content-container this-container">
+  <div class="w3-container content-container">
     <div class="w3-row">
       <div class="w3-left content-title-div">
         <h4><b>Organization Polls</b></h4>
@@ -8,7 +8,7 @@
     </div>
 
     <div class="w3-row-padding organization-polls-row">
-      <div v-for="poll in this.polls" :key="poll.id" class="w3-col l4 m6 s12 w3-margin-bottom">
+      <div v-for="poll in this.polls" :key="poll.id" class="app-card-container">
         <app-poll-card :poll="poll"></app-poll-card>
       </div>
     </div>
@@ -69,11 +69,6 @@ export default {
 
 <style>
 
-.this-container {
-  background: url('./../assets/background-1.png') center left;
-  background-color: #3F3E3E;
-}
-
 .new-poll-button {
   padding: 0px;
   font-size: 32px;
@@ -81,7 +76,9 @@ export default {
 }
 
 .organization-polls-row {
-  padding: 22px 0px;
+  padding-top: 10vh;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 </style>

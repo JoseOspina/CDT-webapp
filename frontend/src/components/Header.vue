@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="w3-row header-container">
-    <div class="w3-row header-container">
+    <div class="w3-row header-container w3-card-2">
 
       <div class="w3-col m3 s12">
         <router-link v-if="showHome" :to="{ name: 'OrganizationContent', params: {} }"
@@ -103,24 +103,12 @@ export default {
 
 <style scoped>
 
-.header-container {
-  background: linear-gradient(to right, #FFDE17, #009B9C, #009B9C);
-  min-height: 70px;
-  color: white;
-  font-size: 18px;
-}
-
 .w3-col {
   min-height: 1px;
 }
 
-.logo {
-  margin-top: 16px;
-  height: 40px;
-}
-
 .circular-button {
-  padding-top: 18px;
+  padding-top: 21px;
 }
 
 .circular-button .fa {
@@ -139,7 +127,7 @@ export default {
 }
 
 .user-container {
-  padding-top: 20px;
+  padding-top: 23px;
   padding-right: 12px;
 }
 

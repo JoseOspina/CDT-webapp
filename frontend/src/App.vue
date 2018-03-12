@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app-container">
     <router-view/>
   </div>
 </template>
@@ -67,5 +67,10 @@ export default {
 @import 'css/colors.css';
 @import 'css/common.css';
 @import 'ext/radar-chart.css';
+
+.app-container {
+  background: url('./assets/background-2.png');
+  background-color: #3F3E3E;
+}
 
 </style>

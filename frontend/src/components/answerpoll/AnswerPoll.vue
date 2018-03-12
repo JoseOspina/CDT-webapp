@@ -1,6 +1,12 @@
 <template lang="html">
-  <div v-if="poll" class="content-container this-container">
-    <app-answer-poll :poll="poll"></app-answer-poll>
+  <div v-if="poll" class="">
+    <div class="w3-row header-container w3-center">
+      <img class="logo" src="./../../assets/logo-white.png" alt="">
+    </div>
+    <div class="content-container">
+      <app-answer-poll :poll="poll"></app-answer-poll>
+    </div>
+
   </div>
 </template>
 
@@ -42,13 +48,7 @@ export default {
 
 <style scoped>
 
-.this-container {
-  background: url('./../../assets/background-1.png') center;
-  background-color: #3F3E3E;
-}
-
 .content-container {
-  padding-top: 0px;
 }
 
 .answer-poll-container {

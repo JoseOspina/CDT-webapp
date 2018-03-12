@@ -12,17 +12,19 @@
         <app-back-button class=""></app-back-button>
       </router-link>
 
-      <div class="w3-row">
+      <div class="w3-row column-header">
         <app-column-header>
           New Poll - <i>Select a Template</i>
         </app-column-header>
       </div>
 
-      <div v-for="template in templates" :key="template.id"
-        @click="selectTemplate(template)"
-        class="w3-card-4 app-card disp-block w3-margin-top cursor-pointer" :class="{'w3-blue': isSelected(template)}">
-        <h1>{{ template.title }}</h1>
-        <p>{{ template.description }}</p>
+      <div class="templates-container">
+        <div v-for="template in templates" :key="template.id"
+          @click="selectTemplate(template)"
+          class="card-template cursor-pointer" :class="{'card-template-selected': isSelected(template)}">
+          <h4>{{ template.title }}</h4>
+          <p>{{ template.description }}</p>
+        </div>
       </div>
 
       <app-error-panel
@@ -30,7 +32,7 @@
         message="no template has been selected">
       </app-error-panel>
 
-      <div class="w3-row w3-margin-top">
+      <div class="w3-row bottom-row">
         <app-button @click="next()" class="w3-right w3-margin-left">Next</app-button>
         <app-button @click="skip()" class="w3-right">Skip</app-button>
       </div>
@@ -113,5 +115,17 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.card-template {
+  background-color: rgba(255, 255, 255, 0.23);
+  border-radius: 12px;
+  padding: 12px 18px;
+  margin-bottom: 30px;
+}
+
+.card-template-selected {
+  background-color: #009B9C;
+}
+
 </style>

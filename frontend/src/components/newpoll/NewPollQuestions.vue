@@ -13,7 +13,7 @@
         <app-back-button class=""></app-back-button>
       </router-link>
 
-      <div class="w3-row">
+      <div class="w3-row column-header">
         <app-column-header>
           New Poll - <i>Customization</i>
         </app-column-header>
@@ -60,7 +60,7 @@
           </div>
           <div class="w3-row">
             <div class="w3-col l2 s12 axis-number-col w3-center w3-margin-bottom">
-              <h4>Axis {{ ixA + 1 }}</h4>
+              <h4>Degree {{ ixA + 1 }}</h4>
             </div>
             <div class="w3-col l10 s12">
               <!-- Axis -->

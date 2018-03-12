@@ -1,5 +1,5 @@
 <template lang="html">
-  <div v-if="question" class="">
+  <div v-if="question" class="question-input">
     <div class="w3-row">
       <div v-if="restorable" class="app-color-white-1 cursor-pointer restore-btn">
         <i v-if="!question.custom" @click="$emit('set-custom-question')" class="fa fa-pencil" aria-hidden="true"></i>
@@ -100,6 +100,10 @@ export default {
 
 .percentage {
   margin-left: 50px;
+}
+
+.question-input .fa {
+  color: rgba(255, 255, 255, 0.23);
 }
 
 .restore-btn {

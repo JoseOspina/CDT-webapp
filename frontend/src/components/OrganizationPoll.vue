@@ -1,5 +1,6 @@
 <template lang="html">
-  <div v-if="poll !== null && details !== null" class="w3-container content-container this-container">
+  <div v-if="poll !== null && details !== null"
+    class="w3-container content-container">
 
     <router-link :to="{ name: 'OrganizationPolls'}"
       class="w3-row disp-block w3-margin-bottom w3-hide-large">
@@ -27,17 +28,21 @@
           </div>
           <div class="w3-row-padding w3-margin-top">
 
-            <div class="w3-col m6">
-              <input v-model="localIsTemplate" class="w3-check" type="checkbox">
-              <label>Make a template</label>
+            <div class="w3-col m6 bullet-input">
+              <div @click="localIsTemplate = !localIsTemplate" class="w3-left w3-padding fa-container cursor-pointer">
+                <i class="fa fa-circle rating-dot" :class="{'light-co': localIsTemplate}" aria-hidden="true"></i>
+              </div>
+              <div class="w3-left w3-margin-left text">Make a template</div>
             </div>
-            <div v-if="poll.isTemplate" class="w3-col m6">
-              <input v-model="localIsTemplatePublic" class="w3-check" type="checkbox">
-              <label>Public</label>
+            <div v-if="poll.isTemplate" class="w3-col m6 bullet-input">
+              <div @click="localIsTemplatePublic = !localIsTemplatePublic" class="w3-left w3-padding fa-container cursor-pointer">
+                <i class="fa fa-circle rating-dot" :class="{'light-co': localIsTemplatePublic}" aria-hidden="true"></i>
+              </div>
+              <div class="w3-left w3-margin-left text">Public</div>
             </div>
           </div>
           <div v-if="poll.isTemplate" class="w3-row w3-margin-top w3-padding dark-3 anouncement w3-round">
-            <span>this poll can be used as a template when creating new polls in {{ poll.isPublicTemplate ? 'any' : 'this' }} organization</span>
+            <span><i>this poll can be used as a template when creating new polls in {{ poll.isPublicTemplate ? 'any' : 'this' }} organization</i></span>
           </div>
         </div>
         <div class="w3-col m4">
@@ -61,9 +66,9 @@
         </div>
         <div class="w3-row w3-margin-top">
           <h4>Detailed Results:</h4>
-          <div v-for="axis in poll.axes" :key="axis.id" class="w3-row w3-margin-top">
-            <div class="rounded-input app-color-2-br">
-             {{ axis.title }}
+          <div v-for="axis in poll.axes" :key="axis.id" class="w3-row axis-row">
+            <div class="rounded-input axis-title app-color-2-br">
+             <h4>{{ axis.title }}</h4>
             </div>
 
             <div v-for="question in axis.questions" :key="question.id" class="w3-row question-result-row">
@@ -77,7 +82,6 @@
         </div>
       </div>
 
-      <hr>
       <div class="bottom-row">
         <div class="w3-row w3-center">
           <button class="w3-button app-button-danger" @click="deleteIntent()">delete</button>
@@ -280,9 +284,16 @@ export default {
 
 <style scoped>
 
-.this-container {
-  background: url('./../assets/background-1.png') center;
-  background-color: #3F3E3E;
+.bullet-input .fa-container:hover {
+  color: #FFDE17;
+}
+
+.bullet-input .fa {
+  font-size: 18px;
+}
+
+.bullet-input .text {
+  padding-top: 6px;
 }
 
 .n-answers-div {
@@ -297,6 +308,15 @@ export default {
 .question-result-row {
   width: calc(100% - 50px);
   margin: 0 auto;
+}
+
+.axis-row {
+  margin-top: 25px;
+  margin-bottom: 45px;
+}
+
+.axis-title {
+  border-radius: 16px;
 }
 
 .bottom-row button {

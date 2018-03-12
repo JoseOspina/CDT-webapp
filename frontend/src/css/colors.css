@@ -1,6 +1,6 @@
 
 .dark-1 {
-  background-color: #231F20;
+  background-color: rgba(34, 30, 31, 0.70);
   color: white;
 }
 
@@ -25,6 +25,10 @@
 
 .light {
   background-color: #FFDE17;
+}
+
+.light-co {
+  color: #FFDE17 !important;
 }
 
 .app-color-white-1 {

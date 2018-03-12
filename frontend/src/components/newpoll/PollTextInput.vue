@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="w3-row">
     <div class="box-container">
-      <div v-if="!showAsInput" class="box-content dark-1">
+      <div v-if="!showAsInput" class="box-content app-color-2-br dark-1">
         <div class="value-content">
           <div @click="$emit('set-custom-value')"
             class="w3-left cursor-pointer app-color-white-1">
@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div v-else class="box-content dark-2">
+      <div v-else class="box-content app-color-2-br dark-2">
         <div v-if="restorable" @click="$emit('custom-value-back')"
           class="custom-value-back app-color-white-1 cursor-pointer">
           <i class="fa fa-undo" aria-hidden="true"></i>
@@ -90,16 +90,22 @@ textarea {
 }
 
 .box-container {
-  background-color: #339470;
+  background-color: rgba(0, 0, 0, 0.05);
   padding: 2px;
-  border-radius: 16px;
+  border-radius: 3px;
+}
+
+.box-container .fa {
+  color: rgba(255, 255, 255, 0.23);
 }
 
 .box-content {
   font-size: 18px;
   padding: 3px 18px;
   height: 100%;
-  border-radius: 16px;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 2px;
 }
 
 .box-content input, .box-content textarea {
