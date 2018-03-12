@@ -65,7 +65,7 @@ var RadarChart = {
      .attr("cy", cfg.w/2)
      .attr("r", cfg.factor*radius)
      .style("fill", "none")
-     .style("stroke", "#009B9C")
+     .style("stroke", "#339470")
      .style("stroke-opacity", "0.75")
      .style("stroke-width", "3px");
 
@@ -82,7 +82,7 @@ var RadarChart = {
        .style("font-family", "sans-serif")
        .style("font-size", "10px")
        .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor+13) + ")")
-       .attr("fill", "#009B9C")
+       .attr("fill", "#339470")
        .text((j+1)* cfg.maxValue/cfg.levels);
     }
 
@@ -101,7 +101,7 @@ var RadarChart = {
       .attr("x2", function(d, i){return cfg.w/2*(1-cfg.factor*Math.sin(i*cfg.radians/total));})
       .attr("y2", function(d, i){return cfg.h/2*(1-cfg.factor*Math.cos(i*cfg.radians/total));})
       .attr("class", "line")
-      .style("stroke", "#009B9C")
+      .style("stroke", "#339470")
       .style("stroke-width", "1px");
 
     axis.append("text")
