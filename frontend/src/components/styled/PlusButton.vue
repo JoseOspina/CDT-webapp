@@ -1,8 +1,5 @@
 <template lang="html">
   <div @click="$emit('click', $event)" class="this-button-container cursor-pointer">
-    <div class="this-button-content">
-      <i class="fa fa-plus" aria-hidden="true"></i>
-    </div>
   </div>
 </template>
 
@@ -14,26 +11,15 @@ export default {
 <style scoped>
 
 .this-button-container {
-  background: linear-gradient(135deg, #FFDE17, #009B9C);
+  background: url('./../../assets/btn-plus.png');
+  background-size: 100% 100%;
   width: 36px;
   height: 36px;
-  border-radius: 21px;
-  padding: 3px;
 }
 
-.this-button-content {
-  background-color: #2F2F2F;
-  color: #009B9C;
-  height: 100%;
-  width: 100%;
-  border-radius: 21px;
-  font-size: 18px;
-  font-weight: lighter;
-  padding: 0px 0px 0px 8px;
-}
-
-.this-button-content:hover {
-  background-color: #544800;
+.this-button-container:hover {
+  background: url('./../../assets/btn-plus-hover.png');
+  background-size: 100% 100%;
 }
 
 </style>

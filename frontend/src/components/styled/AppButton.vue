@@ -1,8 +1,6 @@
 <template lang="html">
   <div @click="$emit('click', $event)" class="this-button-container cursor-pointer w3-center noselect">
-    <div class="this-button-content">
-      <slot></slot>
-    </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -14,22 +12,19 @@ export default {
 <style scoped>
 
 .this-button-container {
-  background: linear-gradient(135deg, #FFDE17, #009B9C);
-  border-radius: 16px;
-  padding: 3px;
-  color: white;
-  width: 200px;
+  background: url('./../../assets/btn-text.png');
+  background-size: 100% 100%;
+  min-width: 200px;
+  height: 68.38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 20px;
 }
 
-.this-button-content {
-  background-color: #2F2F2F;
-  border-radius: 16px;
-  font-size: 24px;
-  padding: 14px 20px;
-}
-
-.this-button-content:hover {
-  background-color: #544800;
+.this-button-container:hover {
+  background: url('./../../assets/btn-text-hover.png');
+  background-size: 100% 100%;
 }
 
 </style>

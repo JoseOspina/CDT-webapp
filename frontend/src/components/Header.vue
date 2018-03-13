@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="w3-row header-container">
+  <div class="w3-row">
     <div class="w3-row header-container w3-card-2">
 
       <div class="w3-col m3 s12">
