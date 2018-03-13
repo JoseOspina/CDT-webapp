@@ -35,7 +35,7 @@ export default {
 .dashboard-content-back {
   margin: 0 auto;
   max-width: 1200px;
-  background: linear-gradient(180deg, #313232, #363536);
+  background: linear-gradient(180deg, #292929, #3F3E3E);
 }
 
 .dashboard-content {

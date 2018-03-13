@@ -10,7 +10,7 @@
       </div>
       <div class="w3-row btn-row">
         <app-button @click="start()"
-          class="margin-0-auto">{{ $t('START-MESSAGE') }}</app-button>
+            class="margin-0-auto">{{ $t('START') }}</app-button>
       </div>
       <div class="w3-row w3-center">
       </div>

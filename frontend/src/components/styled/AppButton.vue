@@ -14,7 +14,7 @@ export default {
 .this-button-container {
   background: url('./../../assets/btn-text.png');
   background-size: 100% 100%;
-  min-width: 200px;
+  width: 200px;
   height: 68.38px;
   display: flex;
   flex-direction: column;
