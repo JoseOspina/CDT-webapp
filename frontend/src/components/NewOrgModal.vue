@@ -8,18 +8,18 @@
         </div>
 
         <div class="w3-border-bottom">
-          <h2>Create New Organization</h2>
+          <h2>{{ $t('CREATE-NEW-ORG') }}</h2>
         </div>
 
         <div class="form-container">
 
           <div class="w3-container form ">
             <div class="w3-row">
-              <label for=""><b>Name:</b></label>
+              <label for=""><b>{{ $t('NAME') }}:</b></label>
               <input v-model="name" class="rounded-input app-color-2-br dark-3" type="text" name="" value="">
             </div>
             <div class="w3-row w3-margin-top">
-              <label for=""><b>Description:</b></label>
+              <label for=""><b>{{ $t('DESCRIPTION') }}:</b></label>
               <app-markdown-editor v-model="description" class="rounded-input app-color-2-br dark-3"
                 :placeholder="placeholder">
               </app-markdown-editor>
@@ -28,10 +28,16 @@
 
           <div class="w3-row-padding bottom-btns-row">
             <div class="w3-col m6">
-              <button type="button" class="w3-button app-button-light" @click="closeThis()">Cancel</button>
+              <button type="button" class="w3-button app-button-light"
+                @click="closeThis()">
+                {{ $t('CANCEL') }}
+              </button>
             </div>
             <div class="w3-col m6">
-              <button type="button" class="w3-button app-button" @click="accept()">Accept</button>
+              <button type="button" class="w3-button app-button"
+                @click="accept()">
+                {{ $t('ACCEPT') }}
+              </button>
             </div>
           </div>
 

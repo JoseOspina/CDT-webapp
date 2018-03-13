@@ -16,17 +16,17 @@
 
         <div class="w3-row column-header">
           <app-column-header>
-            New Poll - <i>Configuration</i>
+            {{ $t('NEW-POLL') }} - <i>{{ $t('CONFIGURATION') }}</i>
           </app-column-header>
         </div>
 
         <div class="w3-row w3-margin-top">
           <select v-model="config.audience" class="app-select-input app-color-2-br dark-3">
-            <option value="ANYONE_WITH_LINK">Anyone with the link</option>
+            <option value="ANYONE_WITH_LINK">{{ $t('ANYONE-WITH-LINK') }}</option>
           </select>
         </div>
         <div class="w3-row w3-center bottom-row">
-          <app-button class="w3-right" @click="create()">create!</app-button>
+          <app-button class="w3-right" @click="create()">{{ $t('CREATE') }}!</app-button>
         </div>
         <app-error-panel
           :show="errorCreatingPoll"

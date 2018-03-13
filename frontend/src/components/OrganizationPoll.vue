@@ -16,7 +16,7 @@
 
       <div class="w3-row">
         <app-column-header>
-          Poll Details
+          {{ $t('POLL-DETAILS') }}
         </app-column-header>
       </div>
 
@@ -32,17 +32,18 @@
               <div @click="localIsTemplate = !localIsTemplate" class="w3-left w3-padding fa-container cursor-pointer">
                 <i class="fa fa-circle rating-dot" :class="{'light-co': localIsTemplate}" aria-hidden="true"></i>
               </div>
-              <div class="w3-left w3-margin-left text">Make a template</div>
+              <div class="w3-left w3-margin-left text">{{ $t('IS-TEMPLATE')}}</div>
             </div>
             <div v-if="poll.isTemplate" class="w3-col m6 bullet-input">
               <div @click="localIsTemplatePublic = !localIsTemplatePublic" class="w3-left w3-padding fa-container cursor-pointer">
                 <i class="fa fa-circle rating-dot" :class="{'light-co': localIsTemplatePublic}" aria-hidden="true"></i>
               </div>
-              <div class="w3-left w3-margin-left text">Public</div>
+              <div class="w3-left w3-margin-left text">{{ $t('PUBLIC') }}</div>
             </div>
           </div>
           <div v-if="poll.isTemplate" class="w3-row w3-margin-top w3-padding dark-3 anouncement w3-round">
-            <span><i>this poll can be used as a template when creating new polls in {{ poll.isPublicTemplate ? 'any' : 'this' }} organization</i></span>
+            <span v-if="poll.isPublicTemplate"><i>{{ $t('IS-TEMPLATE-TEXT') }}</i></span>
+            <span v-else><i>{{ $t('IS-PUBLIC-TEXT') }}</i></span>
           </div>
         </div>
         <div class="w3-col m4">
@@ -50,22 +51,22 @@
             <b>{{ details.numberOfAnswers }}</b>
           </div>
           <div class="w3-row w3-center">
-            answers
+            {{ $t('ANSWERS') }}
           </div>
         </div>
       </div>
       <div class="w3-row w3-margin-top">
-        <span class="w3-margin-left w3-small anouncement">link to answer the poll:</span>
+        <span class="w3-margin-left w3-small anouncement">{{ $t('LINK-TO-POLL') }}:</span>
         <input class="rounded-input dark-3 app-color-2-br" type="text" name="" :value="pollAnswerUrl">
       </div>
       <div v-if="details.numberOfAnswers > 0" class="">
         <hr>
-        <h4>Results:</h4>
+        <h4>{{ $t("RESULTS") }}:</h4>
         <div class="w3-row w3-round-large">
           <app-radar-chart v-if="chartData.length > 0" :chartData="chartData"></app-radar-chart>
         </div>
         <div class="w3-row w3-margin-top">
-          <h4>Detailed Results:</h4>
+          <h4>{{ $t('DETAILED-RESULTS') }}:</h4>
           <div v-for="axis in poll.axes" :key="axis.id" class="w3-row axis-row">
             <div class="rounded-input axis-title app-color-2-br">
              <h4>{{ axis.title }}</h4>
@@ -84,11 +85,11 @@
 
       <div class="bottom-row">
         <div class="w3-row w3-center">
-          <button class="w3-button app-button-danger" @click="deleteIntent()">delete</button>
+          <button class="w3-button app-button-danger" @click="deleteIntent()">{{ $t('DELETE') }}</button>
         </div>
         <div v-if="deleteTemplateIntent" class="w3-row w3-center w3-margin-top">
-          <button class="w3-button app-button" @click="deleteTemplateIntent = false">cancel</button>
-          <button class="w3-button app-button-danger" @click="deletePoll()">confirm</button>
+          <button class="w3-button app-button" @click="deleteTemplateIntent = false">{{ $t('CANCEL') }}</button>
+          <button class="w3-button app-button-danger" @click="deletePoll()">{{ $t('CONFIRM') }}</button>
         </div>
       </div>
     </div>

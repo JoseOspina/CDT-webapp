@@ -15,7 +15,7 @@
 
       <div class="w3-row column-header">
         <app-column-header>
-          New Poll - <i>Customization</i>
+          {{ $t('NEW-POLL')}} - <i>{{ $t('CUSTOMIZATION') }}</i>
         </app-column-header>
       </div>
 
@@ -60,7 +60,7 @@
           </div>
           <div class="w3-row">
             <div class="w3-col l2 s12 axis-number-col w3-center w3-margin-bottom">
-              <h4>Degree {{ ixA + 1 }}</h4>
+              <h4>{{ $t('DEGREE')}} {{ ixA + 1 }}</h4>
             </div>
             <div class="w3-col l10 s12">
               <!-- Axis -->
@@ -97,19 +97,19 @@
                 </app-poll-question-input>
 
                 <app-error-panel :show="showErrors && question.text === ''"
-                  message="question text cannot be empty">
+                  :message="$t('QUESTION-TEXT-NOT-EMPTY')">
                 </app-error-panel>
               </div>
 
               <div v-if="axis.custom" class="w3-row add-question-row">
                 <app-plus-button @click="newQuestion(axis)" class="w3-right"></app-plus-button>
-                <span class="w3-right">Add Question</span>
+                <span class="w3-right">{{ $t('ADD-QUESTION') }}</span>
               </div>
               <app-error-panel :show="!axisWeightsOk(axis.id)"
-                message="weights of rate questions must sum 100%">
+                :message="$t('WEIGHT-SUM-100')">
               </app-error-panel>
               <app-error-panel :show="!axisHasARate(axis.id)"
-                message="at least one question must be rated">
+                :message="$t('AT-LEAST-ONE-QUESTION')">
               </app-error-panel>
 
             </div>
@@ -117,12 +117,12 @@
 
         </div>
         <div class="w3-row w3-margin-top new-axis-row">
-          <span class="w3-left">Add Axis</span>
+          <span class="w3-left">{{ $t('ADD-DEGREE') }}</span>
           <app-plus-button @click="newAxis()" class="w3-left"></app-plus-button>
         </div>
       </div>
       <div class="w3-row">
-        <app-button @click="next()" class="w3-right">Next</app-button>
+        <app-button @click="next()" class="w3-right">{{ $t('NEXT') }}</app-button>
       </div>
     </div>
   </div>

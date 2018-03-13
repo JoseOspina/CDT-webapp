@@ -8,7 +8,7 @@
 
     <div class="w3-row">
       <div class="w3-left content-title-div">
-        <h4><b>My Organizations</b></h4>
+        <h4><b>{{ $t('MY-ORGS')}}</b></h4>
       </div>
       <app-plus-button class="w3-left w3-margin-left" @click="newOrgModal = true"></app-plus-button>
     </div>

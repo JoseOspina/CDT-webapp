@@ -8,10 +8,10 @@
           <vue-markdown class="marked-text" :source="poll.description"></vue-markdown>
         </div>
         <div v-if="!alreadyFilled && !answerSucessful" class="w3-row start-button">
-          <app-button @click="axisIx = 0" class="margin-0-auto">Start</app-button>
+          <app-button @click="axisIx = 0" class="margin-0-auto">{{ $t('START') }}</app-button>
         </div>
         <div v-else class="w3-row rounded-input app-color-1-br w3-margin-top anouncement">
-          {{ answerSucessful ? 'Your answer has been succesfully recored, thanks!' : 'Thanks for having filled the poll!' }}
+          {{ answerSucessful ? $t('ANSWERS-SUCCESS') : $t('ALREADY-FILLED') }}
         </div>
       </div>
     </div>
@@ -28,27 +28,20 @@
         <app-answer-axis :key="poll.axes[axisIx].id" :axis="poll.axes[axisIx]" class="">
         </app-answer-axis>
         <div class="w3-row start-button">
-          <app-button v-if="!isLast" @click="next()" class="margin-0-auto">Next</app-button>
-          <app-button v-else @click="sendItentSet()" class="margin-0-auto">Send!</app-button>
+          <app-button v-if="!isLast" @click="next()" class="margin-0-auto">{{ $t('NEXT') }}</app-button>
+          <app-button v-else @click="sendItentSet()" class="margin-0-auto">{{ $t('SEND') }}!</app-button>
         </div>
         <div v-if="sendIntent" class="w3-row w3-center">
           <div class="w3-center dark-3 check-text">
-            Are you sure you want to submit your anwers now?
+            {{ $t('ARE-YOU-SURE-SUBMIT') }}
           </div>
           <div class="margin-0-auto" style="display: inline-block">
-            <app-button @click="sendItentReset()" class="w3-left w3-margin-right">Cancel</app-button>
-            <app-button @click="send()" class="w3-left">Confirm!</app-button>
+            <app-button @click="sendItentReset()" class="w3-left w3-margin-right">{{ $t('CANCEL') }}</app-button>
+            <app-button @click="send()" class="w3-left">{{ $t('CONFIRM') }}!</app-button>
           </div>
 
         </div>
       </div>
-    </div>
-
-    <div v-if="alreadyFilled && !answerSucessful" class="">
-
-    </div>
-    <div v-if="answerSucessful" class="">
-
     </div>
   </div>
 </template>

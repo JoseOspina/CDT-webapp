@@ -26,9 +26,9 @@ export default {
         w: this.width,
         h: this.height,
         levels: 5,
-        TranslateX: 40,
+        TranslateX: 55,
         TranslateY: 25,
-        ExtraWidthX: 70,
+        ExtraWidthX: 140,
         ExtraWidthY: 100
       }
 

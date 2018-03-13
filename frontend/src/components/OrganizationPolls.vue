@@ -2,7 +2,7 @@
   <div class="w3-container content-container">
     <div class="w3-row">
       <div class="w3-left content-title-div">
-        <h4><b>Organization Polls</b></h4>
+        <h4><b>{{ $t('ORG-POLLS') }}</b></h4>
       </div>
       <app-plus-button class="w3-left w3-margin-left" @click="newPoll()"></app-plus-button>
     </div>
@@ -14,7 +14,7 @@
     </div>
 
     <div v-if="this.polls.length === 0" class="w3-row w3-center w3-margin-top">
-      <i>no polls have been created</i>
+      <i>{{ $t('NO-POLLS-CREATED')}}</i>
     </div>
   </div>
 </template>

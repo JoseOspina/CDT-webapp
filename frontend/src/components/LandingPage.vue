@@ -1,3 +1,4 @@
+
 <template lang="html">
   <div class="content-container this-container">
     <div class="central-column-container dark-1">
@@ -8,11 +9,10 @@
         <img class="logo-landing" src="./../assets/logo-white.png" alt="">
       </div>
       <div class="w3-row btn-row">
-        <app-button v-if="!isAuthenticated" @click="login()"
-          class="margin-0-auto">Start!</app-button>
+        <app-button @click="start()"
+          class="margin-0-auto">{{ $t('START-MESSAGE') }}</app-button>
       </div>
       <div class="w3-row w3-center">
-
       </div>
     </div>
   </div>
@@ -22,7 +22,17 @@
 import loggedUser from '@/mixins/loggedUser'
 
 export default {
-  mixins: [ loggedUser ]
+  mixins: [ loggedUser ],
+
+  methods: {
+    start () {
+      if (this.isAuthenticated) {
+        this.$router.push({name: 'Dashboard'})
+      } else {
+        this.login()
+      }
+    }
+  }
 }
 </script>
 

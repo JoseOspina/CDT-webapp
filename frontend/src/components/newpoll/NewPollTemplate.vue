@@ -14,7 +14,7 @@
 
       <div class="w3-row column-header">
         <app-column-header>
-          New Poll - <i>Select a Template</i>
+          {{ $t('NEW-POLL') }} - <i>{{ $t('SELECT-TEMPLATE') }}</i>
         </app-column-header>
       </div>
 
@@ -29,12 +29,12 @@
 
       <app-error-panel
         :show="showErrors && !isTemplateSelected"
-        message="no template has been selected">
+        :message="$t('NO-TEMP-SELECTED')">
       </app-error-panel>
 
       <div class="w3-row bottom-row">
-        <app-button @click="next()" class="w3-right w3-margin-left">Next</app-button>
-        <app-button @click="skip()" class="w3-right">Skip</app-button>
+        <app-button @click="next()" class="w3-right w3-margin-left">{{ $t('NEXT') }}</app-button>
+        <app-button @click="skip()" class="w3-right">{{ $t('SKIP') }}</app-button>
       </div>
 
     </div>
