@@ -28,20 +28,4 @@ export default {
 
 <style scoped>
 
-.dashboard-container {
-  background-color: #3F3E3E;
-}
-
-.dashboard-content-back {
-  margin: 0 auto;
-  max-width: 1200px;
-  background: linear-gradient(180deg, #292929, #3F3E3E);
-}
-
-.dashboard-content {
-  width: 100%;
-  background: url('./../assets/background-2A-low.png');
-  background-size: cover;
-}
-
 </style>

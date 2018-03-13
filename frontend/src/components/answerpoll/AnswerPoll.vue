@@ -3,8 +3,12 @@
     <div class="w3-row header-container w3-center">
       <img class="logo" src="./../../assets/logo-white.png" alt="">
     </div>
-    <div class="content-container">
-      <app-answer-poll :poll="poll"></app-answer-poll>
+    <div class="dashboard-container">
+      <div class="dashboard-content-back">
+        <div class="dashboard-content  content-container">
+           <app-answer-poll :poll="poll"></app-answer-poll>
+        </div>
+      </div>
     </div>
 
   </div>
