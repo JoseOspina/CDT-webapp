@@ -170,16 +170,25 @@ export default {
         return []
       }
       var layerData = []
+
       for (var ixA in this.details.axesResults) {
         var axisResults = this.details.axesResults[ixA]
         var meanCombined = 0
-        for (var ixQ in axisResults.questionResults) {
-          var questionResult = axisResults.questionResults[ixQ]
+        var totalWeight = 0
+
+        /* recheck total weight */
+        for (var ixQ1 in axisResults.questionResults) {
+          var questionResult1 = axisResults.questionResults[ixQ1]
+          totalWeight += questionResult1.weight
+        }
+
+        for (var ixQ2 in axisResults.questionResults) {
+          var questionResult = axisResults.questionResults[ixQ2]
           if (questionResult.questionType === 'RATE_1_5') {
-            meanCombined += questionResult.mean * questionResult.weight / 100.0
+            meanCombined += questionResult.mean * questionResult.weight / totalWeight
           }
         }
-        layerData.push( {
+        layerData.push({
           area: axisResults.axisTitle.length < 20 ? axisResults.axisTitle : axisResults.axisTitle.slice(0, 19) + '..',
           value: meanCombined
         })

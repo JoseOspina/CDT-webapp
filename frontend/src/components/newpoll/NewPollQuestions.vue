@@ -362,7 +362,7 @@ export default {
         }
 
         if (!this.axisWeightsOk(axis.id)) {
-          // ok = false
+          ok = false
         }
 
         if (!this.axisHasARate(axis.id)) {
