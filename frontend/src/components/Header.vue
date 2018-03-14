@@ -26,7 +26,7 @@
     <div class="w3-row w3-center">
       <app-error-panel
         :show='organizationCreationError'
-        :message="$t('HEADER-ORG-CREATION-MSG')">
+        :message="$t('HEADER-ORG-CREATION')">
       </app-error-panel>
     </div>
   </div>

@@ -76,9 +76,6 @@
                 <app-error-panel :show="showErrors && axis.title === ''"
                   message="axis title cannot be empty">
                 </app-error-panel>
-                <app-error-panel :show="axis.title.length > 25"
-                  message="axis title should be shorter">
-                </app-error-panel>
               </div>
 
               <!-- Questions -->
@@ -122,6 +119,9 @@
         </div>
       </div>
       <div class="w3-row">
+        <app-error-panel :show="showErrorsBottom"
+          :message="$t('ERRORS-IN-POLL')">
+        </app-error-panel>
         <app-button @click="next()" class="w3-right">{{ $t('NEXT') }}</app-button>
       </div>
     </div>
@@ -158,7 +158,8 @@ export default {
       poll: null,
       customTitle: false,
       customDescription: false,
-      showErrors: false
+      showErrors: false,
+      showErrorsBottom: false
     }
   },
 
@@ -353,15 +354,19 @@ export default {
           ok = false
         }
 
-        if (axis.title.length > 25) {
-          ok = false
-        }
-
         for (var ixQuest in axis.questions) {
           var question = axis.questions[ixQuest]
           if (question.text === '') {
             ok = false
           }
+        }
+
+        if (!this.axisWeightsOk(axis.id)) {
+          // ok = false
+        }
+
+        if (!this.axisHasARate(axis.id)) {
+          ok = false
         }
       }
 
@@ -372,6 +377,10 @@ export default {
         this.$router.push({name: 'NewPollConfiguration'})
       } else {
         this.showErrors = true
+        this.showErrorsBottom = true
+        setTimeout(() => {
+          this.showErrorsBottom = false
+        }, 3000)
       }
     }
   },

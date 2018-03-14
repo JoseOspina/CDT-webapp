@@ -24,7 +24,7 @@
         <div class="w3-col m8">
           <div class="w3-row w3-padding title-container dark-3 w3-round-large">
             <h3>{{ poll.title }}</h3>
-            <vue-markdown class="marked-text" :source="poll.description"></vue-markdown>
+            <vue-markdown class="marked-text" :source="poll.description.length < 400 ? poll.description : poll.description.slice(0, 399) + ' ...'"></vue-markdown>
           </div>
           <div class="w3-row-padding w3-margin-top">
 
@@ -179,7 +179,10 @@ export default {
             meanCombined += questionResult.mean * questionResult.weight / 100.0
           }
         }
-        layerData.push({area: axisResults.axisTitle, value: meanCombined})
+        layerData.push( {
+          area: axisResults.axisTitle.length < 20 ? axisResults.axisTitle : axisResults.axisTitle.slice(0, 19) + '..',
+          value: meanCombined
+        })
       }
       this.chartData = [layerData]
     },

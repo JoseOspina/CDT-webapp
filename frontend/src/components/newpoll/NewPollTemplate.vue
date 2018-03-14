@@ -23,7 +23,7 @@
           @click="selectTemplate(template)"
           class="card-template cursor-pointer" :class="{'card-template-selected': isSelected(template)}">
           <h4>{{ template.title }}</h4>
-          <vue-markdown class="marked-text" :source="template.description"></vue-markdown>
+          <vue-markdown class="marked-text" :source="template.description.length < 200 ? template.description : template.description.slice(0,200) + ' ...'"></vue-markdown>
         </div>
       </div>
 
@@ -86,7 +86,9 @@ export default {
         this.axios.get('/1/poll/' + this.selected.id).then((response) => {
           if (response.data.result === 'success') {
             this.$store.commit('setFromTemplate', true)
-            this.$store.commit('setNewPoll', response.data.data)
+            var pollData = response.data.data
+            pollData.templateId = pollData.id
+            this.$store.commit('setNewPoll', pollData)
             this.$router.push({name: 'NewPollQuestions'})
           } else {
             this.errorFlag = true

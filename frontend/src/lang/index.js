@@ -25,6 +25,7 @@ export const translations = {
     'QUESTION-TEXT-NOT-EMPTY': 'question text cannot be empty',
     'WEIGHT-SUM-100': 'weights of rate questions must sum 100%',
     'AT-LEAST-ONE-QUESTION': 'at least one question must be rated',
+    'ERRORS-IN-POLL': 'There are errors in the configuration, please review',
     'ANYONE-WITH-LINK': 'Anyone with the link',
     'POLL-DETAILS': 'Poll Details',
     'IS-TEMPLATE': 'Is template',

@@ -8,7 +8,7 @@
     </div>
     <div v-if="question.type === 'TEXT'" class="w3-col m12 s12">
       <textarea ref="textarea"
-        class="w3-margin-top rounded-input dark-2 app-color-2-br"
+        class="w3-margin-top rounded-input dark-2 app-color-2-br answer-textarea"
         :value="questionAnswer()"
         @input="questionTextAnswered($event)" name="name" rows="3">
       </textarea>
@@ -59,7 +59,9 @@ export default {
 
 <style scoped>
 
-.question-text {
+.answer-textarea {
+  resize: vertical;
+  min-height: 50px;
 }
 
 </style>

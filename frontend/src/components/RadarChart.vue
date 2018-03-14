@@ -16,7 +16,8 @@ export default {
   data () {
     return {
       width: 300,
-      height: 300
+      height: 300,
+      transX: 90
     }
   },
 
@@ -26,9 +27,9 @@ export default {
         w: this.width,
         h: this.height,
         levels: 5,
-        TranslateX: 55,
+        TranslateX: this.transX,
         TranslateY: 25,
-        ExtraWidthX: 140,
+        ExtraWidthX: 200,
         ExtraWidthY: 100
       }
 
@@ -40,7 +41,9 @@ export default {
       if (windowWidth < 800) {
         this.width = windowWidth / 2
         this.height = windowWidth / 2
+        this.transX = 90 - (800 - windowWidth) * 60 / 500
       } else {
+        this.transX = 90
         this.width = 400
         this.height = 400
       }
