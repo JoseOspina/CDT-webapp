@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="w3-container content-container">
-    <div class="w3-row">
-      <div class="w3-left content-title-div">
+    <div class="w3-row content-title-div">
+      <div class="w3-left title">
         <h4><b>{{ $t('ORG-POLLS') }}</b></h4>
       </div>
       <app-plus-button class="w3-left w3-margin-left" @click="newPoll()"></app-plus-button>
@@ -70,13 +70,20 @@ export default {
 <style>
 
 .new-poll-button {
-  padding: 0px;
   font-size: 32px;
   line-height: 32px;
 }
 
+.content-title-div {
+  padding-top: 3vh;
+}
+
+.content-title-div .title {
+  padding-top: 3px;
+}
+
 .organization-polls-row {
-  padding-top: 10vh;
+  padding-top: 5vh;
   padding-left: 10vw;
   padding-right: 10vw;
 }

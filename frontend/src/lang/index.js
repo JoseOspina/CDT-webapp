@@ -2,7 +2,12 @@ export const translations = {
   en: {
   },
   de: {
+    'POLLS': 'Polls',
+    'MEMBERS': 'Members',
+    'ADMINS': 'Admins',
     'START': 'Start',
+    'ORG-MEMBERS': 'Organization Members',
+    'NO-MEMBERS-EXIST': 'No members have been found',
     'MY-ORGS': 'My Organizations',
     'CREATE-NEW-ORG': 'Create New Organization',
     'DELETE-ORG': 'Delete Organization',
