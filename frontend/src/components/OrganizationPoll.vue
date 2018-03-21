@@ -14,10 +14,13 @@
         <app-back-button class=""></app-back-button>
       </router-link>
 
-      <div class="w3-row">
+      <div class="w3-row w3-display-container">
         <app-column-header>
           {{ $t('POLL-DETAILS') }}
         </app-column-header>
+        <div @click="editPoll()" class="edit-btn w3-display-right cursor-pointer">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
       </div>
 
       <div class="w3-row w3-margin-top">
@@ -286,6 +289,9 @@ export default {
           this.$router.push({name: 'OrganizationPolls'})
         }
       })
+    },
+    editPoll () {
+      this.$router.push({name: 'EditPoll'})
     }
   },
 
@@ -296,6 +302,18 @@ export default {
 </script>
 
 <style scoped>
+
+.edit-btn {
+  padding: 8px 16px;
+  margin-right: 2px;
+  border-bottom-right-radius: 16px;
+  font-size: 22px;
+}
+
+.edit-btn:hover {
+  background-color: #d6d6d6;
+  color: #2F2F2F;
+}
 
 .bullet-input .fa-container:hover {
   color: #FFDE17;

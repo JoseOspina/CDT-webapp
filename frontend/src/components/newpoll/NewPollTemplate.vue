@@ -119,6 +119,12 @@ export default {
 
 <style scoped>
 
+.templates-container {
+  padding-right: 8px;
+  height: 60vh;
+  overflow-y: auto;
+}
+
 .card-template {
   background-color: rgba(255, 255, 255, 0.23);
   border-radius: 12px;

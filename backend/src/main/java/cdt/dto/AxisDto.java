@@ -9,8 +9,7 @@ public class AxisDto {
 	String title;
 	String description;
 	List<QuestionDto> questions = new ArrayList<QuestionDto>();
-	Boolean custom;
-
+	
 	public String getTitle() {
 		return title;
 	}
@@ -34,12 +33,6 @@ public class AxisDto {
 	}
 	public void setQuestions(List<QuestionDto> questions) {
 		this.questions = questions;
-	}
-	public Boolean getCustom() {
-		return custom;
-	}
-	public void setCustom(Boolean custom) {
-		this.custom = custom;
 	}
 	
 }

@@ -117,86 +117,29 @@ public class OrganizationService extends BaseService {
 		config.setPoll(poll);
 		
 		config = pollConfigRepository.save(config);
-		
-		Poll template = null;
-		if (pollDto.getTemplateId() != null) {
-			if (pollDto.getTemplateId() != "") {
-				template = pollRepository.findById(UUID.fromString(pollDto.getTemplateId()));
-			}
-		}
-				
+	
 		for (AxisDto axisDto : pollDto.getAxes()) {
 			
-			Axis axis = null;
+			Axis axis = new Axis();
 			
-			boolean axisIsCustom = false;
+			axis.setTitle(axisDto.getTitle());
+			axis.setDescription(axisDto.getDescription());
+			axis = axisRepository.save(axis);
 			
-			if (axisDto.getCustom()) {
-				axisIsCustom = true;
-			}
-			
-			for (int ix=0; ix < axisDto.getQuestions().size(); ix++) {
-				QuestionDto questionDto = axisDto.getQuestions().get(ix);
+			for (QuestionDto questionDto : axisDto.getQuestions()) {
+				Question question = new Question();
 				
-				if (questionDto.getCustom()) {
-					axisIsCustom = true;
-				}
+				question.setText(questionDto.getText());
+				question.setType(QuestionType.valueOf(questionDto.getType()));
+				question = questionRepository.save(question);
 				
-				/* check order of questions and existence */
-				if (template != null) {
-					Axis templateAxis = null;
-					
-					for (Axis templateAxisTemp : template.getAxes()) {
-						if (templateAxisTemp.getId().toString().equals(axisDto.getId())) {
-							templateAxis = templateAxisTemp;
-							break;
-						}
-					}
-					
-					Question templateQuestion = templateAxis.getQuestionsAndWeights().get(ix).getQuestion();
-					if (!questionDto.getId().equals(templateQuestion.getId().toString())) {
-						axisIsCustom = true;
-					}	
-				}
-			}
-						
-			if (axisIsCustom) {
-				axis = new Axis();
+				QuestionAndWeight questionAndWeight = new QuestionAndWeight();
 				
-				axis.setTitle(axisDto.getTitle());
-				axis.setDescription(axisDto.getDescription());
-				axis = axisRepository.save(axis);
+				questionAndWeight.setQuestion(question);
+				questionAndWeight.setWeight(questionDto.getWeight());
+				questionAndWeight = questionAndWeightRepository.save(questionAndWeight);
 				
-				for (QuestionDto questionDto : axisDto.getQuestions()) {
-					Question question = null;
-					
-					if (questionDto.getCustom()) {
-						question = new Question();
-						
-					} else {
-						question = questionRepository.findById(UUID.fromString(questionDto.getId()));
-						if (question == null) {
-							return new PostResult("error", "non-custom question not found", null);
-						}
-					}
-					
-					question.setText(questionDto.getText());
-					question.setType(QuestionType.valueOf(questionDto.getType()));
-					question = questionRepository.save(question);
-					
-					QuestionAndWeight questionAndWeight = new QuestionAndWeight();
-					
-					questionAndWeight.setQuestion(question);
-					questionAndWeight.setWeight(questionDto.getWeight());
-					questionAndWeight = questionAndWeightRepository.save(questionAndWeight);
-					
-					axis.getQuestionsAndWeights().add(questionAndWeight);
-				}
-			} else {
-				axis = axisRepository.findById(UUID.fromString(axisDto.getId()));
-				if (axis == null) {
-					return new PostResult("error", "non-custom axis not found", null);
-				}
+				axis.getQuestionsAndWeights().add(questionAndWeight);
 			}
 			
 			poll.getAxes().add(axis);

@@ -47,9 +47,6 @@ export default {
         this.width = 400
         this.height = 400
       }
-      console.log('width:' + this.width)
-      console.log('height:' + this.height)
-
       this.draw()
     }
   },

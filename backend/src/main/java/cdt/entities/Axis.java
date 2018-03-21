@@ -51,7 +51,6 @@ public class Axis {
 		dto.setId(id.toString());
 		dto.setTitle(title);
 		dto.setDescription(description);
-		dto.setCustom(false);
 		
 		for (QuestionAndWeight questionAndWeight : questionsAndWeights) {
 			dto.getQuestions().add(questionAndWeight.getQuestion().toDto(questionAndWeight.getWeight()));

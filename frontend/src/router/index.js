@@ -63,6 +63,7 @@ export default new Router({
                 { path: '/', name: 'OrganizationContent', redirect: 'polls' },
                 { path: 'polls', name: 'OrganizationPolls', component: OrganizationPolls },
                 { path: 'poll/:pollId', name: 'OrganizationPoll', component: OrganizationPoll },
+                { path: 'poll/:pollId/edit', name: 'EditPoll', component: OrganizationPoll },
                 {
                   path: 'newpoll',
                   name: 'NewPoll',
