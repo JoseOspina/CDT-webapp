@@ -6,6 +6,7 @@ import cdt.repositories.AnswerBatchRepositoryIf;
 import cdt.repositories.AnswerRepositoryIf;
 import cdt.repositories.AppUserRepositoryIf;
 import cdt.repositories.AxisRepositoryIf;
+import cdt.repositories.MemberRepositoryIf;
 import cdt.repositories.OrganizationRepositoryIf;
 import cdt.repositories.PollConfigRepositoryIf;
 import cdt.repositories.PollRepositoryIf;
@@ -40,5 +41,9 @@ public class BaseService {
 	
 	@Autowired
 	protected AnswerBatchRepositoryIf answerBatchRepository;
+	
+	@Autowired
+	protected MemberRepositoryIf memberRepository;
+	
 
 }

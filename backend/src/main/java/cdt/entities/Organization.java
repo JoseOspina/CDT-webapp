@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -47,6 +48,9 @@ public class Organization {
 	
 	@ManyToMany
 	private List<AppUser> admins = new ArrayList<AppUser>();
+	
+	@OneToMany(mappedBy = "organization")
+	private List<Member> members = new ArrayList<Member>();
 	
 	@Column(name = "creation_date")
 	private Timestamp creationDate;
@@ -117,5 +121,14 @@ public class Organization {
 	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
 	}
+
+	public List<Member> getMembers() {
+		return members;
+	}
+
+	public void setMembers(List<Member> members) {
+		this.members = members;
+	}
+	
 	
 }

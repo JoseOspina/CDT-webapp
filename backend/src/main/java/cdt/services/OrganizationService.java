@@ -13,6 +13,7 @@ import cdt.dto.AnswerDto;
 import cdt.dto.AxisDto;
 import cdt.dto.AxisResultDto;
 import cdt.dto.GetResult;
+import cdt.dto.MemberDto;
 import cdt.dto.OrganizationDto;
 import cdt.dto.PollDetailsDto;
 import cdt.dto.PollDto;
@@ -23,6 +24,7 @@ import cdt.entities.Answer;
 import cdt.entities.AnswerBatch;
 import cdt.entities.AppUser;
 import cdt.entities.Axis;
+import cdt.entities.Member;
 import cdt.entities.Organization;
 import cdt.entities.OrganizationStatus;
 import cdt.entities.Poll;
@@ -211,6 +213,11 @@ public class OrganizationService extends BaseService {
 	}
 	
 	@Transactional
+	public UUID getOrganizationIdFromMemberId(UUID memberId) {
+		return memberRepository.findById(memberId).getOrganization().getId();
+	}
+	
+	@Transactional
 	public PollDto getPollDto(UUID pollId) {
 		Poll poll = pollRepository.findById(pollId);
 		return poll.toDto();
@@ -336,4 +343,50 @@ public class OrganizationService extends BaseService {
 		
 		return new PostResult("success", "poll answered", batch.getId().toString());
 	}
+	
+	@Transactional
+	public GetResult<List<MemberDto>> getMembersList(UUID orgId) {
+		Organization organization = organizationRepository.findById(orgId);
+		List<Member> members = organization.getMembers();
+		
+		List<MemberDto> membersDto = new ArrayList<MemberDto>();
+		for (Member member : members) {
+			membersDto.add(member.toDto());
+		}
+		
+		return new GetResult<List<MemberDto>>("success", "members retrieved", membersDto);
+	}
+	
+	@Transactional
+	public PostResult addMember(UUID orgId, MemberDto memberDto) {
+		Organization organization = organizationRepository.findById(orgId);
+		
+		Member existingMember = memberRepository.findByOrganizationIdAndEmail(orgId, memberDto.getEmail());
+		
+		if (existingMember != null) {
+			return new PostResult("error", "email already in organization", null);
+		}
+		
+		Member member = new Member();
+		
+		member.setOrganization(organization);
+		member.setEmail(memberDto.getEmail());
+		
+		member = memberRepository.save(member);
+		
+		organization.getMembers().add(member);
+		
+		organizationRepository.save(organization);
+		
+		return new PostResult("success", "member added", member.getId().toString());
+	}
+	
+	@Transactional
+	public PostResult deleteMember(UUID memberId) {
+		Member member = memberRepository.findById(memberId);
+		memberRepository.delete(member);
+		return new PostResult("succes", "member deleted", null);
+		
+	}
+	
 }

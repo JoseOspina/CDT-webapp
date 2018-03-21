@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cdt.dto.AnswerDto;
 import cdt.dto.GetResult;
+import cdt.dto.MemberDto;
 import cdt.dto.OrganizationDto;
 import cdt.dto.PollDetailsDto;
 import cdt.dto.PollDto;
@@ -248,5 +249,58 @@ public class OrganizationsController extends BaseController {
 		}
 		
 		return organizationService.makeTemplatePublic(pollId, isTemplate);
+	}
+	
+	@RequestMapping(path = "/organization/{organizationId}/members",  method = RequestMethod.GET)
+    public GetResult<List<MemberDto>> getMembers(
+    		@PathVariable(name="organizationId") String orgIdStr) {
+		
+		if (getLoggedUser() == null) {
+			return new GetResult<List<MemberDto>>("error", "endpoint enabled for users only", null);
+		}
+		
+		UUID orgId = UUID.fromString(orgIdStr);
+		
+		if (!organizationService.isAdmin(orgId, getLoggedUserId())) {
+			return new GetResult<List<MemberDto>>("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.getMembersList(orgId);
+	}
+	
+	@RequestMapping(path = "/organization/{organizationId}/member",  method = RequestMethod.PUT)
+    public PostResult addMember(
+    		@PathVariable(name="organizationId") String orgIdStr,
+    		@RequestBody MemberDto memberDto ) {
+		
+		if (getLoggedUser() == null) {
+			return new PostResult("error", "endpoint enabled for users only", null);
+		}
+		
+		UUID orgId = UUID.fromString(orgIdStr);
+		
+		if (!organizationService.isAdmin(orgId, getLoggedUserId())) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.addMember(orgId, memberDto);
+	}
+	
+	@RequestMapping(path = "/member/{memberId}",  method = RequestMethod.DELETE)
+    public PostResult deleteMember(
+    		@PathVariable(name="memberId") String memberIdStr) {
+		
+		if (getLoggedUser() == null) {
+			return new PostResult("error", "endpoint enabled for users only", null);
+		}
+		
+		UUID memberId = UUID.fromString(memberIdStr);
+		UUID orgId = organizationService.getOrganizationIdFromMemberId(memberId);
+		
+		if (!organizationService.isAdmin(orgId, getLoggedUserId())) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.deleteMember(memberId);
 	}
 }
