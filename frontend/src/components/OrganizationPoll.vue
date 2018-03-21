@@ -13,8 +13,8 @@
         <app-back-button class=""></app-back-button>
       </router-link>
 
-      <component :is="currentComponent" :pollId="pollId">
-      </component>
+      <app-poll-details v-if="showDetails" :pollId="pollId" @edit="edit()"></app-poll-details>
+      <app-poll-editor v-if="editing" :pollId="pollId" @cancel="details()" @edited="edited()"></app-poll-editor>
 
     </div>
   </div>
@@ -22,11 +22,18 @@
 
 <script>
 import PollDetails from '@/components/OrganizationPollDetails'
+import PollEditor from '@/components/PollEditor'
 
 export default {
+  components: {
+    'app-poll-details': PollDetails,
+    'app-poll-editor': PollEditor
+  },
+
   data () {
     return {
-      currentComponent: PollDetails
+      showDetails: true,
+      editing: false
     }
   },
 
@@ -37,8 +44,17 @@ export default {
   },
 
   methods: {
-    editPoll () {
-      this.$router.push({name: 'EditPoll'})
+    edit () {
+      this.showDetails = false
+      this.editing = true
+    },
+    details () {
+      this.editing = false
+      this.showDetails = true
+    },
+    edited () {
+      this.editing = false
+      this.showDetails = true
     }
   }
 }

@@ -4,11 +4,7 @@
     <div class="w3-row w3-margin-top">
       <app-poll-text-input
         v-model="poll.title"
-        placeholder="Poll Title"
-        :restorable="fromTemplate"
-        :showAsInput="customTitle || !fromTemplate"
-        @set-custom-value="setCustomTitle()"
-        @custom-value-back="customTitleBack()">
+        placeholder="Poll Title">
       </app-poll-text-input>
       <app-error-panel :show="showErrors && poll.title === ''"
         message="poll title cannot be empty">
@@ -20,11 +16,7 @@
       <app-poll-text-input
         v-model="poll.description"
         placeholder="Poll Description"
-        :restorable="fromTemplate"
-        :useTextArea="true"
-        :showAsInput="customDescription || !fromTemplate"
-        @set-custom-value="setCustomDescription()"
-        @custom-value-back="customDescriptionBack()">
+        :useTextArea="true">
       </app-poll-text-input>
     </div>
 
@@ -48,11 +40,7 @@
             <div class="w3-row w3-margin-bottom">
               <app-poll-text-input
                 v-model="axis.title"
-                placeholder="Axis title"
-                :restorable="fromTemplate"
-                :showAsInput="axis.custom || !fromTemplate"
-                @set-custom-value="customAxis(axis.id)"
-                @custom-value-back="customAxisBack(axis.id)">
+                placeholder="Axis title">
               </app-poll-text-input>
               <app-error-panel :show="showErrors && axis.title === ''"
                 message="axis title cannot be empty">
@@ -68,10 +56,7 @@
                 :showMoveBtns="axis.questions.length > 1"
                 @move-up="moveUpQuestion(axis, question)"
                 @move-down="moveDownQuestion(axis, question)"
-                @remove="removeQuestion(axis, question)"
-                :restorable="fromTemplate"
-                @set-custom-question="customQuestion(axis.id, question.id)"
-                @custom-question-back="customQuestionBack(axis.id, question.id)">
+                @remove="removeQuestion(axis, question)">
               </app-poll-question-input>
 
               <app-error-panel :show="showErrors && question.text === ''"
@@ -79,9 +64,9 @@
               </app-error-panel>
             </div>
 
-            <div v-if="axis.custom" class="w3-row add-question-row">
+            <div class="w3-row add-question-row">
               <app-plus-button @click="newQuestion(axis)" class="w3-right"></app-plus-button>
-              <span class="w3-right">{{ $t('ADD-QUESTION') }}</span>
+              <div class="w3-right label">{{ $t('ADD-QUESTION') }}</div>
             </div>
             <app-error-panel :show="!axisWeightsOk(axis.id)"
               :message="$t('WEIGHT-SUM-100')">
@@ -95,7 +80,7 @@
 
       </div>
       <div class="w3-row w3-margin-top new-axis-row">
-        <span class="w3-left">{{ $t('ADD-DEGREE') }}</span>
+        <div class="w3-left label">{{ $t('ADD-DEGREE') }}</div>
         <app-plus-button @click="newAxis()" class="w3-left"></app-plus-button>
       </div>
     </div>
@@ -153,101 +138,8 @@ export default {
   },
 
   methods: {
-    setCustomTitle () {
-      this.customTitle = true
-      this.poll.custom = false
-    },
-    setCustomDescription () {
-      this.customDescription = true
-      this.poll.custom = false
-    },
-    customTitleBack () {
-      this.poll.title = this.pollG.title
-      this.customTitle = false
-      this.poll.custom = this.customDescription
-    },
-    customDescriptionBack () {
-      this.poll.description = this.pollG.description
-      this.customDescription = false
-      this.poll.custom = this.customTitle
-    },
-    customAxis (axisId) {
-      var ixA = getElIx(axisId, this.poll.axes)
-      if (ixA !== -1) {
-        this.poll.axes[ixA].custom = true
-      }
-    },
-    customAxisBack (axisId) {
-      // Undo the local editions of the poll and overwrite with the global version
-      var ixA = getElIx(axisId, this.poll.axes)
-      var ixAG = getElIx(axisId, this.pollG.axes)
-      if ((ixA !== -1) && (ixAG !== -1)) {
-        this.poll.axes.splice(ixA, 1, JSON.parse(JSON.stringify(this.pollG.axes[ixAG])))
-        this.poll.axes[ixA].custom = false
-      }
-    },
-    customQuestion (axisId, questionId) {
-      var axisIx = getElIx(axisId, this.poll.axes)
-      if (axisIx === -1) {
-        return
-      }
-      var questionIx = getElIx(questionId, this.poll.axes[axisIx].questions)
-
-      if (questionIx !== -1) {
-        this.poll.axes[axisIx].questions[questionIx].custom = true
-      }
-    },
-    customQuestionBack (axisId, questionId) {
-      // Undo the local editions of the poll and overwrite with the global version
-      var axisIx = getElIx(axisId, this.poll.axes)
-      var axisIxG = getElIx(axisId, this.pollG.axes)
-
-      if ((axisIx === -1) || (axisIxG === -1)) {
-        return
-      }
-      var questionIx = getElIx(questionId, this.poll.axes[axisIx].questions)
-      var questionIxG = getElIx(questionId, this.pollG.axes[axisIx].questions)
-
-      if ((questionIx !== -1) || (questionIxG !== -1)) {
-        this.poll.axes[axisIx].questions.splice(questionIx, 1, JSON.parse(JSON.stringify(this.pollG.axes[axisIxG].questions[questionIxG])))
-        this.poll.axes[axisIx].questions[questionIx].custom = false
-      }
-    },
     newAxis () {
       this.poll.axes.push(getEmptyAxis())
-    },
-    axisWeightsOk (axisId) {
-      var ixA = getElIx(axisId, this.poll.axes)
-      if (ixA !== -1) {
-        var axis = this.poll.axes[ixA]
-        var weight = 0
-        var hasRates = false
-        for (var ixQ in axis.questions) {
-          var question = axis.questions[ixQ]
-          if (question.type === 'RATE_1_5') {
-            hasRates = true
-            weight += question.weight
-          }
-        }
-        if (!hasRates) {
-          return true
-        } else {
-          return Math.abs(weight - 100) < 0.001
-        }
-      }
-    },
-    axisHasARate (axisId) {
-      var ixA = getElIx(axisId, this.poll.axes)
-      if (ixA !== -1) {
-        var axis = this.poll.axes[ixA]
-        for (var ixQ in axis.questions) {
-          var question = axis.questions[ixQ]
-          if (question.type === 'RATE_1_5') {
-            return true
-          }
-        }
-        return false
-      }
     },
     moveUpAxis (axis) {
       var axisIx = getElIx(axis.id, this.poll.axes)
@@ -335,5 +227,16 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.add-question-row .label {
+  padding-top: 6px;
+  margin-right: 20px;
+}
+
+.new-axis-row .label {
+  padding-top: 6px;
+  margin-right: 20px;
+}
+
 </style>

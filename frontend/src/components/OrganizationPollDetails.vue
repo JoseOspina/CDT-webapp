@@ -4,7 +4,7 @@
       <app-column-header>
         {{ $t('POLL-DETAILS') }}
       </app-column-header>
-      <div @click="$emit('edit')" class="edit-btn w3-display-right cursor-pointer">
+      <div v-if="poll.isTemplate" @click="$emit('edit')" class="edit-btn w3-display-right cursor-pointer">
         <i class="fa fa-pencil" aria-hidden="true"></i>
       </div>
     </div>
@@ -136,25 +136,23 @@ export default {
 
   methods: {
     update () {
-      if (this.pollId) {
-        if (this.pollId !== '') {
-          this.axios.get('/1/poll/' + this.pollId).then((response) => {
-            if (response.data.result === 'success') {
-              console.log('updating poll data')
-              this.poll = response.data.data
-              this.localIsTemplate = this.poll.isTemplate
-              this.localIsTemplatePublic = this.poll.isPublicTemplate
-              return this.axios.get('/1/poll/' + this.poll.id + '/details')
-            }
-          }).then((response) => {
-            if (response.data.result === 'success') {
-              this.details = response.data.data
-              this.loaded = true
-              this.updateStats()
-              this.updateChartData()
-            }
-          })
-        }
+      if (this.pollId !== '') {
+        this.axios.get('/1/poll/' + this.pollId).then((response) => {
+          if (response.data.result === 'success') {
+            console.log('updating poll data')
+            this.poll = response.data.data
+            this.localIsTemplate = this.poll.isTemplate
+            this.localIsTemplatePublic = this.poll.isPublicTemplate
+            return this.axios.get('/1/poll/' + this.poll.id + '/details')
+          }
+        }).then((response) => {
+          if (response.data.result === 'success') {
+            this.details = response.data.data
+            this.loaded = true
+            this.updateStats()
+            this.updateChartData()
+          }
+        })
       }
     },
     updateChartData () {

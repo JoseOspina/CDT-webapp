@@ -1,32 +1,13 @@
 <template lang="html">
   <div v-if="question" class="question-input">
     <div class="w3-row">
-      <div v-if="restorable" class="app-color-white-1 cursor-pointer restore-btn">
-        <i v-if="!question.custom" @click="$emit('set-custom-question')" class="fa fa-pencil" aria-hidden="true"></i>
-        <i v-else @click="$emit('custom-question-back')" class="fa fa-undo" aria-hidden="true"></i>
-      </div>
       <app-move-btns
         @move-up="$emit('move-up')"
         @move-down="$emit('move-down')"
         @remove="$emit('remove')">
       </app-move-btns>
     </div>
-    <div v-if="restorable && !question.custom" class="w3-row">
-      <div class="w3-col m9">
-        <div class="rounded-input app-color-2-br dark-1">
-          <vue-markdown class="marked-text" :source="question.text"></vue-markdown>
-        </div>
-      </div>
-      <div class="w3-col m3 select-col">
-        <div class="rounded-input app-color-2-br w3-margin-bottom">
-          {{ questionTypeNice(question.type) }}
-        </div>
-        <div v-if="question.type === 'RATE_1_5'" class="rounded-input app-color-2-br">
-          {{ question.weight }} %
-        </div>
-      </div>
-    </div>
-    <div v-else class="">
+    <div class="">
       <div class="w3-col m9 w3-margin-bottom">
         <app-poll-text-input
           v-model="question.text"
@@ -104,11 +85,6 @@ export default {
 
 .question-input .fa {
   color: rgba(255, 255, 255, 0.23);
-}
-
-.restore-btn {
-  position: absolute;
-  margin-top: 6px;
 }
 
 .select-col {

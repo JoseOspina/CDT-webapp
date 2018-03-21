@@ -104,6 +104,26 @@ public class OrganizationsController extends BaseController {
 		return organizationService.createPoll(orgId, pollDto, getLoggedUserId());
 	}
 	
+	@RequestMapping(path = "/poll/{pollId}",  method = RequestMethod.PUT)
+    public PostResult editPoll(
+    		@PathVariable(name="pollId") String pollIdStr, 
+    		@RequestBody PollDto pollDto) {
+		
+		UUID pollId = UUID.fromString(pollIdStr);
+		UUID orgId = organizationService.getOrganizationIdFromPollId(pollId);
+		UUID userId = getLoggedUserId();
+		
+		if (userId == null) {
+			return new PostResult("error", "endpoint enabled for users only", null);
+		}
+		
+		if (!organizationService.isAdmin(orgId, userId)) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.editPoll(pollId, pollDto);
+	}
+	
 	@RequestMapping(path = "/organization/{organizationId}/polls",  method = RequestMethod.GET)
     public GetResult<List<PollDto>> getPolls(
     		@PathVariable(name="organizationId") String orgIdStr) {

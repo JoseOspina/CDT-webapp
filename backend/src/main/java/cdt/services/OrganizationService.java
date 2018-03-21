@@ -149,6 +149,50 @@ public class OrganizationService extends BaseService {
 	}
 	
 	@Transactional
+	public PostResult editPoll(UUID pollId, PollDto pollDto) {
+		
+		Poll poll = pollRepository.findById(pollId);
+		if (poll == null) {
+			return new PostResult("error", "poll not found", null);
+		}
+		
+		poll.setTitle(pollDto.getTitle());
+		poll.setDescription(pollDto.getDescription());
+		poll = pollRepository.save(poll);
+		
+		poll.getAxes().clear();
+		
+		for (AxisDto axisDto : pollDto.getAxes()) {
+			
+			Axis axis = new Axis();
+			
+			axis.setTitle(axisDto.getTitle());
+			axis.setDescription(axisDto.getDescription());
+			axis = axisRepository.save(axis);
+			
+			for (QuestionDto questionDto : axisDto.getQuestions()) {
+				Question question = new Question();
+				
+				question.setText(questionDto.getText());
+				question.setType(QuestionType.valueOf(questionDto.getType()));
+				question = questionRepository.save(question);
+				
+				QuestionAndWeight questionAndWeight = new QuestionAndWeight();
+				
+				questionAndWeight.setQuestion(question);
+				questionAndWeight.setWeight(questionDto.getWeight());
+				questionAndWeight = questionAndWeightRepository.save(questionAndWeight);
+				
+				axis.getQuestionsAndWeights().add(questionAndWeight);
+			}
+			
+			poll.getAxes().add(axis);
+		}
+
+		return new PostResult("success", "poll created", poll.getId().toString());
+	}
+	
+	@Transactional
 	public GetResult<List<PollDto>> getPollsList(UUID orgId) {
 		List<Poll> polls = pollRepository.findByOrganization_IdAndNotInStatus(orgId, PollStatus.DELETED);
 		
