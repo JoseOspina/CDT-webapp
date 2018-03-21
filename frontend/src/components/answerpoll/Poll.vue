@@ -8,7 +8,7 @@
           <vue-markdown class="marked-text" :source="poll.description"></vue-markdown>
         </div>
         <div v-if="!alreadyFilled && !answerSucessful" class="w3-row start-button">
-          <app-button @click="axisIx = 0" class="margin-0-auto">{{ $t('START') }}</app-button>
+          <app-button @click="start()" class="margin-0-auto">{{ $t('START') }}</app-button>
         </div>
         <div v-else class="w3-row rounded-input app-color-1-br w3-margin-top anouncement">
           {{ answerSucessful ? $t('ANSWERS-SUCCESS') : $t('ALREADY-FILLED') }}
@@ -84,10 +84,19 @@ export default {
   },
 
   methods: {
+    start () {
+      this.axisIx = 0
+      this.scrollToTop()
+    },
     next () {
       if (this.axisIx < this.poll.axes.length - 1) {
         this.axisIx += 1
+        this.scrollToTop()
       }
+    },
+    scrollToTop () {
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
     },
     back () {
       this.axisIx -= 1

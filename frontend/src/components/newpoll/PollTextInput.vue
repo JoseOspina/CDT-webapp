@@ -70,6 +70,10 @@ export default {
   color: rgba(255, 255, 255, 0.23);
 }
 
+.box-container .fa:hover {
+  color: white;
+}
+
 .box-content {
   font-size: 18px;
   padding: 3px 18px;
