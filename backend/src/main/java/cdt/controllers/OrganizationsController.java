@@ -33,6 +33,23 @@ public class OrganizationsController extends BaseController {
 		return organizationService.create(organizationDto, getLoggedUserId());
 	}
 	
+	
+	@RequestMapping(path = "/organization/delete/{organizationId}",  method = RequestMethod.DELETE)
+    public PostResult deleteOrganization(@PathVariable(name="organizationId") String orgIdStr) {
+		
+		if (getLoggedUser() == null) {
+			return new PostResult("error", "endpoint enabled for users only", null);
+		}
+		
+		UUID orgId = UUID.fromString(orgIdStr);
+		
+		if (!organizationService.isAdmin(orgId, getLoggedUserId())) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.delete(orgId);
+	}
+	
 	@RequestMapping(path = "/organization/{organizationId}",  method = RequestMethod.GET)
     public GetResult<OrganizationDto> getOrganization(@PathVariable(name="organizationId") String orgIdStr) {
 		

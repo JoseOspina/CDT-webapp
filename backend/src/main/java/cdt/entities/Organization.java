@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -32,6 +34,9 @@ public class Organization {
 	private UUID id;
 	
 	private String name;
+	
+	@Enumerated(EnumType.STRING)
+	private OrganizationStatus status;
 	
 	@Lob
 	@Type(type = "org.hibernate.type.TextType")
@@ -73,6 +78,14 @@ public class Organization {
 		this.name = name;
 	}
 	
+	public OrganizationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrganizationStatus status) {
+		this.status = status;
+	}
+
 	public String getDescription() {
 		return description;
 	}

@@ -24,6 +24,7 @@ import cdt.entities.AnswerBatch;
 import cdt.entities.AppUser;
 import cdt.entities.Axis;
 import cdt.entities.Organization;
+import cdt.entities.OrganizationStatus;
 import cdt.entities.Poll;
 import cdt.entities.PollAudience;
 import cdt.entities.PollConfig;
@@ -48,10 +49,20 @@ public class OrganizationService extends BaseService {
 		organization.setCreator(creator);
 		organization.getAdmins().add(creator);
 		organization.setCreationDate(new Timestamp(System.currentTimeMillis()));
+		organization.setStatus(OrganizationStatus.OPEN);
 		
 		organization = organizationRepository.save(organization);
 		
 		return new PostResult("success", "organization created", organization.getId().toString());
+	}
+	
+	@Transactional
+	public PostResult delete(UUID orgId) {
+		Organization organization = organizationRepository.findById(orgId);
+		organization.setStatus(OrganizationStatus.DELETED);
+		organization = organizationRepository.save(organization);
+		
+		return new PostResult("success", "organization deleted", organization.getId().toString());
 	}
 	
 	@Transactional

@@ -18,6 +18,10 @@
               <label for=""><b>{{ $t('NAME') }}:</b></label>
               <input v-model="name" class="rounded-input app-color-2-br dark-3" type="text" name="" value="">
             </div>
+            <app-error-panel
+              :show="name === '' && showErrors"
+              :message="$t('TITLE-NOT-EMPTY')">
+            </app-error-panel>
             <div class="w3-row w3-margin-top">
               <label for=""><b>{{ $t('DESCRIPTION') }}:</b></label>
               <app-markdown-editor v-model="description" class="rounded-input app-color-2-br dark-3"
@@ -58,7 +62,8 @@ export default {
       name: '',
       description: '',
       errorWhenCreating: false,
-      errorWhenCreatingMsg: ''
+      errorWhenCreatingMsg: '',
+      showErrors: false
     }
   },
 
@@ -73,27 +78,36 @@ export default {
       this.$emit('close')
     },
     accept () {
-      var orgDto = {
-        name: this.name,
-        description: this.description
+      var ok = true
+
+      if (this.name === '') {
+        ok = false
+        this.showErrors = true
       }
-      this.axios.post('/1/organization/create', orgDto).then((response) => {
-        if (response.data.result === 'success') {
-          this.$store.dispatch('updateProfile')
-          this.closeThis()
-          console.log('og created:' + response.data.data)
-          console.log(response)
-          this.$router.push({name: 'OrganizationPolls', params: {orgId: response.data.elementId}})
-        } else {
-          console.log(response.data)
-          this.errorWhenCreating = true
-          this.errorWhenCreatingMsg = response.data.message
+
+      if (ok) {
+        var orgDto = {
+          name: this.name,
+          description: this.description
         }
-      }).catch((error) => {
-        console.log(error)
-        this.errorWhenCreating = true
-        this.errorWhenCreatingMsg = error.message
-      })
+        this.axios.post('/1/organization/create', orgDto).then((response) => {
+          if (response.data.result === 'success') {
+            this.$store.dispatch('updateProfile')
+            this.closeThis()
+            console.log('og created:' + response.data.data)
+            console.log(response)
+            this.$router.push({name: 'OrganizationPolls', params: {orgId: response.data.elementId}})
+          } else {
+            console.log(response.data)
+            this.errorWhenCreating = true
+            this.errorWhenCreatingMsg = response.data.message
+          }
+        }).catch((error) => {
+          console.log(error)
+          this.errorWhenCreating = true
+          this.errorWhenCreatingMsg = error.message
+        })
+      }
     }
   }
 }

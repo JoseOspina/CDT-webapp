@@ -5,7 +5,7 @@
       IS {{ poll.isPublicTemplate ? 'PUBLIC' : '' }} TEMPLATE
     </div>
     <div class="w3-row w3-margin">
-      <h3><b>{{ poll.title }}</b></h3>
+      <h5><b>{{ poll.title }}</b></h5>
       <vue-markdown class="marked-text" :source="poll.description.length < 60 ? poll.description : poll.description.slice(0, 59) + ' ...'"></vue-markdown>
     </div>
   </router-link>

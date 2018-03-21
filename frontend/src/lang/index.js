@@ -5,6 +5,8 @@ export const translations = {
     'START': 'Start',
     'MY-ORGS': 'My Organizations',
     'CREATE-NEW-ORG': 'Create New Organization',
+    'DELETE-ORG': 'Delete Organization',
+    'DELETE-ORG-MSG': 'Are you sure you want to delete the following organization:',
     'NAME': 'Name',
     'DESCRIPTION': 'Description',
     'ACCEPT': 'Accept',
