@@ -26,9 +26,15 @@
             <option value="ANY_MEMBER">{{ $t('ORGANIZATION_MEMBERS') }}</option>
           </select>
         </div>
+
+        <div v-if="config.audience === 'ANY_MEMBER'" class="w3-row w3-center w3-margin-top">
+          {{ $t('MEMBERS-RECEIVE-LINK') }}
+        </div>
+
         <div class="w3-row w3-center bottom-row">
           <app-button class="w3-right" @click="create()">{{ $t('CREATE') }}!</app-button>
         </div>
+
         <app-error-panel
           :show="errorCreatingPoll"
           :message="errorCreatingPollMsg">
