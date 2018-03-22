@@ -9,6 +9,7 @@ import cdt.repositories.AxisRepositoryIf;
 import cdt.repositories.MemberRepositoryIf;
 import cdt.repositories.OrganizationRepositoryIf;
 import cdt.repositories.PollConfigRepositoryIf;
+import cdt.repositories.PollCredentialRepositoryIf;
 import cdt.repositories.PollRepositoryIf;
 import cdt.repositories.QuestionAndWeightRepositoryIf;
 import cdt.repositories.QuestionRepositoryIf;
@@ -44,6 +45,11 @@ public class BaseService {
 	
 	@Autowired
 	protected MemberRepositoryIf memberRepository;
+	
+	@Autowired
+	protected PollCredentialRepositoryIf pollCredentialRepository;
+	
+	
 	
 
 }

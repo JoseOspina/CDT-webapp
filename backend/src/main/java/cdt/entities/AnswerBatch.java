@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -17,6 +15,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+/**
+ * @author pepo
+ *
+ */
 @Entity
 @Table(name="answer_batches")
 public class AnswerBatch {
@@ -31,8 +33,7 @@ public class AnswerBatch {
 	@ManyToOne
 	private Poll poll;
 	
-	@Enumerated(EnumType.STRING)
-	private ResponderType responderType;
+	private String secret;
 	
 	@ManyToOne
 	private AppUser answeredBy;
@@ -57,12 +58,12 @@ public class AnswerBatch {
 		this.poll = poll;
 	}
 	
-	public ResponderType getResponderType() {
-		return responderType;
+	public String getSecret() {
+		return secret;
 	}
 
-	public void setResponderType(ResponderType responderType) {
-		this.responderType = responderType;
+	public void setSecret(String secret) {
+		this.secret = secret;
 	}
 
 	public AppUser getAnsweredBy() {

@@ -3,6 +3,8 @@ package cdt.services;
 import java.io.IOException;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,9 @@ public class NotificationPeriodicService {
 	
 	
 	@Scheduled(fixedDelay = 30000)
+	@Transactional
 	public void checkWantToContributeNow() throws IOException {
 		List<Poll> polls = pollRepository.findNotSent();
-		
 		emailService.sendPollsNotifications(polls);
 	}
 	

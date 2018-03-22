@@ -53,6 +53,9 @@ export const translations = {
     'ARE-YOU-SURE-SUBMIT': 'Are you sure you want to submit your anwers now?',
     'ANSWERS-SUCCESS': 'Your answer has been succesfully recored, thanks!',
     'ALREADY-FILLED': 'Thanks for having filled the poll!',
-    'HEADER-ORG-CREATION': 'Unerwarteter Fehler beim Erstellen der Organisation. Bitte nehmen Sie Kontakt mit uns auf:'
+    'HEADER-ORG-CREATION': 'Unerwarteter Fehler beim Erstellen der Organisation. Bitte nehmen Sie Kontakt mit uns auf:',
+    'PLEASE-WAIT': 'Please wait',
+    'NOT-AUTHORIZED-SURVEY': 'you are not authorized to fill this survey, sorry.',
+    'POLL-URL-SENT-TO-MEMBERS': 'The link to answer this poll was sent, by email, to each member of the organization.'
   }
 }

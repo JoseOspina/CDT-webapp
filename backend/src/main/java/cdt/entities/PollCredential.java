@@ -31,6 +31,8 @@ public class PollCredential {
 	
 	private String secret;
 	
+	private Boolean used;
+	
 
 	public UUID getId() {
 		return id;
@@ -63,4 +65,13 @@ public class PollCredential {
 	public void setSecret(String secret) {
 		this.secret = secret;
 	}
+
+	public Boolean getUsed() {
+		return used;
+	}
+
+	public void setUsed(Boolean used) {
+		this.used = used;
+	}
+	
 }

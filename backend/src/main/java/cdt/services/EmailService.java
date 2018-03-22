@@ -19,7 +19,7 @@ import cdt.entities.Poll;
 import cdt.entities.PollCredential;
 
 @Service
-public class EmailService {
+public class EmailService extends BaseService {
 	
 	@Autowired
 	private SendGrid sg;
@@ -37,8 +37,13 @@ public class EmailService {
 					sendPollNotifications(poll);
 				}
 			} catch (Exception ex) {
+				poll.getConfig().setNotificationsSent(true);
+				pollConfigRepository.save(poll.getConfig());
 				System.out.println("Error sending notifications");
 			}
+			
+			poll.getConfig().setNotificationsSent(true);
+			pollConfigRepository.save(poll.getConfig());
 		}
 	}
 	

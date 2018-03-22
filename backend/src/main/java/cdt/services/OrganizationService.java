@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import cdt.dto.AnswerDto;
@@ -30,11 +31,11 @@ import cdt.entities.OrganizationStatus;
 import cdt.entities.Poll;
 import cdt.entities.PollAudience;
 import cdt.entities.PollConfig;
+import cdt.entities.PollCredential;
 import cdt.entities.PollStatus;
 import cdt.entities.Question;
 import cdt.entities.QuestionAndWeight;
 import cdt.entities.QuestionType;
-import cdt.entities.ResponderType;
 
 @Service
 public class OrganizationService extends BaseService {
@@ -119,6 +120,21 @@ public class OrganizationService extends BaseService {
 		config.setNotificationsSent(false);
 		
 		config.setPoll(poll);
+		
+		if (config.getAudience() == PollAudience.ANY_MEMBER) {
+			/* prepare credentials */
+			for (Member member : poll.getOrganization().getMembers()) {
+				PollCredential credential = new PollCredential();
+				credential.setPoll(poll);
+				credential.setMember(member);
+				credential.setSecret(RandomStringUtils.randomAlphabetic(32));
+				credential.setUsed(false);
+				
+				credential = pollCredentialRepository.save(credential);
+				
+				poll.getCredentials().add(credential);
+			}
+		}	
 		
 		config = pollConfigRepository.save(config);
 	
@@ -311,7 +327,7 @@ public class OrganizationService extends BaseService {
 	}
 	
 	@Transactional
-	public PostResult answerPoll(UUID pollId, List<AnswerDto> answersDto, ResponderType responderType) {
+	public PostResult answerPoll(UUID pollId, List<AnswerDto> answersDto, String secret) {
 		
 		Poll poll = pollRepository.findById(pollId);
 		
@@ -321,7 +337,7 @@ public class OrganizationService extends BaseService {
 		
 		AnswerBatch batch = new AnswerBatch();
 		
-		batch.setResponderType(responderType);
+		batch.setSecret(secret);
 		batch.setPoll(poll);
 		batch = answerBatchRepository.save(batch);
 		
@@ -386,9 +402,33 @@ public class OrganizationService extends BaseService {
 	@Transactional
 	public PostResult deleteMember(UUID memberId) {
 		Member member = memberRepository.findById(memberId);
+		
+		if (member == null) {
+			return new PostResult("error", "member not found", null);
+		}
+		
+		/* delete credentials too */
+		List<PollCredential> credentials = pollCredentialRepository.findByMember_Id(member.getId());
+		for (PollCredential credential : credentials) {
+			pollCredentialRepository.delete(credential);
+		}
+		
 		memberRepository.delete(member);
 		return new PostResult("success", "member deleted", null);
 		
+	}
+	
+	@Transactional
+	public Boolean checkSecret(UUID pollId, String secret) {
+		PollCredential credential = pollCredentialRepository.findBySecret(secret);
+		
+		if (credential == null) {
+			return false;	
+		}
+		
+		Boolean pollValid = credential.getPoll().getId().equals(pollId);
+		
+		return pollValid;
 	}
 	
 }

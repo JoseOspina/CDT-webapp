@@ -79,6 +79,8 @@ public class Poll {
 		dto.setIsPublicTemplate(isPublicTemplate);
 		dto.setCustom(false);
 		
+		dto.setConfig(config.toDto());
+		
 		return dto;
 	}
 	

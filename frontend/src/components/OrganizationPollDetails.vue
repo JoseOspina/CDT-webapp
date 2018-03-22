@@ -44,10 +44,15 @@
         </div>
       </div>
     </div>
-    <div class="w3-row w3-margin-top">
+
+    <div v-if="poll.config.audience === 'ANYONE_WITH_LINK'" class="w3-row w3-margin-top">
       <span class="w3-margin-left w3-small anouncement">{{ $t('LINK-TO-POLL') }}:</span>
       <input class="rounded-input dark-3 app-color-2-br" type="text" name="" :value="pollAnswerUrl">
     </div>
+    <div v-if="poll.config.audience === 'ANY_MEMBER'" class="w3-row w3-margin-top w3-center">
+      <span class="w3-margin-left w3-small anouncement">{{ $t('POLL-URL-SENT-TO-MEMBERS') }}</span>
+    </div>
+
     <div v-if="details.numberOfAnswers > 0" class="">
       <hr>
       <h4>{{ $t("RESULTS") }}:</h4>

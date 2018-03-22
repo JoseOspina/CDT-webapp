@@ -191,22 +191,20 @@ public class OrganizationsController extends BaseController {
 	
 	@RequestMapping(path = "/poll/{pollId}/answer",  method = RequestMethod.POST)
 	public PostResult answerPoll(
-    		@PathVariable(name="pollId") String pollIdStr, 
+    		@PathVariable(name="pollId") String pollIdStr,
+    		@RequestParam(name="secret", defaultValue="") String secret,
     		@RequestBody List<AnswerDto> answersDto) {
 		
 		UUID pollId = UUID.fromString(pollIdStr);
 		
-		ResponderType responderType = null;
-		
-		if (organizationService.getPollAudience(pollId) == PollAudience.ANYONE_WITH_LINK) {
-			responderType = ResponderType.ANONYMOUS;
+		if (organizationService.getPollAudience(pollId) == PollAudience.ANY_MEMBER) {
+			if (!organizationService.checkSecret(pollId, secret)) {
+				return new PostResult("error", "not authorized to fill this survey", null);
+			}
 		}
 		
-		if (responderType != null) {
-			return organizationService.answerPoll(pollId, answersDto, responderType);
-		} else {
-			return new PostResult("error", "not authorized to answer this poll", null);
-		}
+		return organizationService.answerPoll(pollId, answersDto, secret);
+		
 	}
 	
 	@RequestMapping(path = "/poll/{pollId}/makeTemplate",  method = RequestMethod.PUT)
@@ -302,5 +300,13 @@ public class OrganizationsController extends BaseController {
 		}
 		
 		return organizationService.deleteMember(memberId);
+	}
+	
+	@RequestMapping(path = "/poll/{pollId}/secretValid/{secret}",  method = RequestMethod.GET)
+    public GetResult<Boolean> checkSecret(
+    		@PathVariable(name="pollId") String pollIdStr,
+    		@PathVariable(name="secret") String secret) {
+		
+		return new GetResult<Boolean>("success", "valdility checked", organizationService.checkSecret(UUID.fromString(pollIdStr), secret));
 	}
 }
