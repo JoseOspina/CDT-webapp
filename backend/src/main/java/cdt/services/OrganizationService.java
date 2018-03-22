@@ -11,6 +11,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import cdt.dto.AnswerDto;
+import cdt.dto.AppUserDto;
 import cdt.dto.AxisDto;
 import cdt.dto.AxisResultDto;
 import cdt.dto.GetResult;
@@ -389,11 +390,9 @@ public class OrganizationService extends BaseService {
 		
 		member.setOrganization(organization);
 		member.setEmail(memberDto.getEmail());
-		
 		member = memberRepository.save(member);
 		
 		organization.getMembers().add(member);
-		
 		organizationRepository.save(organization);
 		
 		return new PostResult("success", "member added", member.getId().toString());
@@ -416,6 +415,49 @@ public class OrganizationService extends BaseService {
 		memberRepository.delete(member);
 		return new PostResult("success", "member deleted", null);
 		
+	}
+	
+	@Transactional
+	public PostResult addAdmin(UUID orgId, String email) {
+		AppUser admin = appUserRepository.findByEmail(email);
+		
+		if (admin == null) {
+			return new PostResult("error", "user not found with that email", null);
+		}
+		
+		Organization organization = organizationRepository.findById(orgId);
+		organization.getAdmins().add(admin);
+		organizationRepository.save(organization);
+		
+		return new PostResult("success", "admin added", admin.getId().toString());
+	}
+	
+	@Transactional
+	public GetResult<List<AppUserDto>> getAdmins(UUID orgId) {
+		Organization organization = organizationRepository.findById(orgId);
+		List<AppUser> admins = organization.getAdmins();
+		List<AppUserDto> adminsDto = new ArrayList<AppUserDto>();
+		
+		for (AppUser admin : admins) {
+			adminsDto.add(admin.toDto());	
+		}
+		
+		return new GetResult<List<AppUserDto>>("success", "admins retrieved", adminsDto);
+	}
+	
+	@Transactional
+	public PostResult deleteAdmin(UUID orgId, UUID adminId) {
+		AppUser admin = appUserRepository.findById(adminId);
+		
+		Organization organization = organizationRepository.findById(orgId);
+		if (organization.getAdmins().size() == 1) {
+			return new PostResult("error", "cant delete all admins", null);
+		}
+		
+		organization.getAdmins().remove(admin);
+		organizationRepository.save(organization);
+		
+		return new PostResult("success", "admin removed", null);
 	}
 	
 	@Transactional

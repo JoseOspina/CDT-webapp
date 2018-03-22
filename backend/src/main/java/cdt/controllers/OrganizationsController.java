@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cdt.dto.AnswerDto;
+import cdt.dto.AppUserDto;
 import cdt.dto.GetResult;
 import cdt.dto.MemberDto;
 import cdt.dto.OrganizationDto;
@@ -18,7 +19,6 @@ import cdt.dto.PollDetailsDto;
 import cdt.dto.PollDto;
 import cdt.dto.PostResult;
 import cdt.entities.PollAudience;
-import cdt.entities.ResponderType;
 
 @RestController
 @RequestMapping("/1")
@@ -308,5 +308,54 @@ public class OrganizationsController extends BaseController {
     		@PathVariable(name="secret") String secret) {
 		
 		return new GetResult<Boolean>("success", "valdility checked", organizationService.checkSecret(UUID.fromString(pollIdStr), secret));
+	}
+	
+	@RequestMapping(path = "/organization/{organizationId}/admins",  method = RequestMethod.GET)
+    public GetResult<List<AppUserDto>> getAdmins(
+    		@PathVariable(name="organizationId") String orgIdStr) {
+		
+		if (getLoggedUser() == null) {
+			return new GetResult<List<AppUserDto>>("error", "endpoint enabled for users only", null);
+		}
+		
+		UUID orgId = UUID.fromString(orgIdStr);
+		
+		if (!organizationService.isAdmin(orgId, getLoggedUserId())) {
+			return new GetResult<List<AppUserDto>>("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.getAdmins(orgId);
+	}
+	
+	@RequestMapping(path = "/organization/{organizationId}/admin",  method = RequestMethod.PUT)
+    public PostResult addAdmin(
+    		@PathVariable(name="organizationId") String orgIdStr,
+    		@RequestBody AppUserDto adminDto ) {
+		
+		if (getLoggedUser() == null) {
+			return new PostResult("error", "endpoint enabled for users only", null);
+		}
+		
+		UUID orgId = UUID.fromString(orgIdStr);
+		
+		if (!organizationService.isAdmin(orgId, getLoggedUserId())) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.addAdmin(orgId, adminDto.getEmail());
+	}
+	
+	@RequestMapping(path = "/organization/{organizationId}/admin/{adminId}",  method = RequestMethod.DELETE)
+    public PostResult deleteAdmin(
+    		@PathVariable(name="organizationId") String orgIdStr,
+    		@PathVariable(name="adminId") String adminIdStr) {
+		
+		UUID orgId = UUID.fromString(orgIdStr);
+		
+		if (!organizationService.isAdmin(orgId, getLoggedUserId())) {
+			return new PostResult("error", "endpoint enabled for admins only", null);
+		}
+		
+		return organizationService.deleteAdmin(orgId, UUID.fromString(adminIdStr));
 	}
 }

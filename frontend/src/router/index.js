@@ -14,6 +14,7 @@ import OrganizationContent from '@/components/OrganizationContent'
 import OrganizationPolls from '@/components/OrganizationPolls'
 import OrganizationPoll from '@/components/OrganizationPoll'
 import OrganizationMembers from '@/components/OrganizationMembers'
+import OrganizationAdmins from '@/components/OrganizationAdmins'
 
 import NewPoll from '@/components/newpoll/NewPoll'
 import NewPollTemplate from '@/components/newpoll/NewPollTemplate'
@@ -64,6 +65,7 @@ export default new Router({
                 { path: '/', name: 'OrganizationContent', redirect: 'polls' },
                 { path: 'polls', name: 'OrganizationPolls', component: OrganizationPolls },
                 { path: 'members', name: 'OrganizationMembers', component: OrganizationMembers },
+                { path: 'admins', name: 'OrganizationAdmins', component: OrganizationAdmins },
                 { path: 'poll/:pollId', name: 'OrganizationPoll', component: OrganizationPoll },
                 {
                   path: 'newpoll',

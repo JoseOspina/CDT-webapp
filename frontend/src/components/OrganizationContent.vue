@@ -7,7 +7,7 @@
       <router-link :to="{name: 'OrganizationMembers'}" class="w3-center app-color-1-br cursor-pointer" :class="{'tab-selected': isMembers}">
         <h4><b>{{ $t('MEMBERS') }}</b></h4>
       </router-link>
-      <router-link :to="{name: 'OrganizationPolls'}" class="w3-center">
+      <router-link :to="{name: 'OrganizationAdmins'}" class="w3-center app-color-1-br cursor-pointer" :class="{'tab-selected': isAdmins}">
         <h4><b>{{ $t('ADMINS') }}</b></h4>
       </router-link>
     </div>
@@ -38,7 +38,13 @@ export default {
       return res
     },
     isAdmins () {
-      return false
+      var res = false
+      this.$route.matched.forEach((e) => {
+        if (e.name === 'OrganizationAdmins') {
+          res = true
+        }
+      })
+      return res
     }
   }
 }
