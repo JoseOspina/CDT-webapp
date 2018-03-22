@@ -4,6 +4,8 @@ export const translations = {
   de: {
     'POLLS': 'Polls',
     'MEMBERS': 'Members',
+    'ADD-NEW-MEMBER': 'Add new member',
+    'EMAIL-NOT-VALID': 'Email not valid',
     'ADMINS': 'Admins',
     'START': 'Start',
     'ORG-MEMBERS': 'Organization Members',

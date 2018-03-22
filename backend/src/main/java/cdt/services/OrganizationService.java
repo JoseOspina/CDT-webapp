@@ -385,7 +385,7 @@ public class OrganizationService extends BaseService {
 	public PostResult deleteMember(UUID memberId) {
 		Member member = memberRepository.findById(memberId);
 		memberRepository.delete(member);
-		return new PostResult("succes", "member deleted", null);
+		return new PostResult("success", "member deleted", null);
 		
 	}
 	
