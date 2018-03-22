@@ -23,6 +23,7 @@
         <div class="w3-row w3-margin-top">
           <select v-model="config.audience" class="app-select-input app-color-2-br dark-3">
             <option value="ANYONE_WITH_LINK">{{ $t('ANYONE-WITH-LINK') }}</option>
+            <option value="ANY_MEMBER">{{ $t('ORGANIZATION_MEMBERS') }}</option>
           </select>
         </div>
         <div class="w3-row w3-center bottom-row">

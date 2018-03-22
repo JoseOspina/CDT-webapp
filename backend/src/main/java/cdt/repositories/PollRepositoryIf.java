@@ -33,4 +33,7 @@ public interface PollRepositoryIf extends CrudRepository<Poll, UUID> {
 	@Query("SELECT po FROM Poll po WHERE (po.isTemplate = TRUE AND po.organization.id = ?1) OR po.isPublicTemplate = TRUE ORDER BY po.creationDate DESC")
 	public List<Poll> getTemplates(UUID orgId);
 	
+	@Query("SELECT po FROM Poll po JOIN po.config conf WHERE conf.audience = 'ANY_MEMBER' AND conf.notificationsSent = FALSE")
+	public List<Poll> findNotSent();
+	
 }

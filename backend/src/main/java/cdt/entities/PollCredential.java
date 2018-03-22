@@ -4,20 +4,18 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
-@Table(name="polls_config")
-public class PollConfig {
-	
+@Table(name="poll_credentials")
+public class PollCredential {
+
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator",
@@ -25,14 +23,15 @@ public class PollConfig {
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
 	
-	@OneToOne
+	@ManyToOne
 	private Poll poll;
 	
-	@Enumerated(EnumType.STRING)
-	private PollAudience audience;
+	@ManyToOne
+	private Member member;
 	
-	private Boolean notificationsSent;
+	private String secret;
 	
+
 	public UUID getId() {
 		return id;
 	}
@@ -49,20 +48,19 @@ public class PollConfig {
 		this.poll = poll;
 	}
 
-	public PollAudience getAudience() {
-		return audience;
+	public Member getMember() {
+		return member;
 	}
 
-	public void setAudience(PollAudience audience) {
-		this.audience = audience;
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
-	public Boolean getNotificationsSent() {
-		return notificationsSent;
+	public String getSecret() {
+		return secret;
 	}
 
-	public void setNotificationsSent(Boolean notificationsSent) {
-		this.notificationsSent = notificationsSent;
+	public void setSecret(String secret) {
+		this.secret = secret;
 	}
-	
 }

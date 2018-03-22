@@ -37,6 +37,7 @@ export const translations = {
     'AT-LEAST-ONE-QUESTION': 'at least one question must be rated',
     'ERRORS-IN-POLL': 'There are errors in the configuration, please review',
     'ANYONE-WITH-LINK': 'Anyone with the link',
+    'ORGANIZATION_MEMBERS': 'Organization Members',
     'POLL-DETAILS': 'Poll Details',
     'IS-TEMPLATE': 'Is template',
     'PUBLIC': 'Public',

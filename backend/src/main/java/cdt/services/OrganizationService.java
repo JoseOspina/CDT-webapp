@@ -116,6 +116,8 @@ public class OrganizationService extends BaseService {
 		
 		PollConfig config = new PollConfig();
 		config.setAudience(PollAudience.valueOf(pollDto.getConfig().getAudience()));
+		config.setNotificationsSent(false);
+		
 		config.setPoll(poll);
 		
 		config = pollConfigRepository.save(config);

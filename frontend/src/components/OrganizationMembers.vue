@@ -7,6 +7,24 @@
     </div>
 
     <div class="w3-row-padding organization-members-row">
+
+      <div class="new-member-row">
+        <div class="w3-row member-row">
+          {{ $t('ADD-NEW-MEMBER')}}
+          <div class="w3-left input-div dark-2">
+            <input v-model="newMemberEmail" placeholder="email" ref="newEmail"
+              class="w3-input w3-round app-color-2-br" type="text" name="" >
+          </div>
+          <div class="w3-left btn-div">
+            <app-plus-button @click="addMember()"></app-plus-button>
+          </div>
+        </div>
+
+        <app-error-panel :show="emailNotValidError && !newEmailValid"
+          :message="$t('EMAIL-NOT-VALID')">
+        </app-error-panel>
+      </div>
+
       <div v-for="member in this.members" :key="member.id" class="w3-row member-row">
         <div class="w3-left input-div dark-2">
           <div class="email-box w3-border app-color-2-br">
@@ -22,20 +40,6 @@
         <i>{{ $t('NO-MEMBERS-EXIST')}}</i>
       </div>
 
-      <div class="w3-row member-row new-member-row">
-        {{ $t('ADD-NEW-MEMBER')}}
-        <div class="w3-left input-div dark-2">
-          <input v-model="newMemberEmail" placeholder="email" ref="newEmail"
-            class="w3-input w3-round app-color-2-br" type="text" name="" >
-        </div>
-        <div class="w3-left btn-div">
-          <app-plus-button @click="addMember()"></app-plus-button>
-        </div>
-      </div>
-
-      <app-error-panel :show="emailNotValidError && !newEmailValid"
-        :message="$t('EMAIL-NOT-VALID')">
-      </app-error-panel>
     </div>
 
   </div>
@@ -56,6 +60,10 @@ export default {
       return this.$route.params.orgId
     },
     newEmailValid () {
+      if (this.newMemberEmail === '') {
+        return true
+      }
+
       var re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(String(this.newMemberEmail).toLowerCase())
     }
@@ -131,8 +139,8 @@ export default {
   padding-right: 10vw;
 }
 
-.new-member-row {
-  margin-top: 5vh;
+.organization-members-row .new-member-row {
+  margin-bottom: 5vh;
 }
 
 .member-row {

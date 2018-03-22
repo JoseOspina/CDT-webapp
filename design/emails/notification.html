@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+
+		body {
+			margin: 0px;
+		}
+
+		hr {
+			border-color: #339470;
+		}
+
+		.background {
+			background: url('https://image.ibb.co/hXtphx/background_2_A_low.png');
+			background-color: #3F3E3E;
+			background-size:  auto;
+		}
+
+		.container {
+			background-color: rgba(34, 30, 31, 0.7);
+			max-width: 900px;
+			margin: 0 auto;
+			color: white;
+			width: 100%;
+			text-align: center;
+			font-family: 'Arial', sans-serif;
+		}
+
+		.content-container {
+			min-height: 100vh;
+		}
+
+    .top-header {
+      clear: both;
+      overflow: auto;
+      padding: 5vh 10vw;
+    }
+
+    .logo-img {
+      width: 50%;
+      max-width: 150px;
+      float: left;
+      clear: both;
+    }
+
+    .content {
+			padding-top: 5vh;
+      padding-bottom: 10vh;
+      clear: both;
+			width: 90%;
+			margin: 0 auto;
+    }
+
+		.start-button-a {
+			display: block;
+			margin-top: 50px;
+			clear: both;
+			text-decoration: none;
+			color: white;
+		}
+
+		.start-button {
+			padding: 22px 32px;
+			background-color: #3F3E3E;
+			width: 120px;
+			margin: 0 auto;
+			border-radius: 6px;
+			border-style: solid;
+			border-width: 2px;
+			border-color: #339470;
+		}
+
+		.footer {
+      padding: 30px;
+    }
+
+		.twitter-link {
+			margin-bottom: 20px;
+		}
+
+		.twitter-img {
+			width: 180px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="background">
+		<div class="container">
+			<div class="content-container">
+				<div class="top-header">
+					<a href="http://www.collaborationdesigntoolkit.org">
+						<img class="logo-img" src="https://image.ibb.co/dhOQpc/logo_white.png" />
+					</a>
+				</div>
+
+				<div class="content">
+					<h3>You have been invited to fill a survey from $ORGANIZATION_NAME$</h3>
+
+					<hr>
+
+					<h2>$POLL_TITLE$</h2>
+
+					<!-- <img class="user-picture" alt="" src="https://s3.us-east-2.amazonaws.com/collectiveone-b1/ProfileImages/ac12edce-5f45-124a-815f-486a854d000d" /> -->
+					<p>
+						$POLL_DESCRIPTION$
+					</p>
+
+					<hr>
+
+					<a class="start-button-a" href="$POLL_ANSWER_URL$">
+						<div class="start-button">Start</div>
+					</a>
+				</div>
+
+				<div class="footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

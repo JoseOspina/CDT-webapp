@@ -59,6 +59,13 @@
 			<artifactId>auth0-spring-security-api</artifactId>
 			<version>1.0.0-rc.2</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>3.0.9</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+		
 
 	</dependencies>
 

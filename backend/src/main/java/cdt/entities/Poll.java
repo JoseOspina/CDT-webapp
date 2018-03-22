@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -63,6 +64,9 @@ public class Poll {
 	
 	@OneToOne(mappedBy = "poll")
 	private PollConfig config;
+	
+	@OneToMany(mappedBy = "poll")
+	private List<PollCredential> credentials = new ArrayList<PollCredential>();
 	
 	
 	public PollDto toDtoLight() {
@@ -174,6 +178,14 @@ public class Poll {
 
 	public void setConfig(PollConfig config) {
 		this.config = config;
+	}
+
+	public List<PollCredential> getCredentials() {
+		return credentials;
+	}
+
+	public void setCredentials(List<PollCredential> credentials) {
+		this.credentials = credentials;
 	}
 	
 		
