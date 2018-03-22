@@ -80,7 +80,9 @@ public class OrganizationsController extends BaseController {
 	}
 	
 	@RequestMapping(path = "/organization/{organizationId}/templates",  method = RequestMethod.GET)
-    public GetResult<List<PollDto>> getTemplates(@PathVariable(name="organizationId") String orgIdStr) {
+    public GetResult<List<PollDto>> getTemplates(
+    		@PathVariable(name="organizationId") String orgIdStr,
+    		@RequestParam(name="searchPublic", defaultValue="true") Boolean searchPublic) {
 		
 		if (getLoggedUser() == null) {
 			return new GetResult<List<PollDto>>("error", "endpoint enabled for users only", null);
@@ -88,7 +90,7 @@ public class OrganizationsController extends BaseController {
 		
 		UUID orgId = UUID.fromString(orgIdStr);
 		
-		return organizationService.getTemplates(orgId);
+		return organizationService.getTemplates(orgId, searchPublic);
 	}
 	
 	@RequestMapping(path = "/organization/{organizationId}/poll",  method = RequestMethod.POST)

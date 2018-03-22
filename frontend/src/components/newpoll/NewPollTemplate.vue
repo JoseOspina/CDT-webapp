@@ -18,7 +18,16 @@
         </app-column-header>
       </div>
 
-      <div class="templates-container">
+      <div class="w3-row">
+        <div class="buttons-container">
+          <div @click="searchPublic = !searchPublic" class="w3-left w3-padding fa-container cursor-pointer">
+            <i class="fa fa-circle rating-dot" :class="{'light-co': searchPublic}" aria-hidden="true"></i>
+          </div>
+          <div class="w3-left w3-margin-left text">{{ $t('SEARCH-PUBLIC-TEMPLATES')}}</div>
+        </div>
+      </div>
+
+      <div class="templates-container app-color-2-br">
         <div v-for="template in templates" :key="template.id"
           @click="selectTemplate(template)"
           class="card-template cursor-pointer" :class="{'card-template-selected': isSelected(template)}">
@@ -50,7 +59,8 @@ export default {
       selected: null,
       errorFlag: false,
       errorMsg: '',
-      showErrors: false
+      showErrors: false,
+      searchPublic: false
     }
   },
 
@@ -60,6 +70,12 @@ export default {
     },
     isTemplateSelected () {
       return this.selected !== null
+    }
+  },
+
+  watch: {
+    searchPublic () {
+      this.update()
     }
   },
 
@@ -101,26 +117,46 @@ export default {
       this.$store.commit('setFromTemplate', false)
       this.$store.commit('setNewPoll', getEmptyPoll())
       this.$router.push({name: 'NewPollQuestions'})
+    },
+    update () {
+      this.axios.get('/1/organization/' + this.orgId + '/templates', { params: { searchPublic: this.searchPublic } }).then((response) => {
+        if (response.data.result === 'success') {
+          this.templates = response.data.data
+        } else {
+          this.errorFlag = true
+          this.errorMsg = response.data.message
+        }
+      })
     }
   },
 
   created () {
-    this.axios.get('/1/organization/' + this.orgId + '/templates').then((response) => {
-      if (response.data.result === 'success') {
-        this.templates = response.data.data
-      } else {
-        this.errorFlag = true
-        this.errorMsg = response.data.message
-      }
-    })
+    this.update()
   }
 }
 </script>
 
 <style scoped>
 
+.buttons-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.buttons-container .fa-container {
+  width: 50px;
+}
+
+.buttons-container .text {
+  padding-top: 7px;
+  width: calc(100% - 70px);
+}
+
 .templates-container {
-  padding-right: 8px;
+  margin-top: 30px;
+  border-style: solid;
+  border-radius: 3px;
+  padding: 12px 12px;
   height: 60vh;
   overflow-y: auto;
 }

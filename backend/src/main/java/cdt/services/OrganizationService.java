@@ -91,8 +91,8 @@ public class OrganizationService extends BaseService {
 	}
 	
 	@Transactional
-	public GetResult<List<PollDto>> getTemplates(UUID orgId) {
-		List<Poll> templates = pollRepository.getTemplates(orgId);
+	public GetResult<List<PollDto>> getTemplates(UUID orgId, Boolean searchPublic) {
+		List<Poll> templates = pollRepository.getTemplates(orgId, searchPublic);
 		List<PollDto> templateDtos = new ArrayList<PollDto>();
 		
 		for (Poll template : templates) {

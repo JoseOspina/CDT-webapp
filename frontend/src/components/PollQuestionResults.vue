@@ -8,7 +8,16 @@
         min: {{ stats[0].toFixed(1) }} - mean: {{ stats[1].toFixed(1) }} - max: {{ stats[2].toFixed(1) }}
       </span>
       <div v-if="question.type === 'TEXT'" class="">
-        <p v-for="(answer, ix) in textAnswers" :key="ix">{{ answer }}</p>
+        <div @click="next()" class="w3-left arrow-div cursor-pointer">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="w3-left text-div">
+          {{ textAnswers[ix] }}
+        </div>
+        <div @click="prev()" class="w3-left arrow-div cursor-pointer">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </div>
+
       </div>
     </div>
   </div>
@@ -28,6 +37,21 @@ export default {
       type: Array,
       default: () => { return [] }
     }
+  },
+
+  data () {
+    return {
+      ix: 0
+    }
+  },
+
+  methods: {
+    next () {
+      this.ix = this.ix < this.textAnswers.length - 1 ? this.ix + 1 : this.textAnswers.length - 1
+    },
+    prev () {
+      this.ix = this.ix > 0 ? this.ix - 1 : 0
+    }
   }
 }
 </script>
@@ -42,6 +66,18 @@ export default {
 
 .question-text {
   padding: 3px 12px;
+}
+
+.arrow-div {
+  width: 20px;
+}
+
+.arrow-div:hover {
+  color: #339470;
+}
+
+.text-div {
+  width: calc(100% - 40px);
 }
 
 .stats-cell {
