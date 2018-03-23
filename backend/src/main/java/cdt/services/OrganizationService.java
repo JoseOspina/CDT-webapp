@@ -200,6 +200,7 @@ public class OrganizationService extends BaseService {
 			
 			axis.setTitle(axisDto.getTitle());
 			axis.setDescription(axisDto.getDescription());
+			axis.setIncludeInPlot(axisDto.getIncludeInPlot());
 			axis = axisRepository.save(axis);
 			
 			List<Question> newQuestions = new ArrayList<Question>();
@@ -343,6 +344,8 @@ public class OrganizationService extends BaseService {
 				case RATE_1_5:
 					questionResult.setWeight(question.getWeight());
 					questionResult.setAnswersRates(answerBatchRepository.getQuestionRates(poll.getId(), question.getId()));
+					break;
+				default:
 					break;
 				}
 				
