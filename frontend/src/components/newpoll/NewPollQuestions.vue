@@ -26,7 +26,7 @@
         :showErrors="showErrors">
       </app-editable-poll>
 
-      <div class="w3-row">
+      <div class="w3-row btn-row">
         <app-error-panel :show="showErrorsBottom"
           :message="$t('ERRORS-IN-POLL')">
         </app-error-panel>
@@ -141,6 +141,10 @@ export default {
   font-size: 18px;
   padding-top: 6px;
   padding-right: 22px;
+}
+
+.btn-row {
+  margin-top: 5vh;
 }
 
 </style>

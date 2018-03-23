@@ -2,13 +2,16 @@
   <div class="">
     <div class="organization-tabs">
       <router-link :to="{name: 'OrganizationPolls'}" class="w3-center app-color-1-br cursor-pointer" :class="{'tab-selected': isPolls}">
-        <h4><b>{{ $t('POLLS') }}</b></h4>
+        <h4 class="w3-hide-small"><b>{{ $t('POLLS') }}</b></h4>
+        <i class="w3-hide-medium w3-hide-large fa fa-list-alt" aria-hidden="true"></i>
       </router-link>
       <router-link :to="{name: 'OrganizationMembers'}" class="w3-center app-color-1-br cursor-pointer" :class="{'tab-selected': isMembers}">
-        <h4><b>{{ $t('MEMBERS') }}</b></h4>
+        <h4 class="w3-hide-small"><b>{{ $t('MEMBERS') }}</b></h4>
+        <i class="w3-hide-medium w3-hide-large fa fa-users" aria-hidden="true"></i>
       </router-link>
       <router-link :to="{name: 'OrganizationAdmins'}" class="w3-center app-color-1-br cursor-pointer" :class="{'tab-selected': isAdmins}">
-        <h4><b>{{ $t('ADMINS') }}</b></h4>
+        <h4 class="w3-hide-small"><b>{{ $t('ADMINS') }}</b></h4>
+        <i class="w3-hide-medium w3-hide-large fa fa-certificate" aria-hidden="true"></i>
       </router-link>
     </div>
     <router-view></router-view>
@@ -63,8 +66,13 @@ export default {
 }
 
 .organization-tabs > a {
+  padding-bottom: 6px;
   width: 33%;
   float: left;
+}
+
+.organization-tabs .fa {
+  font-size: 22px;
 }
 
 </style>

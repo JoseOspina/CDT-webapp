@@ -15,7 +15,7 @@ export const translations = {
     'ADD-NEW-MEMBER': 'Add new member',
     'ADD-NEW-ADMIN': 'Add new admin',
     'SEARCH-PUBLIC-TEMPLATES': 'Search also public templates',
-    'ORG-ADMINS': 'Organization admins',
+    'ORG-ADMINS': 'Organization Admins',
     'EMAIL-NOT-VALID': 'Email not valid',
     'ADMINS': 'Admins',
     'START': 'Start',
