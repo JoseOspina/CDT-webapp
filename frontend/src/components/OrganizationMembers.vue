@@ -103,7 +103,6 @@ export default {
     },
     removeMember (member) {
       this.axios.delete('/1/member/' + member.id).then((response) => {
-        console.log(response.data)
         if (response.data.result === 'success') {
           this.update()
         }

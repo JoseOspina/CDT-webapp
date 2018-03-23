@@ -20,8 +20,8 @@
           </div>
         </div>
 
-        <app-error-panel :show="emailNotValidError && !newEmailValid"
-          :message="$t('EMAIL-NOT-VALID')">
+        <app-error-panel :show="addAdminError"
+          :message="addAdminMsg">
         </app-error-panel>
       </div>
 
@@ -36,6 +36,10 @@
         </div>
       </div>
 
+      <app-error-panel :show="removeAdminError"
+        :message="removeAdminMsg">
+      </app-error-panel>
+
     </div>
 
   </div>
@@ -47,7 +51,10 @@ export default {
     return {
       admins: [],
       newAdminEmail: '',
-      emailNotValidError: false
+      addAdminError: false,
+      addAdminMsg: '',
+      removeAdminError: false,
+      removeAdminMsg: ''
     }
   },
 
@@ -76,15 +83,23 @@ export default {
           email: this.newAdminEmail
         }
         this.axios.put('/1/organization/' + this.orgId + '/admin', adminDto).then((response) => {
+          console.log(response.data)
           if (response.data.result === 'success') {
             this.newAdminEmail = ''
-            this.emailNotValidError = false
             this.update()
+          } else {
+            this.addAdminError = true
+            this.addAdminMsg = response.data.message
           }
         })
       }
     },
     removeAdmin (admin) {
+      if (this.admins.length === 1) {
+        this.removeAdminError = true
+        this.removeAdminMsg = 'Cannot delete all admins of an organization'
+        return
+      }
       this.axios.delete('/1/organization/' + this.orgId + '/admin/' + admin.id).then((response) => {
         if (response.data.result === 'success') {
           this.update()

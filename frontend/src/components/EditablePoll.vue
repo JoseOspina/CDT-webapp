@@ -23,7 +23,6 @@
     <!-- Axes -->
     <div class="axes-container">
       <div v-for="(axis, ixA) in poll.axes" :key="axis.id" class="axis-container w3-margin-top">
-
         <div v-if="poll.axes.length > 1" class="w3-row">
           <app-move-btns
             @move-up="moveUpAxis(axis)"
@@ -34,7 +33,17 @@
         <div class="w3-row">
           <div class="w3-col l2 s12 axis-number-col w3-center w3-margin-bottom">
             <h4>{{ $t('DEGREE')}} {{ ixA + 1 }}</h4>
+            <div @click="toggleInclude(axis)" class="w3-center cursor-pointer" :class="{'light-co': axis.includeInPlot}">
+              <div class="">
+                <i class="fa fa-circle rating-dot" aria-hidden="true"></i>
+              </div>
+              <div class="noselect">
+                <span v-if="axis.includeInPlot">{{ $t('INCLUDED-IN-PLOT')}}</span>
+                <span v-else>{{ $t('REMOVED-FROM-PLOT')}}</span>
+              </div>
+            </div>
           </div>
+
           <div class="w3-col l10 s12">
             <!-- Axis -->
             <div class="w3-row w3-margin-bottom">
@@ -140,6 +149,13 @@ export default {
   methods: {
     newAxis () {
       this.poll.axes.push(getEmptyAxis())
+    },
+    toggleInclude (axis) {
+      var axisIx = getElIx(axis.id, this.poll.axes)
+      if (axisIx === -1) {
+        return
+      }
+      this.$set(this.poll.axes[axisIx], 'includeInPlot', !this.poll.axes[axisIx].includeInPlot)
     },
     moveUpAxis (axis) {
       var axisIx = getElIx(axis.id, this.poll.axes)

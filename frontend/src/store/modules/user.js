@@ -33,6 +33,9 @@ const mutations = {
 }
 
 const actions = {
+  initLock: (context, lock) => {
+    context.commit('setLock', lock)
+  },
   handleAuthentication: (context) => {
     context.state.auth.handleAuthentication(context)
   },

@@ -20,7 +20,8 @@
         <div class="w3-row w3-margin-bottom">
           <select v-model="question.type" class="app-select-input app-color-2-br dark-3">
             <option value="RATE_1_5">Rate</option>
-            <option value="TEXT">Open text</option>
+            <option value="TEXT">Open answer</option>
+            <option value="CONTEXT_TEXT">Context (not a question)</option>
           </select>
         </div>
         <div class="w3-row">

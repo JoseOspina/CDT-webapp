@@ -2,6 +2,8 @@ export const translations = {
   en: {
   },
   de: {
+    'INCLUDED-IN-PLOT': 'Included in plot',
+    'REMOVED-FROM-PLOT': 'Removed from plot',
     'POLLS': 'Polls',
     'MEMBERS': 'Members',
     'ADD-NEW-MEMBER': 'Add new member',

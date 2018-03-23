@@ -36,6 +36,8 @@ public class Axis {
 	
 	private String title;
 	
+	private Boolean includeInPlot;
+	
 	@Lob
 	@Type(type = "org.hibernate.type.TextType")
 	private String description;
@@ -51,6 +53,7 @@ public class Axis {
 		dto.setId(id.toString());
 		dto.setTitle(title);
 		dto.setDescription(description);
+		dto.setIncludeInPlot(includeInPlot);
 		
 		for (Question question : questions) {
 			dto.getQuestions().add(question.toDto());
@@ -81,6 +84,14 @@ public class Axis {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public Boolean getIncludeInPlot() {
+		return includeInPlot;
+	}
+
+	public void setIncludeInPlot(Boolean includeInPlot) {
+		this.includeInPlot = includeInPlot;
 	}
 
 	public String getDescription() {

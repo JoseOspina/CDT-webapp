@@ -8,14 +8,14 @@
         min: {{ stats[0].toFixed(1) }} - mean: {{ stats[1].toFixed(1) }} - max: {{ stats[2].toFixed(1) }}
       </span>
       <div v-if="question.type === 'TEXT'" class="">
-        <div @click="next()" class="w3-left arrow-div cursor-pointer">
-          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        <div @click="prev()" class="w3-left arrow-div cursor-pointer app-color-2-co">
+          <i v-if="hasPrevious" class="fa fa-chevron-left" aria-hidden="true"></i>
         </div>
         <div class="w3-left text-div">
           {{ textAnswers[ix] }}
         </div>
-        <div @click="prev()" class="w3-left arrow-div cursor-pointer">
-          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        <div @click="next()" class="w3-left arrow-div cursor-pointer app-color-2-co">
+          <i v-if="hasNext" class="fa fa-chevron-right" aria-hidden="true"></i>
         </div>
 
       </div>
@@ -45,12 +45,22 @@ export default {
     }
   },
 
+  computed: {
+    hasNext () {
+      return this.ix < this.textAnswers.length - 1
+    },
+    hasPrevious () {
+      return this.ix > 0
+    }
+  },
+
   methods: {
     next () {
-      this.ix = this.ix < this.textAnswers.length - 1 ? this.ix + 1 : this.textAnswers.length - 1
+      console.log(this.hasNext)
+      this.ix = this.hasNext ? this.ix + 1 : this.ix
     },
     prev () {
-      this.ix = this.ix > 0 ? this.ix - 1 : 0
+      this.ix = this.hasPrevious ? this.ix - 1 : this.ix
     }
   }
 }
@@ -69,7 +79,8 @@ export default {
 }
 
 .arrow-div {
-  width: 20px;
+  width: 15px;
+  min-height: 1px;
 }
 
 .arrow-div:hover {
@@ -77,7 +88,7 @@ export default {
 }
 
 .text-div {
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
 }
 
 .stats-cell {

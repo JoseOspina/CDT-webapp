@@ -55,7 +55,7 @@ export default {
 .organization-tabs {
   margin: 0 auto;
   padding-top: 5vh;
-  width: 80vw;
+  width: 50vw;
 }
 
 .tab-selected {

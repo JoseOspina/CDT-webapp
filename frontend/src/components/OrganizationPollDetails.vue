@@ -4,7 +4,7 @@
       <app-column-header>
         {{ $t('POLL-DETAILS') }}
       </app-column-header>
-      <div v-if="poll.isTemplate" @click="$emit('edit')" class="edit-btn w3-display-right cursor-pointer">
+      <div @click="$emit('edit')" class="edit-btn w3-display-right cursor-pointer">
         <i class="fa fa-pencil" aria-hidden="true"></i>
       </div>
     </div>
@@ -68,6 +68,7 @@
 
           <div v-for="question in axis.questions" :key="question.id" class="w3-row question-result-row">
             <app-poll-question-results
+              v-if="question.type !== 'CONTEXT_TEXT'"
               :question="question"
               :stats="getQuestionResultStats(question.id)"
               :textAnswers="getQuestionTextResults(question.id)">
@@ -168,25 +169,28 @@ export default {
 
       for (var ixA in this.details.axesResults) {
         var axisResults = this.details.axesResults[ixA]
-        var meanCombined = 0
-        var totalWeight = 0
 
-        /* recheck total weight */
-        for (var ixQ1 in axisResults.questionResults) {
-          var questionResult1 = axisResults.questionResults[ixQ1]
-          totalWeight += questionResult1.weight
-        }
+        if (axisResults.axis.includeInPlot) {
+          var meanCombined = 0
+          var totalWeight = 0
 
-        for (var ixQ2 in axisResults.questionResults) {
-          var questionResult = axisResults.questionResults[ixQ2]
-          if (questionResult.questionType === 'RATE_1_5') {
-            meanCombined += questionResult.mean * questionResult.weight / totalWeight
+          /* recheck total weight */
+          for (var ixQ1 in axisResults.questionResults) {
+            var questionResult1 = axisResults.questionResults[ixQ1]
+            totalWeight += questionResult1.weight
           }
+
+          for (var ixQ2 in axisResults.questionResults) {
+            var questionResult = axisResults.questionResults[ixQ2]
+            if (questionResult.questionType === 'RATE_1_5') {
+              meanCombined += questionResult.mean * questionResult.weight / totalWeight
+            }
+          }
+          layerData.push({
+            area: axisResults.axis.title.length < 20 ? axisResults.axis.title : axisResults.axis.title.slice(0, 19) + '..',
+            value: meanCombined
+          })
         }
-        layerData.push({
-          area: axisResults.axisTitle.length < 20 ? axisResults.axisTitle : axisResults.axisTitle.slice(0, 19) + '..',
-          value: meanCombined
-        })
       }
       this.chartData = [layerData]
     },

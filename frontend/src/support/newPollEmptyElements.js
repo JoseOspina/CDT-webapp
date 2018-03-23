@@ -12,6 +12,7 @@ const getEmptyAxis = function () {
   return {
     id: Date.now().toString(),
     title: '',
+    includeInPlot: true,
     description: '',
     questions: [ getEmptyQuestion() ],
     custom: true

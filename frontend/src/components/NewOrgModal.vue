@@ -24,8 +24,7 @@
             </app-error-panel>
             <div class="w3-row w3-margin-top">
               <label for=""><b>{{ $t('DESCRIPTION') }}:</b></label>
-              <app-markdown-editor v-model="description" class="rounded-input app-color-2-br dark-3"
-                :placeholder="placeholder">
+              <app-markdown-editor v-model="description" class="rounded-input app-color-2-br dark-3">
               </app-markdown-editor>
             </div>
           </div>

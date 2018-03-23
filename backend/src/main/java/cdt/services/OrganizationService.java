@@ -144,6 +144,7 @@ public class OrganizationService extends BaseService {
 			
 			axis.setTitle(axisDto.getTitle());
 			axis.setDescription(axisDto.getDescription());
+			axis.setIncludeInPlot(axisDto.getIncludeInPlot());
 			axis = axisRepository.save(axis);
 			
 			for (QuestionDto questionDto : axisDto.getQuestions()) {
@@ -324,9 +325,8 @@ public class OrganizationService extends BaseService {
 		List<AxisResultDto> axesResultsDto = new ArrayList<AxisResultDto>();
 		
 		for (Axis axis : poll.getAxes()) {
-			AxisResultDto axisResults = new AxisResultDto(); 
-			axisResults.setAxisId(axis.getId().toString());
-			axisResults.setAxisTitle(axis.getTitle());
+			AxisResultDto axisResults = new AxisResultDto();
+			axisResults.setAxis(axis.toDto());
 			
 			for (Question question : axis.getQuestions()) {
 				

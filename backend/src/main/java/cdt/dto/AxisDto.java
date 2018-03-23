@@ -8,6 +8,8 @@ public class AxisDto {
 	String id;
 	String title;
 	String description;
+	private Boolean includeInPlot;
+	
 	List<QuestionDto> questions = new ArrayList<QuestionDto>();
 	
 	public String getTitle() {
@@ -27,6 +29,12 @@ public class AxisDto {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Boolean getIncludeInPlot() {
+		return includeInPlot;
+	}
+	public void setIncludeInPlot(Boolean includeInPlot) {
+		this.includeInPlot = includeInPlot;
 	}
 	public List<QuestionDto> getQuestions() {
 		return questions;

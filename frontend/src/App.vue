@@ -52,7 +52,7 @@ export default {
     })
 
     /* check if user is authenticated */
-    this.$store.commit('setLock', lock)
+    this.$store.dispatch('initLock', lock)
     this.$store.commit('setAuthenticated', !!localStorage.getItem('id_token'))
     this.$store.dispatch('updateProfile')
     /* set locale */
