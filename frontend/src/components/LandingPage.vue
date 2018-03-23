@@ -3,7 +3,7 @@
   <div class="content-container this-container">
     <div class="gradient-container">
       <div class="central-column-container">
-        <div class="w3-row w3-center">
+        <div class="w3-row top-row w3-center">
 
         </div>
         <div class="w3-row w3-center">
@@ -60,12 +60,17 @@ export default {
   height: 70vh;
  }
 
+.top-row {
+  margin-top: 15vh;
+}
+
 .btn-row {
-  margin-top: 35px;
+  margin-top: 15vh;
+  transform: scale(0.85);
 }
 
 .logo-landing {
-  width: 350px;
+  width: 250px;
 }
 
 </style>
