@@ -76,10 +76,9 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="w3-row w3-center">
-      <button class="w3-button app-button" @click="downloadCSV()">{{ $t('DOWNLOAD CSV') }}</button>
+      <div class="w3-row w3-center">
+        <button class="w3-button app-button" @click="downloadCSV()">{{ $t('DOWNLOAD CSV') }}</button>
+      </div>
     </div>
 
     <div class="bottom-row">
