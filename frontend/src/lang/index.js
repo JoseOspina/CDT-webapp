@@ -2,6 +2,12 @@ export const translations = {
   en: {
   },
   de: {
+    'POLL-TITLE': 'Poll title',
+    'POLL-DESCRIPTION': 'Poll description',
+    'DEGREE-TITLE': 'Degree title',
+    'QUESTION': 'Question',
+    'POLL-TITLE-CANNOT-BE-EMPTY': 'Poll title cannot be empty',
+    'AXIS-CANNOT-BE-EMPTY': 'Axis cannot be empty',
     'INCLUDED-IN-PLOT': 'Included in plot',
     'REMOVED-FROM-PLOT': 'Removed from plot',
     'POLLS': 'Polls',

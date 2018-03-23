@@ -75,7 +75,6 @@ export default {
 }
 
 .content-title-div {
-  padding-top: 3vh;
 }
 
 .content-title-div .title {

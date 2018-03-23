@@ -4,10 +4,10 @@
     <div class="w3-row w3-margin-top">
       <app-poll-text-input
         v-model="poll.title"
-        placeholder="Poll Title">
+        :placeholder="$t('POLL-TITLE')">
       </app-poll-text-input>
       <app-error-panel :show="showErrors && poll.title === ''"
-        message="poll title cannot be empty">
+        :message="$t('POLL-TITLE-CANNOT-BE-EMPTY')">
       </app-error-panel>
     </div>
 
@@ -15,7 +15,7 @@
     <div class="w3-row w3-margin-top">
       <app-poll-text-input
         v-model="poll.description"
-        placeholder="Poll Description"
+        :placeholder="$t('POLL-DESCRIPTION')"
         :useTextArea="true">
       </app-poll-text-input>
     </div>
@@ -49,10 +49,10 @@
             <div class="w3-row w3-margin-bottom">
               <app-poll-text-input
                 v-model="axis.title"
-                placeholder="Axis title">
+                :placeholder="$t('Degree title')">
               </app-poll-text-input>
               <app-error-panel :show="showErrors && axis.title === ''"
-                message="axis title cannot be empty">
+                :message="$t('AXIS-CANNOT-BE-EMPTY')">
               </app-error-panel>
             </div>
 
