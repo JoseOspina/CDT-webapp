@@ -12,8 +12,8 @@
       @close="deleteOrgModal = false">
     </app-delete-org-modal>
 
-    <div class="w3-row">
-      <div class="w3-left content-title-div">
+    <div class="w3-row content-title-div">
+      <div class="w3-left">
         <h5><b>{{ $t('MY-ORGS')}}</b></h5>
       </div>
       <app-plus-button class="w3-left w3-margin-left" @click="newOrgModal = true"></app-plus-button>
