@@ -78,6 +78,10 @@
       </div>
     </div>
 
+    <div class="w3-row w3-center">
+      <button class="w3-button app-button" @click="downloadCSV()">{{ $t('DOWNLOAD CSV') }}</button>
+    </div>
+
     <div class="bottom-row">
       <div class="w3-row w3-center">
         <button class="w3-button app-button-danger" @click="deleteIntent()">{{ $t('DELETE') }}</button>
@@ -285,6 +289,48 @@ export default {
           this.$router.push({name: 'OrganizationPolls'})
         }
       })
+    },
+    downloadCSV () {
+      const axes = this.details.axesResults
+      let csvContent = 'data:text/csv;charset=utf-8,'
+      axes.forEach((axisRes) => {
+        csvContent += axisRes.axis.title
+        axisRes.questionResults.forEach((questionRes) => {
+          switch (questionRes.questionType) {
+            case 'RATE_1_5':
+              if (questionRes.answersRates.length === 0) {
+                break
+              }
+              csvContent += '\r\n' + questionRes.questionText + ','
+              csvContent += questionRes.answersRates.join(',')
+              break
+
+            case 'TEXT':
+              if (questionRes.answersTexts.length === 0) {
+                break
+              }
+              let textsClean = []
+              questionRes.answersTexts.forEach((text) => {
+                textsClean.push(text.split(',').join('-'))
+              })
+              csvContent += '\r\n' + questionRes.questionText + ','
+              csvContent += textsClean.join(',')
+              break
+
+            default:
+              break
+          }
+        })
+        csvContent += '\r\n\r\n'
+      })
+
+      var encodedUri = encodeURI(csvContent)
+      var link = document.createElement('a')
+      link.setAttribute('href', encodedUri)
+      link.setAttribute('download', 'poll_results.csv')
+      document.body.appendChild(link) // Required for FF
+
+      link.click() // This will download the data file named "my_data.csv".
     }
   },
 
