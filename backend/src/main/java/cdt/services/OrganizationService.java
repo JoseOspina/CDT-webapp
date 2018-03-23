@@ -35,7 +35,6 @@ import cdt.entities.PollConfig;
 import cdt.entities.PollCredential;
 import cdt.entities.PollStatus;
 import cdt.entities.Question;
-import cdt.entities.QuestionAndWeight;
 import cdt.entities.QuestionType;
 
 @Service
@@ -152,15 +151,10 @@ public class OrganizationService extends BaseService {
 				
 				question.setText(questionDto.getText());
 				question.setType(QuestionType.valueOf(questionDto.getType()));
+				question.setWeight(questionDto.getWeight());
 				question = questionRepository.save(question);
 				
-				QuestionAndWeight questionAndWeight = new QuestionAndWeight();
-				
-				questionAndWeight.setQuestion(question);
-				questionAndWeight.setWeight(questionDto.getWeight());
-				questionAndWeight = questionAndWeightRepository.save(questionAndWeight);
-				
-				axis.getQuestionsAndWeights().add(questionAndWeight);
+				axis.getQuestions().add(question);
 			}
 			
 			poll.getAxes().add(axis);
@@ -181,32 +175,71 @@ public class OrganizationService extends BaseService {
 		poll.setDescription(pollDto.getDescription());
 		poll = pollRepository.save(poll);
 		
-		poll.getAxes().clear();
+		List<Axis> newAxes = new ArrayList<Axis>();
 		
 		for (AxisDto axisDto : pollDto.getAxes()) {
 			
-			Axis axis = new Axis();
+			/* check if axis is new or existing */
+			UUID axisId = null;
+			try { axisId = UUID.fromString(axisDto.getId()); } catch (Exception ex) {}
+			
+			Axis axis = null;
+			/* check if this axis was already in the poll */
+			if (axisId != null) { 
+				for (Axis axisTemp : poll.getAxes()) {
+					if (axisTemp.getId().equals(axisId)) {
+						axis = axisTemp;
+					}
+				}
+			}
+			
+			if (axis == null) {
+				axis = new Axis();
+			}
 			
 			axis.setTitle(axisDto.getTitle());
 			axis.setDescription(axisDto.getDescription());
 			axis = axisRepository.save(axis);
 			
+			List<Question> newQuestions = new ArrayList<Question>();
+			
 			for (QuestionDto questionDto : axisDto.getQuestions()) {
-				Question question = new Question();
+				
+				/* check if question is new or existing */
+				UUID questionId = null;
+				try { questionId = UUID.fromString(questionDto.getId()); } catch (Exception ex) {}
+				
+				Question question = null;
+				if (questionId != null) { 
+					for (Question questionTemp : axis.getQuestions()) {
+						if (questionTemp.getId().equals(questionId)) {
+							question = questionTemp;
+						}
+					}
+				}
+				
+				if (question == null) {
+					question = new Question();
+				}
 				
 				question.setText(questionDto.getText());
 				question.setType(QuestionType.valueOf(questionDto.getType()));
+				question.setWeight(questionDto.getWeight());
 				question = questionRepository.save(question);
 				
-				QuestionAndWeight questionAndWeight = new QuestionAndWeight();
-				
-				questionAndWeight.setQuestion(question);
-				questionAndWeight.setWeight(questionDto.getWeight());
-				questionAndWeight = questionAndWeightRepository.save(questionAndWeight);
-				
-				axis.getQuestionsAndWeights().add(questionAndWeight);
+				newQuestions.add(question);	
 			}
 			
+			axis.getQuestions().clear();
+			for (Question question : newQuestions) {
+				axis.getQuestions().add(question);
+			}
+			
+			newAxes.add(axis);	
+		}
+		
+		poll.getAxes().clear();
+		for (Axis axis : newAxes) {
 			poll.getAxes().add(axis);
 		}
 
@@ -295,21 +328,21 @@ public class OrganizationService extends BaseService {
 			axisResults.setAxisId(axis.getId().toString());
 			axisResults.setAxisTitle(axis.getTitle());
 			
-			for (QuestionAndWeight questionAndWeight : axis.getQuestionsAndWeights()) {
+			for (Question question : axis.getQuestions()) {
 				
 				QuestionResultDto questionResult = new QuestionResultDto();
-				questionResult.setQuestionId(questionAndWeight.getQuestion().getId().toString());
-				questionResult.setQuestionText(questionAndWeight.getQuestion().getText());
-				questionResult.setQuestionType(questionAndWeight.getQuestion().getType().toString());
+				questionResult.setQuestionId(question.getId().toString());
+				questionResult.setQuestionText(question.getText());
+				questionResult.setQuestionType(question.getType().toString());
 				
-				switch (questionAndWeight.getQuestion().getType()) {
+				switch (question.getType()) {
 				case TEXT:
-					questionResult.setAnswersTexts(answerBatchRepository.getQuestionTextAnswers(poll.getId(), questionAndWeight.getQuestion().getId()));
+					questionResult.setAnswersTexts(answerBatchRepository.getQuestionTextAnswers(poll.getId(), question.getId()));
 					break;
 					
 				case RATE_1_5:
-					questionResult.setWeight(questionAndWeight.getWeight());
-					questionResult.setAnswersRates(answerBatchRepository.getQuestionRates(poll.getId(), questionAndWeight.getQuestion().getId()));
+					questionResult.setWeight(question.getWeight());
+					questionResult.setAnswersRates(answerBatchRepository.getQuestionRates(poll.getId(), question.getId()));
 					break;
 				}
 				

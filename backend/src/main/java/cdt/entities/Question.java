@@ -35,8 +35,10 @@ public class Question {
 	@Enumerated(EnumType.STRING)
 	private QuestionType type;
 	
+	private double weight;
 	
-	public QuestionDto toDto(double weight) {
+	
+	public QuestionDto toDto() {
 		QuestionDto dto = new QuestionDto();
 		
 		dto.setId(id.toString());
@@ -69,6 +71,14 @@ public class Question {
 
 	public void setType(QuestionType type) {
 		this.type = type;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 	
 }

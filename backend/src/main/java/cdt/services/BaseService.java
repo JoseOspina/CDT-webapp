@@ -11,7 +11,6 @@ import cdt.repositories.OrganizationRepositoryIf;
 import cdt.repositories.PollConfigRepositoryIf;
 import cdt.repositories.PollCredentialRepositoryIf;
 import cdt.repositories.PollRepositoryIf;
-import cdt.repositories.QuestionAndWeightRepositoryIf;
 import cdt.repositories.QuestionRepositoryIf;
 
 public class BaseService {
@@ -33,9 +32,6 @@ public class BaseService {
 	
 	@Autowired
 	protected QuestionRepositoryIf questionRepository;
-	
-	@Autowired
-	protected QuestionAndWeightRepositoryIf questionAndWeightRepository;
 	
 	@Autowired
 	protected AnswerRepositoryIf answerRepository;
