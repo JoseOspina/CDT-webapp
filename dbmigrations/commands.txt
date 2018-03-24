@@ -1,0 +1,7 @@
+-- Make a Binary copy of the local DB
+/usr/bin/pg_dump --cluster 9.6/main --host localhost --port 5432 --username "postgres" --no-password  --format custom --blobs --no-privileges --no-tablespaces --verbose --file "/home/pepo/workspace/cdtdata/cdt-migration-01-custom" "cdtdb"
+
+-- Recreate the DB schema online and DELETE all tables. Then run
+/usr/bin/pg_restore --cluster 9.6/main --host ec2-54-228-181-43.eu-west-1.compute.amazonaws.com --port 5432 --username "gznmpoelerghpw" --dbname "d2fp5ait05f6c4" --no-owner --verbose "/home/pepo/workspace/cdtdata/cdt-migration-01-custom"
+
+-- This will recreate the tables with the data as in the local DB
