@@ -37,7 +37,7 @@
       </div>
       <div class="w3-col m4">
         <div class="w3-row w3-center n-answers-div">
-          <b>{{ details.numberOfAnswers }}</b>
+          <b>{{ details.answerBatches.length }}</b>
         </div>
         <div class="w3-row w3-center">
           {{ $t('ANSWERS') }}
@@ -53,7 +53,7 @@
       <span class="w3-margin-left w3-small anouncement">{{ $t('POLL-URL-SENT-TO-MEMBERS') }}</span>
     </div>
 
-    <div v-if="details.numberOfAnswers > 0" class="">
+    <div v-if="details.answerBatches.length > 0" class="">
       <hr>
       <h4>{{ $t("RESULTS") }}:</h4>
       <div class="w3-row w3-round-large">
@@ -115,6 +115,7 @@ export default {
       poll: null,
       details: null,
       chartData: [],
+      axesResults: [],
       errorMakingTemplate: false,
       errorMakingTemplateMsg: '',
       localIsTemplate: false,
@@ -158,20 +159,55 @@ export default {
           if (response.data.result === 'success') {
             this.details = response.data.data
             this.loaded = true
+            this.updateAxesResults()
             this.updateStats()
             this.updateChartData()
           }
         })
       }
     },
-    updateChartData () {
-      if (this.details === null) {
-        return []
+    updateAxesResults () {
+      /* rearrange answer batches per axis and per question instead of as
+         per batch to do stats analysis and build the radial plot  */
+      this.axesResults = []
+      for (var ixA in this.poll.axes) {
+        var thisResults = {}
+        let axis = this.poll.axes[ixA]
+
+        thisResults.axis = axis
+        thisResults.questionResults = []
+
+        for (var ixQ in axis.questions) {
+          var questionResult = {}
+          let question = axis.questions[ixQ]
+
+          questionResult.question = question
+          questionResult.answers = this.getAllAnswersToQuestion(question.id)
+
+          thisResults.questionResults.push(questionResult)
+        }
+
+        this.axesResults.push(thisResults)
       }
+    },
+    getAllAnswersToQuestion (questionId) {
+      var thisAnswers = []
+      for (var ixB in this.details.answerBatches) {
+        let thisBatch = this.details.answerBatches[ixB]
+        let thisAnswer = thisBatch.answers.find((e) => {
+          return e.questionId === questionId
+        })
+        if (thisAnswer !== null) {
+          thisAnswers.push(thisAnswer)
+        }
+      }
+      return thisAnswers
+    },
+    updateChartData () {
       var layerData = []
 
-      for (var ixA in this.details.axesResults) {
-        var axisResults = this.details.axesResults[ixA]
+      for (var ixA in this.axesResults) {
+        var axisResults = this.axesResults[ixA]
 
         if (axisResults.axis.includeInPlot) {
           var meanCombined = 0
@@ -180,40 +216,50 @@ export default {
           /* recheck total weight */
           for (var ixQ1 in axisResults.questionResults) {
             var questionResult1 = axisResults.questionResults[ixQ1]
-            totalWeight += questionResult1.weight
+            if (questionResult1.question.type === 'RATE_1_5') {
+              totalWeight += questionResult1.question.weight
+            }
           }
 
           for (var ixQ2 in axisResults.questionResults) {
             var questionResult = axisResults.questionResults[ixQ2]
-            if (questionResult.questionType === 'RATE_1_5') {
-              meanCombined += questionResult.mean * questionResult.weight / totalWeight
+            if (questionResult.question.type === 'RATE_1_5') {
+              meanCombined += questionResult.stats.mean * questionResult.question.weight / totalWeight
             }
           }
+
           layerData.push({
             area: axisResults.axis.title.length < 20 ? axisResults.axis.title : axisResults.axis.title.slice(0, 19) + '..',
             value: meanCombined
           })
         }
       }
-      this.chartData = [layerData]
+      this.chartData = [ layerData ]
     },
     updateStats () {
-      for (var ixA in this.details.axesResults) {
-        var axisResults = this.details.axesResults[ixA]
+      for (var ixA in this.axesResults) {
+        var axisResults = this.axesResults[ixA]
         for (var ixQ in axisResults.questionResults) {
           var questionResult = axisResults.questionResults[ixQ]
-          this.updateQuestionStats(questionResult.questionId)
+          this.$set(axisResults.questionResults, ixQ, this.updateQuestionStats(questionResult.question.id))
         }
+        this.$set(this.axesResults, ixA, axisResults)
       }
     },
     updateQuestionStats (questionId) {
       var questionResult = this.getQuestionResult(questionId)
-      if (questionResult.questionType === 'RATE_1_5') {
+      if (!questionResult) {
+        return
+      }
+
+      if (questionResult.question.type === 'RATE_1_5') {
+        /* remove undefined answers (empty answers) and extract rates */
+        let rates = questionResult.answers.filter(e => e).map(e => e.rate)
         var sum = 0
         var min = 999
         var max = -1
-        for (var ixR in questionResult.answersRates) {
-          var rate = questionResult.answersRates[ixR]
+        for (var ixR in rates) {
+          var rate = rates[ixR]
           sum += rate
           if (rate < min) {
             min = rate
@@ -223,29 +269,39 @@ export default {
           }
         }
 
-        var mean = sum / questionResult.answersRates.length
-        questionResult.min = min
-        questionResult.mean = mean
-        questionResult.max = max
+        var mean = sum / rates.length
+        questionResult.stats = {}
+        questionResult.stats.min = min
+        questionResult.stats.mean = mean
+        questionResult.stats.max = max
       }
+
+      return questionResult
     },
     getQuestionResult (questionId) {
-      for (var ixA in this.details.axesResults) {
-        var axisResults = this.details.axesResults[ixA]
+      for (var ixA in this.axesResults) {
+        var axisResults = this.axesResults[ixA]
         for (var ixQ in axisResults.questionResults) {
           var questionResult = axisResults.questionResults[ixQ]
-          if (questionResult.questionId === questionId) {
+          if (questionResult.question.id === questionId) {
             return questionResult
           }
         }
       }
     },
     getQuestionResultStats (questionId) {
-      var result = this.getQuestionResult(questionId)
-      return [ result.min, result.mean, result.max ]
+      let questionResult = this.getQuestionResult(questionId)
+      if (questionResult.question.type === 'RATE_1_5') {
+        return questionResult.stats
+      }
+      return null
     },
     getQuestionTextResults (questionId) {
-      return this.getQuestionResult(questionId).answersTexts
+      let questionResult = this.getQuestionResult(questionId)
+      if (questionResult.question.type === 'TEXT') {
+        return questionResult.answers.filter(e => e).map(e => e.text)
+      }
+      return []
     },
     makeTemplate (value) {
       this.axios.put('/1/poll/' + this.pollId + '/makeTemplate', {},

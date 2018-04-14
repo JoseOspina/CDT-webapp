@@ -5,7 +5,7 @@
     </div>
     <div class="w3-col m6 stats-cell w3-center">
       <span v-if="question.type === 'RATE_1_5'" class="">
-        min: {{ stats[0].toFixed(1) }} - mean: {{ stats[1].toFixed(1) }} - max: {{ stats[2].toFixed(1) }}
+        min: {{ stats.min.toFixed(1) }} - mean: {{ stats.mean.toFixed(1) }} - max: {{ stats.max.toFixed(1) }}
       </span>
       <div v-if="question.type === 'TEXT'" class="">
         <div @click="prev()" class="w3-left arrow-div cursor-pointer app-color-2-co">
@@ -30,8 +30,8 @@ export default {
       type: Object
     },
     stats: {
-      type: Array,
-      default: () => { return [] }
+      type: Object,
+      default: null
     },
     textAnswers: {
       type: Array,
