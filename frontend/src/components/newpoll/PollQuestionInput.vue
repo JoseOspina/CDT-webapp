@@ -26,7 +26,7 @@
         </div>
         <div class="w3-row">
           <div v-if="question.type === 'RATE_1_5'" class="w3-display-container">
-            <input v-model.number="question.weight" class="rounded-input dark-3 app-color-2-br" type="number" step="10" name="" value="">
+            <input v-model.number="question.weight" class="rounded-input dark-3 app-color-2-br" type="number" step="5" name="" value="">
             <span class="percentage w3-display-left app-color-2-co">%</span>
           </div>
         </div>

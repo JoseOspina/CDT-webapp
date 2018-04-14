@@ -49,7 +49,7 @@
             <div class="w3-row w3-margin-bottom">
               <app-poll-text-input
                 v-model="axis.title"
-                :placeholder="$t('Degree title')">
+                :placeholder="$t('DEGREE-TITLE')">
               </app-poll-text-input>
               <app-error-panel :show="showErrors && axis.title === ''"
                 :message="$t('AXIS-CANNOT-BE-EMPTY')">
