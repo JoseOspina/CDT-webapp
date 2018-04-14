@@ -69,6 +69,6 @@ export const translations = {
     'NOT-AUTHORIZED-SURVEY': 'you are not authorized to fill this survey, sorry.',
     'POLL-URL-SENT-TO-MEMBERS': 'The link to answer this poll was sent, by email, to each member of the organization',
     'MEMBERS-RECEIVE-LINK': 'All the members of this organization will receive an email with a link to fill this poll',
-    'DOWNLOAD CSV': 'Download CSV'
+    'DOWNLOAD HTML': 'Download HTML'
   }
 }

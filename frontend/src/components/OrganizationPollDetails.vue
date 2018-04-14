@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="w3-row w3-center">
-        <button class="w3-button app-button" @click="downloadCSV()">{{ $t('DOWNLOAD CSV') }}</button>
+        <button class="w3-button app-button" @click="downloadHtml()">{{ $t('DOWNLOAD HTML') }}</button>
       </div>
     </div>
 
@@ -345,9 +345,79 @@ export default {
         }
       })
     },
-    downloadCSV () {
-      const axes = this.details.axesResults
-      let csvContent = 'data:text/csv;charset=utf-8,'
+    downloadHtml () {
+      let table = ''
+      table += '<table>\r\n'
+      for (let ixAx in this.poll.axes) {
+        let axis = this.poll.axes[ixAx]
+        table += '<tr><td><b>' + axis.title + '</b></td></tr>\r\n'
+        for (let ixQ in axis.questions) {
+          let question = axis.questions[ixQ]
+          table += '<tr>\r\n'
+          table += '<td>' + question.text + '</td>\r\n'
+
+          for (let ixB in this.details.answerBatches) {
+            let batch = this.details.answerBatches[ixB]
+
+            /* search for this question answer */
+            let answer = null
+            for (let ixAw in batch.answers) {
+              let thisAnswer = batch.answers[ixAw]
+              if (thisAnswer.questionId === question.id) {
+                answer = thisAnswer
+                break
+              }
+            }
+
+            let answerStr = ''
+            if (answer !== null) {
+              switch (question.type) {
+                case 'RATE_1_5':
+                  answerStr = answer.rate.toString()
+                  break
+
+                case 'TEXT':
+                  answerStr = answer.text
+                  break
+              }
+            }
+            table += '<td>' + answerStr + '</td>\r\n'
+          }
+          table += '</tr>\r\n'
+        }
+      }
+      table += '</table>\r\n'
+
+      var dateObj = new Date()
+      var monthNum = dateObj.getUTCMonth() + 1
+      var monthStr = (monthNum <= 9 ? '0' + monthNum : monthNum).toString()
+      var dayStr = (dateObj.getUTCDate() <= 9 ? '0' + dateObj.getUTCDate() : dateObj.getUTCDate()).toString()
+      var dateStr = dateObj.getUTCFullYear().toString() + monthStr + dayStr
+
+      let htmlContent = 'data:text/plain;charset=utf-8,'
+      htmlContent += '<!DOCTYPE html>\r\n'
+      htmlContent += '<html>\r\n'
+      htmlContent += '<head>\r\n'
+      htmlContent += '<meta charset="utf-8">\r\n'
+      htmlContent += '<title>Results for ' + this.poll.title + ' Poll at ' + dateObj.toString() + '</title>\r\n'
+      htmlContent += '<style>\r\n'
+      htmlContent += 'table { border: 1px solid black;}\r\n'
+      htmlContent += 'table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px;}\r\n'
+      htmlContent += '</style>\r\n'
+      htmlContent += '</head>\r\n'
+      htmlContent += '<body>\r\n'
+      htmlContent += table
+      htmlContent += '</body>\r\n'
+      htmlContent += '</html>\r\n'
+
+      var encodedUri = encodeURI(htmlContent)
+      var link = document.createElement('a')
+      link.setAttribute('href', encodedUri)
+      link.setAttribute('download', dateStr + '-poll_results.html')
+      document.body.appendChild(link) // Required for FF
+
+      link.click() // This will download the data file named "my_data.csv".
+      /*
       axes.forEach((axisRes) => {
         csvContent += axisRes.axis.title
         axisRes.questionResults.forEach((questionRes) => {
@@ -378,14 +448,7 @@ export default {
         })
         csvContent += '\r\n\r\n'
       })
-
-      var encodedUri = encodeURI(csvContent)
-      var link = document.createElement('a')
-      link.setAttribute('href', encodedUri)
-      link.setAttribute('download', 'poll_results.csv')
-      document.body.appendChild(link) // Required for FF
-
-      link.click() // This will download the data file named "my_data.csv".
+      */
     }
   },
 
